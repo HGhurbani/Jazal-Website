@@ -13,7 +13,7 @@ const Clients = () => {
             nameKey: 'client1',
             logo: "https://upload.wikimedia.org/wikipedia/ar/1/19/Saudi_Aramco_logo.png",
             alt: "شعار شركة أرامكو السعودية",
-            category: "طاقة",
+            category: t.clients.categoryEnergy,
             projects: "15+"
         },
         {
@@ -21,7 +21,7 @@ const Clients = () => {
             nameKey: 'client2',
             logo: "https://upload.wikimedia.org/wikipedia/commons/f/fc/NBE_logo.png",
             alt: "شعار البنك الأهلي السعودي",
-            category: "بنوك",
+            category: t.clients.categoryBanks,
             projects: "8+"
         },
         {
@@ -29,7 +29,7 @@ const Clients = () => {
             nameKey: 'client3',
             logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Logo_of_Sabic.svg/1200px-Logo_of_Sabic.svg.png",
             alt: "شعار شركة سابك",
-            category: "صناعة",
+            category: t.clients.categoryIndustry,
             projects: "12+"
         },
         {
@@ -37,7 +37,7 @@ const Clients = () => {
             nameKey: 'client4',
             logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Logo_Ministry_of_Commerce.svg/2560px-Logo_Ministry_of_Commerce.svg.png",
             alt: "شعار وزارة التجارة السعودية",
-            category: "حكومي",
+            category: t.clients.categoryGovernment,
             projects: "6+"
         }
     ];

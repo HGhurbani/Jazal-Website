@@ -261,7 +261,7 @@ const MobileMenu = memo(({ isOpen, onClose, t, activeSection, onNavigate }) => {
                 className="pt-4 space-y-3"
               >
                 <div className="text-sm font-semibold text-[#b18344] mb-3 tracking-wide">
-                  تواصل معنا
+                  {t.nav.contact}
                 </div>
                 <div className="flex items-center gap-4 text-sm text-gray-600 bg-gray-50/80 rounded-xl p-3">
                   <div className="p-2 bg-[#b18344]/10 rounded-lg">

@@ -75,7 +75,7 @@ const Contact = ({ handleContactSubmit }) => {
         >
           <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 bg-[#b18344]/10 px-4 py-2 rounded-full mb-6">
             <MessageCircle className="w-5 h-5 text-[#b18344]" />
-            <span className="text-[#b18344] font-medium">تواصل معنا</span>
+            <span className="text-[#b18344] font-medium">{t.nav.contact}</span>
           </motion.div>
           
           <motion.h2 variants={fadeInUp} className="text-4xl md:text-5xl font-bold mb-6">
