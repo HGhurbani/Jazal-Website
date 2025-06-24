@@ -137,7 +137,7 @@ const Projects = () => {
                                         style={{ color: '#b18344' }}
                                     >
                                         <span className="group-hover/btn:translate-x-1 transition-transform duration-300">
-                                            عرض التفاصيل
+                                            {t.projects.details}
                                         </span>
                                         <ExternalLink className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
                                     </button>
@@ -171,7 +171,7 @@ const Projects = () => {
                             boxShadow: '0 4px 20px rgba(177, 131, 68, 0.3)'
                         }}
                     >
-                        <span>استكشف جميع أعمالنا</span>
+                        <span>{t.projects.exploreAll}</span>
                         <ExternalLink className="w-5 h-5" />
                     </button>
                 </motion.div>

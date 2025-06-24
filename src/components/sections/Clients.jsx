@@ -43,10 +43,10 @@ const Clients = () => {
     ];
 
     const stats = [
-        { number: "50+", label: "عميل راضٍ", icon: Star },
-        { number: "200+", label: "مشروع منجز", icon: CheckCircle },
-        { number: "10+", label: "سنوات خبرة", icon: Award },
-        { number: "98%", label: "معدل الرضا", icon: TrendingUp }
+        { number: "50+", label: t.clients.statSatisfied, icon: Star },
+        { number: "200+", label: t.clients.statProjects, icon: CheckCircle },
+        { number: "10+", label: t.clients.statYears, icon: Award },
+        { number: "98%", label: t.clients.statSatisfaction, icon: TrendingUp }
     ];
 
     return (
@@ -73,7 +73,7 @@ const Clients = () => {
                         className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm border border-gray-200 mb-6"
                     >
                         <Star className="w-4 h-4 text-[#b18344]" />
-                        <span className="text-[#b18344] font-medium text-sm">شركاؤنا في النجاح</span>
+                        <span className="text-[#b18344] font-medium text-sm">{t.clients.tagline}</span>
                     </motion.div>
                     
                     <motion.h2 
@@ -176,7 +176,7 @@ const Clients = () => {
                                 {/* Success Indicator */}
                                 <div className="flex items-center justify-center gap-1 text-[#b18344]">
                                     <CheckCircle className="w-4 h-4" />
-                                    <span className="text-xs font-medium">شريك موثوق</span>
+                                    <span className="text-xs font-medium">{t.clients.trustedPartner}</span>
                                 </div>
                             </div>
 
@@ -205,24 +205,24 @@ const Clients = () => {
                     >
                         <div className="flex items-center justify-center gap-3 mb-4">
                             <Award className="w-8 h-8 text-[#b18344]" />
-                            <h3 className="text-2xl font-bold text-[#b18344]">معتمدون من قبل الرواد</h3>
+                            <h3 className="text-2xl font-bold text-[#b18344]">{t.clients.trustedByLeadersTitle}</h3>
                         </div>
                         <p className="text-gray-600 leading-relaxed">
-                            نفخر بثقة كبرى الشركات والمؤسسات الحكومية بخدماتنا، حيث نقدم حلول متكاملة تلبي أعلى معايير الجودة والاحترافية
+                            {t.clients.trustedByLeadersDesc}
                         </p>
                         
                         <div className="grid grid-cols-3 gap-8 mt-6 pt-6 border-t border-gray-200">
                             <div className="text-center">
                                 <div className="text-lg font-bold text-[#b18344]">ISO 9001</div>
-                                <div className="text-xs text-gray-500">شهادة الجودة</div>
+                                <div className="text-xs text-gray-500">{t.clients.trustCert1}</div>
                             </div>
                             <div className="text-center">
                                 <div className="text-lg font-bold text-[#b18344]">AAA+</div>
-                                <div className="text-xs text-gray-500">التصنيف الائتماني</div>
+                                <div className="text-xs text-gray-500">{t.clients.trustCert2}</div>
                             </div>
                             <div className="text-center">
                                 <div className="text-lg font-bold text-[#b18344]">100%</div>
-                                <div className="text-xs text-gray-500">الالتزام بالمواعيد</div>
+                                <div className="text-xs text-gray-500">{t.clients.trustCert3}</div>
                             </div>
                         </div>
                     </div>
