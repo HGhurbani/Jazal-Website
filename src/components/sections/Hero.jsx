@@ -520,7 +520,10 @@ const Hero = ({ handleFeatureClick }) => {
   }, [handleFeatureClick]);
 
   const onWatchDemo = useCallback(() => {
-    console.log('Watch demo clicked');
+    const contact = document.getElementById('contact');
+    if (contact) {
+      contact.scrollIntoView({ behavior: 'smooth' });
+    }
   }, []);
 
   return (

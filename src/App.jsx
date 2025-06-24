@@ -32,10 +32,10 @@ function AppContent() {
   };
 
   const handleFeatureClick = () => {
-    toast({
-      title: t.toast.featureTitle,
-      description: t.toast.featureDescription,
-    });
+    const contact = document.getElementById('contact');
+    if (contact) {
+      contact.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
