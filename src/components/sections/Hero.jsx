@@ -305,10 +305,11 @@ const ScrollIndicator = memo(() => {
 
 // Professional trust indicators
 const TrustIndicators = memo(() => {
+  const { t } = useLanguage();
   const trustFeatures = [
-    { icon: Shield, text: "موثوق وآمن", count: "100%" },
-    { icon: Award, text: "جودة مضمونة", count: "5★" },
-    { icon: Star, text: "رضا العملاء", count: "98%" }
+    { icon: Shield, text: t.hero.trustSecure, count: "100%" },
+    { icon: Award, text: t.hero.trustQuality, count: "5★" },
+    { icon: Star, text: t.hero.trustSatisfaction, count: "98%" }
   ];
 
   return (
@@ -477,10 +478,10 @@ const HeroContent = memo(({ t, onFeatureClick, onWatchDemo }) => {
                 e.target.style.backgroundColor = 'transparent';
                 e.target.style.color = colors.primary;
               }}
-              aria-label="مشاهدة عرض توضيحي"
+              aria-label={t.hero.demo}
             >
               <Play className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform duration-200" />
-              <span>عرض توضيحي</span>
+              <span>{t.hero.demo}</span>
             </Button>
           </motion.div>
         </motion.div>

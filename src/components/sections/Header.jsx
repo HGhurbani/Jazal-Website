@@ -430,7 +430,7 @@ const Header = () => {
                 whileTap={{ scale: 0.98 }}
               >
                 <span className="flex items-center gap-2">
-                  ابدأ مشروعك
+                  {t.header.startProject}
                   <ArrowLeft className="w-4 h-4" />
                 </span>
               </motion.a>

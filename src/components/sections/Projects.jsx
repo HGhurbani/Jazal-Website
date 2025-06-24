@@ -15,7 +15,7 @@ const Projects = () => {
             image: "https://images.unsplash.com/photo-1697134674327-3f2261031064",
             alt: "معرض تجاري كبير بتصميم حديث",
             icon: Users,
-            category: "معارض تجارية"
+            categoryKey: 'categoryTrade'
         },
         {
             id: 2,
@@ -24,7 +24,7 @@ const Projects = () => {
             image: "https://images.unsplash.com/photo-1700936656167-5dc37a6f1e20",
             alt: "مؤتمر علمي في قاعة كبيرة",
             icon: Award,
-            category: "مؤتمرات علمية"
+            categoryKey: 'categoryConference'
         },
         {
             id: 3,
@@ -33,7 +33,7 @@ const Projects = () => {
             image: "https://images.unsplash.com/photo-1554123460-3f3501064723",
             alt: "حفل تكريم أنيق بإضاءة ذهبية",
             icon: ExternalLink,
-            category: "حفلات تكريم"
+            categoryKey: 'categoryCeremony'
         }
     ];
 
@@ -53,7 +53,7 @@ const Projects = () => {
                         className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm border border-gray-200 mb-6"
                     >
                         <div className="w-2 h-2 bg-[#b18344] rounded-full"></div>
-                        <span className="text-[#b18344] font-medium text-sm">أعمالنا المميزة</span>
+                        <span className="text-[#b18344] font-medium text-sm">{t.projects.featuredTag}</span>
                     </motion.div>
                     
                     <motion.h2 
@@ -106,11 +106,11 @@ const Projects = () => {
                                     
                                     {/* Category Badge */}
                                     <div className="absolute top-4 right-4">
-                                        <span 
+                                        <span
                                             className="px-3 py-1 rounded-full text-xs font-medium text-white backdrop-blur-sm"
                                             style={{ backgroundColor: 'rgba(177, 131, 68, 0.9)' }}
                                         >
-                                            {project.category}
+                                            {t.projects[project.categoryKey]}
                                         </span>
                                     </div>
 

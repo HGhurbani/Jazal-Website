@@ -14,7 +14,7 @@ const Clients = () => {
             logo: "https://upload.wikimedia.org/wikipedia/ar/1/19/Saudi_Aramco_logo.png",
             alt: "شعار شركة أرامكو السعودية",
             category: "طاقة",
-            projects: "15+ مشروع"
+            projects: "15+"
         },
         {
             id: 2,
@@ -22,7 +22,7 @@ const Clients = () => {
             logo: "https://upload.wikimedia.org/wikipedia/commons/f/fc/NBE_logo.png",
             alt: "شعار البنك الأهلي السعودي",
             category: "بنوك",
-            projects: "8+ مشروع"
+            projects: "8+"
         },
         {
             id: 3,
@@ -30,7 +30,7 @@ const Clients = () => {
             logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Logo_of_Sabic.svg/1200px-Logo_of_Sabic.svg.png",
             alt: "شعار شركة سابك",
             category: "صناعة",
-            projects: "12+ مشروع"
+            projects: "12+"
         },
         {
             id: 4,
@@ -38,7 +38,7 @@ const Clients = () => {
             logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Logo_Ministry_of_Commerce.svg/2560px-Logo_Ministry_of_Commerce.svg.png",
             alt: "شعار وزارة التجارة السعودية",
             category: "حكومي",
-            projects: "6+ مشروع"
+            projects: "6+"
         }
     ];
 
@@ -170,7 +170,7 @@ const Clients = () => {
                                     >
                                         {client.category}
                                     </span>
-                                    <span>{client.projects}</span>
+                                    <span>{client.projects} {t.clients.projectsWord}</span>
                                 </div>
 
                                 {/* Success Indicator */}
