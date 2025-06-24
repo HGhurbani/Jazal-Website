@@ -30,6 +30,7 @@ body {
   background: linear-gradient(135deg, #FFFFFF 0%, #F8F9FA 100%);
   color: var(--gray-dark);
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
 html[dir="rtl"] body {
@@ -85,6 +86,12 @@ html[dir="ltr"] body {
 @media (max-width: 768px) {
   .section-padding {
     padding: 60px 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .section-padding {
+    padding: 40px 0;
   }
 }
 
