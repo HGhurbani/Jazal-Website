@@ -275,6 +275,27 @@ const Services = ({ handleFeatureClick }) => {
       description: t.services.service3Text,
       features: t.services.service3Features,
       isPopular: false
+    },
+    {
+      icon: Star,
+      title: t.services.service4Title,
+      description: t.services.service4Text,
+      features: null,
+      isPopular: false
+    },
+    {
+      icon: CheckCircle,
+      title: t.services.service5Title,
+      description: t.services.service5Text,
+      features: null,
+      isPopular: false
+    },
+    {
+      icon: ArrowRight,
+      title: t.services.service6Title,
+      description: t.services.service6Text,
+      features: null,
+      isPopular: false
     }
   ];
 
