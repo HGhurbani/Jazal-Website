@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gold: #C9A961;
+  --gold-light: #E6D4A3;
+  --gold-dark: #B8954A;
+  --white: #FFFFFF;
+  --gray-light: #F8F9FA;
+  --gray-medium: #6C757D;
+  --gray-dark: #343A40;
+  --dark-bg: #1A1A1A;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F8F9FA 100%);
+  color: var(--gray-dark);
+  line-height: 1.6;
+}
+
+html[dir="rtl"] body {
+  font-family: 'Tajawal', sans-serif;
+}
+
+html[dir="ltr"] body {
+  font-family: 'Poppins', sans-serif;
+}
+
+
+.gold-gradient {
+  background: #b18344;
+}
+
+.gold-text {
+  background: #b18344;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.shadow-gold {
+  box-shadow: 0 10px 30px rgba(201, 169, 97, 0.3);
+}
+
+.hover-lift {
+  transition: all 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(201, 169, 97, 0.4);
+}
+
+.section-padding {
+  padding: 80px 0;
+}
+
+.hero-bg-element {
+  position: absolute;
+  opacity: 0.05;
+  color: var(--gold-dark);
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding: 60px 0;
+  }
+}
+
+.sadu-pattern {
+    background-color: var(--dark-bg);
+    opacity: 0.8;
+    background-position: 0 0, 10px 10px;
+    background-size: 20px 20px;
+}
