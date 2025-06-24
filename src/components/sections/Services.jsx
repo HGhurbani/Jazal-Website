@@ -83,7 +83,7 @@ const ServiceCard = ({ icon: Icon, title, description, features, isPopular = fal
           className="absolute -top-4 -right-4 z-20 bg-gradient-to-r from-[#b18344] to-[#d4a574] text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg flex items-center gap-1"
         >
           <Star className="w-3 h-3 fill-current" />
-          الأكثر طلباً
+          {t.services.mostPopular}
         </motion.div>
       )}
 
@@ -259,21 +259,21 @@ const Services = ({ handleFeatureClick }) => {
       icon: Building,
       title: t.services.service1Title,
       description: t.services.service1Text,
-      features: ["تصميم معماري متطور", "إشراف هندسي شامل", "ضمان الجودة"],
+      features: t.services.service1Features,
       isPopular: false
     },
     {
       icon: Users,
       title: t.services.service2Title,
       description: t.services.service2Text,
-      features: ["استشارات متخصصة", "فريق خبراء", "حلول مبتكرة"],
+      features: t.services.service2Features,
       isPopular: true
     },
     {
       icon: Briefcase,
       title: t.services.service3Title,
       description: t.services.service3Text,
-      features: ["إدارة المشاريع", "تنفيذ احترافي", "متابعة مستمرة"],
+      features: t.services.service3Features,
       isPopular: false
     }
   ];
@@ -301,7 +301,7 @@ const Services = ({ handleFeatureClick }) => {
             className="inline-flex items-center gap-2 bg-gradient-to-r from-[#b18344]/10 to-[#d4a574]/10 text-[#b18344] px-6 py-2 rounded-full font-semibold text-sm mb-6 border border-[#b18344]/20"
           >
             <Sparkles className="w-4 h-4" />
-            خدماتنا المتميزة
+            {t.services.tagline}
           </motion.div>
 
           <motion.h2 
@@ -358,10 +358,10 @@ const Services = ({ handleFeatureClick }) => {
         >
           <div className="bg-gradient-to-r from-[#b18344]/10 to-[#d4a574]/10 rounded-3xl p-8 md:p-12 border border-[#b18344]/20 backdrop-blur-sm">
             <h3 className="text-3xl font-bold text-gray-800 mb-4">
-              مستعد لبدء مشروعك؟
+              {t.services.ctaTitle}
             </h3>
             <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-              احصل على استشارة مجانية واكتشف كيف يمكننا تحويل رؤيتك إلى واقع مميز
+              {t.services.ctaDescription}
             </p>
             <motion.div
               whileHover={{ scale: 1.05 }}
@@ -371,7 +371,7 @@ const Services = ({ handleFeatureClick }) => {
                 onClick={handleFeatureClick}
                 className="bg-gradient-to-r from-[#b18344] to-[#d4a574] hover:from-[#d4a574] hover:to-[#b18344] text-white px-12 py-4 text-lg font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
               >
-                احجز استشارتك المجانية
+                {t.services.ctaButton}
                 <ArrowRight className="w-5 h-5 mr-2" />
               </Button>
             </motion.div>

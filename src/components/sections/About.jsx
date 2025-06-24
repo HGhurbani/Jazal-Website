@@ -1,22 +1,11 @@
 import React, { useState } from 'react';
 import { Users, Award, Star, ChevronRight, Sparkles } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const About = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
   
-  // Mock translation data - replace with your actual translation context
-  const t = {
-    about: {
-      title: "من نحن",
-      description: "نحن فريق متخصص في تقديم حلول مبتكرة وخدمات متميزة تلبي احتياجات عملائنا وتحقق توقعاتهم",
-      card1Title: "الخبرة والجودة",
-      card1Text: "سنوات من الخبرة في تقديم أفضل الحلول والخدمات المتخصصة",
-      card2Title: "فريق متميز",
-      card2Text: "فريق من المحترفين المدربين على أعلى مستوى من الكفاءة",
-      card3Title: "رضا العملاء",
-      card3Text: "نسعى دائماً لتحقيق أعلى مستويات الرضا والثقة من عملائنا"
-    }
-  };
+  const { t } = useLanguage();
 
   const cards = [
     {
@@ -59,7 +48,7 @@ const About = () => {
         <div className="text-center mb-16 transform transition-all duration-700 hover:scale-105">
           <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-gradient-to-r from-[#b18344]/10 to-[#c49454]/10 rounded-full border border-[#b18344]/30">
             <Sparkles className="w-5 h-5 text-[#b18344]" />
-            <span className="text-sm font-medium text-[#9d7239]">تعرف علينا أكثر</span>
+            <span className="text-sm font-medium text-[#9d7239]">{t.about.tagline}</span>
           </div>
           
           <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-[#9d7239] via-[#b18344] to-[#c49454] bg-clip-text text-transparent mb-6 leading-tight">
@@ -109,7 +98,7 @@ const About = () => {
                   {/* Interactive Arrow */}
                   <div className="flex justify-center">
                     <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r ${card.gradient} text-white opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 cursor-pointer`}>
-                      <span className="text-sm font-medium">اعرف أكثر</span>
+                      <span className="text-sm font-medium">{t.about.learnMore}</span>
                       <ChevronRight className="w-4 h-4" />
                     </div>
                   </div>
@@ -125,7 +114,7 @@ const About = () => {
         {/* Bottom CTA Section */}
         <div className="text-center mt-16">
           <div className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#b18344] to-[#c49454] text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 cursor-pointer group">
-            <span className="text-lg font-semibold">ابدأ رحلتك معنا</span>
+            <span className="text-lg font-semibold">{t.about.cta}</span>
             <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </div>
         </div>

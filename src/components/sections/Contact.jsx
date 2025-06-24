@@ -102,7 +102,7 @@ const Contact = ({ handleContactSubmit }) => {
                 <div className="w-8 h-8 bg-gradient-to-r from-[#b18344] to-[#d4a574] rounded-lg flex items-center justify-center">
                   <MessageCircle className="w-4 h-4 text-white" />
                 </div>
-                طرق التواصل
+                {t.contact.methodsTitle}
               </h3>
               
               <div className="space-y-6">
@@ -115,8 +115,8 @@ const Contact = ({ handleContactSubmit }) => {
                     <MessageCircle className="w-7 h-7 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h4 className="text-lg font-semibold text-gray-800">واتساب</h4>
-                    <p className="text-gray-600 text-sm">تواصل مباشر وسريع</p>
+                    <h4 className="text-lg font-semibold text-gray-800">{t.contact.whatsapp}</h4>
+                    <p className="text-gray-600 text-sm">{t.contact.whatsappDescription}</p>
                     <p className="text-green-600 font-medium text-sm" dir="ltr">{whatsappNumber}</p>
                   </div>
                   <Button
@@ -124,7 +124,7 @@ const Contact = ({ handleContactSubmit }) => {
                     className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-2 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                   >
                     <MessageCircle className="w-4 h-4 ml-2" />
-                    محادثة
+                    {t.contact.chatButton}
                   </Button>
                 </motion.div>
 
@@ -138,7 +138,7 @@ const Contact = ({ handleContactSubmit }) => {
                   </div>
                   <div>
                     <h4 className="text-lg font-semibold text-gray-800">{t.contact.phone}</h4>
-                    <p className="text-gray-600 text-sm">للاستفسارات العاجلة</p>
+                    <p className="text-gray-600 text-sm">{t.contact.phoneSub}</p>
                     <p className="text-[#b18344] font-medium" dir="ltr">+966 11 123 4567</p>
                   </div>
                 </motion.div>
@@ -153,7 +153,7 @@ const Contact = ({ handleContactSubmit }) => {
                   </div>
                   <div>
                     <h4 className="text-lg font-semibold text-gray-800">{t.contact.address}</h4>
-                    <p className="text-gray-600 text-sm">موقعنا الرئيسي</p>
+                    <p className="text-gray-600 text-sm">{t.contact.addressSub}</p>
                     <p className="text-blue-600 font-medium">{t.contact.addressValue}</p>
                   </div>
                 </motion.div>
@@ -174,8 +174,8 @@ const Contact = ({ handleContactSubmit }) => {
               
               <div className="relative z-10">
                 <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-2">أرسل رسالتك</h3>
-                  <p className="text-gray-600 text-sm">سيتم إرسال رسالتك مباشرة عبر الواتساب</p>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-2">{t.contact.formTitle}</h3>
+                  <p className="text-gray-600 text-sm">{t.contact.formSubtitle}</p>
                 </div>
 
                 {showSuccess && (
@@ -185,14 +185,14 @@ const Contact = ({ handleContactSubmit }) => {
                     className="bg-green-50 border border-green-200 rounded-2xl p-4 mb-6 flex items-center gap-3"
                   >
                     <CheckCircle className="w-6 h-6 text-green-500" />
-                    <span className="text-green-700 font-medium">تم إرسال رسالتك بنجاح!</span>
+                    <span className="text-green-700 font-medium">{t.toast.successTitle}</span>
                   </motion.div>
                 )}
 
                 <form onSubmit={handleFormSubmit} className="space-y-6">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-3 text-start">
-                      الاسم الكامل
+                      {t.contact.formName}
                     </label>
                     <input 
                       type="text" 
@@ -201,13 +201,13 @@ const Contact = ({ handleContactSubmit }) => {
                       onChange={handleInputChange}
                       required
                       className="w-full px-5 py-4 border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-[#b18344] focus:border-[#b18344] transition-all duration-300 bg-gray-50 focus:bg-white"
-                      placeholder="أدخل اسمك الكامل"
+                      placeholder={t.contact.formNamePlaceholder}
                     />
                   </div>
                   
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-3 text-start">
-                      رقم الواتساب
+                      {t.contact.phone}
                     </label>
                     <input 
                       type="tel" 
@@ -216,14 +216,14 @@ const Contact = ({ handleContactSubmit }) => {
                       onChange={handleInputChange}
                       required
                       className="w-full px-5 py-4 border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-[#b18344] focus:border-[#b18344] transition-all duration-300 bg-gray-50 focus:bg-white text-left"
-                      placeholder="+966 5X XXX XXXX"
+                      placeholder={t.contact.formPhonePlaceholder}
                       dir="ltr"
                     />
                   </div>
                   
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-3 text-start">
-                      الرسالة
+                      {t.contact.formMessage}
                     </label>
                     <textarea 
                       name="message"
@@ -232,7 +232,7 @@ const Contact = ({ handleContactSubmit }) => {
                       required
                       rows="5"
                       className="w-full px-5 py-4 border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-[#b18344] focus:border-[#b18344] transition-all duration-300 bg-gray-50 focus:bg-white resize-none"
-                      placeholder="اكتب رسالتك هنا..."
+                      placeholder={t.contact.formMessagePlaceholder}
                     ></textarea>
                   </div>
                   
@@ -245,12 +245,12 @@ const Contact = ({ handleContactSubmit }) => {
                     {isSubmitting ? (
                       <div className="flex items-center justify-center gap-2">
                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                        جاري الإرسال...
+                        {t.contact.sending}
                       </div>
                     ) : (
                       <div className="flex items-center justify-center gap-2">
                         <Send className="w-5 h-5" />
-                        إرسال عبر الواتساب
+                        {t.contact.whatsappSubmit}
                       </div>
                     )}
                   </Button>

@@ -15,6 +15,7 @@ import {
   Briefcase,
   ChevronRight
 } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -36,10 +37,12 @@ const Footer = () => {
     }
   };
 
+  const { t } = useLanguage();
+
   const services = [
-    { icon: Building2, title: "العقارات التجارية", desc: "استشارات وإدارة العقارات" },
-    { icon: Users, title: "الاستشارات القانونية", desc: "خدمات قانونية متخصصة" },
-    { icon: Briefcase, title: "إدارة الأعمال", desc: "حلول إدارية متكاملة" }
+    { icon: Building2, title: t.footer.service1Title, desc: t.footer.service1Desc },
+    { icon: Users, title: t.footer.service2Title, desc: t.footer.service2Desc },
+    { icon: Briefcase, title: t.footer.service3Title, desc: t.footer.service3Desc }
   ];
 
   return (
@@ -65,13 +68,12 @@ const Footer = () => {
             <motion.div variants={fadeInUp} className="lg:col-span-1">
               <div className="mb-6">
                 <h3 className="text-2xl font-bold mb-4" style={{ color: '#b18344' }}>
-                  شركتنا
+                  {t.footer.companyTitle}
                 </h3>
                 <div className="w-12 h-1 rounded-full mb-6" style={{ backgroundColor: '#b18344' }}></div>
               </div>
               <p className="text-gray-300 leading-relaxed mb-6">
-                نقدم خدمات متميزة في مجال العقارات والاستشارات القانونية وإدارة الأعمال 
-                بخبرة تمتد لأكثر من 15 عامًا في السوق.
+                {t.footer.companyDescription}
               </p>
               
               {/* Social Media */}
@@ -94,7 +96,7 @@ const Footer = () => {
             <motion.div variants={fadeInUp} className="lg:col-span-1">
               <div className="mb-6">
                 <h3 className="text-2xl font-bold mb-4" style={{ color: '#b18344' }}>
-                  خدماتنا
+                  {t.footer.servicesTitle}
                 </h3>
                 <div className="w-12 h-1 rounded-full mb-6" style={{ backgroundColor: '#b18344' }}></div>
               </div>
@@ -126,16 +128,16 @@ const Footer = () => {
             <motion.div variants={fadeInUp} className="lg:col-span-1">
               <div className="mb-6">
                 <h3 className="text-2xl font-bold mb-4" style={{ color: '#b18344' }}>
-                  تواصل معنا
+                  {t.footer.contactTitle}
                 </h3>
                 <div className="w-12 h-1 rounded-full mb-6" style={{ backgroundColor: '#b18344' }}></div>
               </div>
               <div className="space-y-4">
                 {[
-                  { icon: MapPin, text: "الرياض، المملكة العربية السعودية" },
-                  { icon: Phone, text: "+966 11 234 5678" },
-                  { icon: Mail, text: "info@company.com" },
-                  { icon: Clock, text: "الأحد - الخميس: 8:00 - 17:00" }
+                  { icon: MapPin, text: t.footer.contactAddress },
+                  { icon: Phone, text: t.footer.contactPhone },
+                  { icon: Mail, text: t.footer.contactEmail },
+                  { icon: Clock, text: t.footer.contactHours }
                 ].map((item, index) => (
                   <motion.div
                     key={index}
@@ -163,7 +165,7 @@ const Footer = () => {
           <div className="container mx-auto px-6 py-6">
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               <div className="text-gray-400 text-sm">
-                © 2024 جميع الحقوق محفوظة. شركتنا
+                {t.footer.rights}
               </div>
               
               {/* Back to Top Button */}
