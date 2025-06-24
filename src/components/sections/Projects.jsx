@@ -164,16 +164,17 @@ const Projects = () => {
                     viewport={{ once: true }}
                     className="text-center mt-16"
                 >
-                    <button 
+                    <a
+                        href="#contact"
                         className="inline-flex items-center gap-3 px-8 py-4 rounded-full font-medium text-white transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
-                        style={{ 
+                        style={{
                             background: 'linear-gradient(135deg, #b18344 0%, #d4a574 50%, #b18344 100%)',
                             boxShadow: '0 4px 20px rgba(177, 131, 68, 0.3)'
                         }}
                     >
                         <span>{t.projects.exploreAll}</span>
                         <ExternalLink className="w-5 h-5" />
-                    </button>
+                    </a>
                 </motion.div>
             </div>
         </section>
