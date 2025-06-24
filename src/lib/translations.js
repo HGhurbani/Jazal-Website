@@ -89,6 +89,10 @@ export const translations = {
         trustCert1: "شهادة الجودة",
         trustCert2: "التصنيف الائتماني",
         trustCert3: "الالتزام بالمواعيد",
+        categoryEnergy: "طاقة",
+        categoryBanks: "بنوك",
+        categoryIndustry: "صناعة",
+        categoryGovernment: "حكومي",
     },
     contact: {
         title: "تواصل معنا",
@@ -232,6 +236,10 @@ export const translations = {
         trustCert1: "Quality Certificate",
         trustCert2: "Credit Rating",
         trustCert3: "On-Time Delivery",
+        categoryEnergy: "Energy",
+        categoryBanks: "Banks",
+        categoryIndustry: "Industry",
+        categoryGovernment: "Government",
     },
     contact: {
         title: "Contact Us",
