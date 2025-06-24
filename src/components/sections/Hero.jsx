@@ -356,7 +356,10 @@ const HeroContent = memo(({ t, onFeatureClick, onWatchDemo }) => {
   const [primaryButtonHovered, setPrimaryButtonHovered] = useState(false);
 
   return (
-    <div className="container mx-auto px-6 text-center relative z-10" ref={ref}>
+    <div
+      className="container mx-auto px-6 text-center relative z-10 pt-[7.5rem] sm:pt-0"
+      ref={ref}
+    >
       <motion.div
         variants={contentVariants.container}
         initial="initial"
