@@ -15,7 +15,7 @@ const Contact = ({ handleContactSubmit }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const whatsappNumber = '+905079975403';
+  const whatsappNumber = '+966537577055';
 
   const handleInputChange = (e) => {
     setFormData({
