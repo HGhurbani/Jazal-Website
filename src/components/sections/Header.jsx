@@ -271,7 +271,7 @@ const MobileMenu = memo(({ isOpen, onClose, t, activeSection, onNavigate }) => {
                   <div className="p-2 bg-[#b18344]/10 rounded-lg">
                     <Phone className="w-4 h-4 text-[#b18344]" />
                   </div>
-                  <span className="font-medium">0504447148</span>
+                  <span className="font-medium">+966504447148</span>
                 </div>
                 <div className="flex items-center gap-4 text-sm text-gray-600 bg-gray-50/80 rounded-xl p-3">
                   <div className="p-2 bg-[#b18344]/10 rounded-lg">

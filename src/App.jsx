@@ -14,6 +14,7 @@ import Testimonials from '@/components/sections/Testimonials';
 import Faq from '@/components/sections/Faq';
 import Contact from '@/components/sections/Contact';
 import Footer from '@/components/sections/Footer';
+import WhatsAppPopup from '@/components/ui/WhatsAppPopup';
 
 function AppContent() {
   const { toast } = useToast();
@@ -60,6 +61,7 @@ function AppContent() {
           <Contact handleContactSubmit={handleContactSubmit} />
         </main>
         <Footer handleFeatureClick={handleFeatureClick} />
+        <WhatsAppPopup />
         <Toaster />
       </div>
     </>

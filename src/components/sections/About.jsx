@@ -111,16 +111,6 @@ const About = () => {
           })}
         </div>
 
-        {/* Bottom CTA Section */}
-        <div className="text-center mt-16">
-          <a
-            href="#contact"
-            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#b18344] to-[#c49454] text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 group"
-          >
-            <span className="text-lg font-semibold">{t.about.cta}</span>
-            <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </a>
-        </div>
       </div>
     </section>
   );
