@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Users, Building, Briefcase, ArrowRight, Star, CheckCircle, Sparkles } from 'lucide-react';
+import { Users, Building, Briefcase, ArrowRight, Star, CheckCircle, Sparkles, Gift, PartyPopper } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -60,7 +60,7 @@ const iconContainerVariants = {
 };
 
 // Professional service card component
-const ServiceCard = ({ icon: Icon, title, description, features, isPopular = false, onButtonClick }) => {
+const ServiceCard = ({ icon: Icon, title, description, features, isPopular = false, onButtonClick, link }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { t } = useLanguage();
 
@@ -208,8 +208,14 @@ const ServiceCard = ({ icon: Icon, title, description, features, isPopular = fal
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            <Button 
-              onClick={onButtonClick}
+            <Button
+              onClick={() => {
+                if (link) {
+                  window.open(link, '_blank');
+                } else {
+                  onButtonClick();
+                }
+              }}
               className={`w-full group/btn relative overflow-hidden transition-all duration-500 ${
                 isPopular
                   ? 'bg-gradient-to-r from-[#b18344] to-[#d4a574] hover:from-[#d4a574] hover:to-[#b18344] text-white shadow-lg hover:shadow-xl'
@@ -296,6 +302,29 @@ const Services = ({ handleFeatureClick }) => {
       description: t.services.service6Text,
       features: null,
       isPopular: false
+    },
+    {
+      icon: Gift,
+      title: t.services.service7Title,
+      description: t.services.service7Text,
+      features: null,
+      isPopular: false,
+      link: 'https://jzl10.com/'
+    },
+    {
+      icon: Sparkles,
+      title: t.services.service8Title,
+      description: t.services.service8Text,
+      features: null,
+      isPopular: false,
+      link: 'https://jzl10.com/'
+    },
+    {
+      icon: PartyPopper,
+      title: t.services.service9Title,
+      description: t.services.service9Text,
+      features: null,
+      isPopular: false
     }
   ];
 
@@ -365,6 +394,7 @@ const Services = ({ handleFeatureClick }) => {
               features={service.features}
               isPopular={service.isPopular}
               onButtonClick={handleFeatureClick}
+              link={service.link}
             />
           ))}
         </motion.div>

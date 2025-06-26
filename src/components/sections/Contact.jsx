@@ -15,7 +15,7 @@ const Contact = ({ handleContactSubmit }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const whatsappNumber = '+966537577055';
+  const whatsappNumber = '+966504447148';
 
   const handleInputChange = (e) => {
     setFormData({
@@ -129,7 +129,7 @@ const Contact = ({ handleContactSubmit }) => {
                 </motion.div>
 
                 {/* الهاتف */}
-                <motion.div 
+                <motion.div
                   whileHover={{ x: 10 }}
                   className="flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-[#b18344]/10 to-[#d4a574]/10 border border-[#b18344]/20"
                 >
@@ -139,7 +139,21 @@ const Contact = ({ handleContactSubmit }) => {
                   <div>
                     <h4 className="text-lg font-semibold text-gray-800">{t.contact.phone}</h4>
                     <p className="text-gray-600 text-sm">{t.contact.phoneSub}</p>
-                    <p className="text-[#b18344] font-medium" dir="ltr">+966 11 123 4567</p>
+                    <p className="text-[#b18344] font-medium" dir="ltr">+966 50 444 7148</p>
+                  </div>
+                </motion.div>
+
+                {/* البريد الإلكتروني */}
+                <motion.div
+                  whileHover={{ x: 10 }}
+                  className="flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-purple-50 to-purple-100 border border-purple-200/50"
+                >
+                  <div className="w-14 h-14 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+                    <Mail className="w-7 h-7 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-gray-800">{t.contact.email}</h4>
+                    <p className="text-purple-600 font-medium" dir="ltr">Jzl.co@hotmail.com</p>
                   </div>
                 </motion.div>
 
