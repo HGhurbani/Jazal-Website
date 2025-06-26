@@ -142,16 +142,7 @@ const Projects = () => {
                                         {t.projects[project.textKey]}
                                     </p>
                                     
-                                    {/* Action Button */}
-                                    <button 
-                                        className="inline-flex items-center gap-2 text-sm font-medium transition-all duration-300 group/btn"
-                                        style={{ color: '#b18344' }}
-                                    >
-                                        <span className="group-hover/btn:translate-x-1 transition-transform duration-300">
-                                            {t.projects.details}
-                                        </span>
-                                        <ExternalLink className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
-                                    </button>
+                                    {/* Action Button Removed as per request */}
                                 </div>
 
                                 {/* Hover Border Effect */}
@@ -167,26 +158,7 @@ const Projects = () => {
                     })}
                 </motion.div>
 
-                {/* Bottom CTA */}
-                <motion.div
-                    variants={fadeInUp}
-                    initial="initial"
-                    whileInView="animate"
-                    viewport={{ once: true }}
-                    className="text-center mt-16"
-                >
-                    <a
-                        href="#contact"
-                        className="inline-flex items-center gap-3 px-8 py-4 rounded-full font-medium text-white transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
-                        style={{
-                            background: 'linear-gradient(135deg, #b18344 0%, #d4a574 50%, #b18344 100%)',
-                            boxShadow: '0 4px 20px rgba(177, 131, 68, 0.3)'
-                        }}
-                    >
-                        <span>{t.projects.exploreAll}</span>
-                        <ExternalLink className="w-5 h-5" />
-                    </a>
-                </motion.div>
+                {/* Bottom CTA removed as per request */}
             </div>
         </section>
     );
