@@ -19,6 +19,40 @@ const Services = () => {
       title: t.services.service3Title,
       description: t.services.service3Text,
       image: 'https://images.unsplash.com/photo-1508830524289-0adcbe822b40'
+    },
+    {
+      title: t.services.service4Title,
+      description: t.services.service4Text,
+      image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d'
+    },
+    {
+      title: t.services.service5Title,
+      description: t.services.service5Text,
+      image: 'https://images.unsplash.com/photo-1531058020387-3be344556be6'
+    },
+    {
+      title: t.services.service6Title,
+      description: t.services.service6Text,
+      image: 'https://images.unsplash.com/photo-1485217988980-11786ced9454'
+    },
+    {
+      title: t.services.service7Title,
+      description: t.services.service7Text,
+      image: 'https://images.unsplash.com/photo-1519682337058-a94d519337bc',
+      store: true,
+      link: 'https://jzl10.com/'
+    },
+    {
+      title: t.services.service8Title,
+      description: t.services.service8Text,
+      image: 'https://images.unsplash.com/photo-1512428559087-560fa5ceab42',
+      store: true,
+      link: 'https://jzl10.com/'
+    },
+    {
+      title: t.services.service9Title,
+      description: t.services.service9Text,
+      image: 'https://images.unsplash.com/photo-1529655683826-aba9b3e77383'
     }
   ];
 
@@ -62,6 +96,22 @@ const Services = () => {
                   <p className="text-gray-600 leading-relaxed">
                     {service.description}
                   </p>
+                  {service.store && (
+                    <p className="text-sm text-green-700 mt-1">
+                      {t.services.storeNote}
+                    </p>
+                  )}
+                  {service.link && (
+                    <a
+                      href={service.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-[#b18344] underline"
+                    >
+                      {service.link}
+                    </a>
+                  )}
+
                 </div>
               ))}
             </div>
