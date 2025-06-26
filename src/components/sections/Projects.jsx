@@ -104,10 +104,12 @@ const Projects = () => {
                             >
                                 {/* Image Container */}
                                 <div className="relative overflow-hidden">
-                                    <img  
+                                    <img
                                         className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
                                         alt={project.alt}
                                         src={project.image}
+                                        loading="lazy"
+                                        decoding="async"
                                     />
                                     
                                     {/* Gradient Overlay */}
