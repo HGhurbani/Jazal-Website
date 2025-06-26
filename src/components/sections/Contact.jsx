@@ -15,7 +15,7 @@ const Contact = ({ handleContactSubmit }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const whatsappNumber = '+966537577055';
+  const whatsappNumber = '0504447148';
 
   const handleInputChange = (e) => {
     setFormData({
@@ -133,7 +133,7 @@ const Contact = ({ handleContactSubmit }) => {
                     <div>
                       <h4 className="text-lg font-semibold text-gray-800">{t.contact.phone}</h4>
                       <p className="text-gray-600 text-sm">{t.contact.phoneSub}</p>
-                      <p className="text-[#b18344] font-medium" dir="ltr">+966 11 123 4567</p>
+                      <p className="text-[#b18344] font-medium" dir="ltr">0504447148</p>
                     </div>
                   </motion.div>
 
