@@ -344,7 +344,8 @@ HeroContent.displayName = 'HeroContent';
 
 const Hero = ({ handleFeatureClick }) => {
   const { t } = useLanguage();
-  
+  const [backgroundImageLoaded, setBackgroundImageLoaded] = useState(false);
+
   const onFeatureClick = useCallback(() => {
     if (typeof handleFeatureClick === 'function') {
       handleFeatureClick();
@@ -361,13 +362,26 @@ const Hero = ({ handleFeatureClick }) => {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center relative overflow-hidden bg-cover bg-center"
-      style={{
-        backgroundImage: 'linear-gradient(to bottom, #1e293b, #111827)',
-        backgroundImage: 'url(https://jazl.sa/1.png)',
-      }}
+      className="min-h-screen flex items-center justify-center relative overflow-hidden"
       aria-label={t.hero.sectionAriaLabel || "الصفحة الرئيسية"}
     >
+      {/* Background image with loading indicator */}
+      {!backgroundImageLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-900 z-0">
+          {/* Simple loading spinner */}
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary"></div>
+        </div>
+      )}
+      <img
+        src="https://jazl.sa/1.png"
+        alt="Background"
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+          backgroundImageLoaded ? 'opacity-100' : 'opacity-0'
+        }`}
+        onLoad={() => setBackgroundImageLoaded(true)}
+        onError={() => setBackgroundImageLoaded(true)} // Handle error as loaded to avoid infinite spinner
+      />
+
       {/* Professional background overlay */}
       <div className="absolute inset-0 bg-black/60 z-0"></div>
 
