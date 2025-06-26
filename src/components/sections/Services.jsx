@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Users, Building, Briefcase, ArrowRight, Star, CheckCircle, Sparkles, Gift, PartyPopper } from 'lucide-react';
+import { CalendarCheck, LayoutTemplate, Ticket, Hammer, Camera, MapPin, ArrowRight, Gift, Droplet, PartyPopper, Sparkles, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -229,34 +229,34 @@ const Services = ({ handleFeatureClick }) => {
   // Simplified services data without `isPopular`
   const servicesData = [
     {
-      icon: Building,
+      icon: CalendarCheck,
       title: t.services.service1Title,
       description: t.services.service1Text,
     },
     {
-      icon: Users,
+      icon: LayoutTemplate,
       title: t.services.service2Title,
       description: t.services.service2Text,
     },
     {
-      icon: Briefcase,
+      icon: Ticket,
       title: t.services.service3Title,
       description: t.services.service3Text,
     },
     {
-      icon: Star,
+      icon: Hammer,
       title: t.services.service4Title,
       description: t.services.service4Text,
       features: null,
     },
     {
-      icon: CheckCircle,
+      icon: Camera,
       title: t.services.service5Title,
       description: t.services.service5Text,
       features: null,
     },
     {
-      icon: ArrowRight,
+      icon: MapPin,
       title: t.services.service6Title,
       description: t.services.service6Text,
       features: null,
@@ -271,7 +271,7 @@ const Services = ({ handleFeatureClick }) => {
       link: 'https://jzl10.com/'
     },
     {
-      icon: Sparkles,
+      icon: Droplet,
       title: t.services.service8Title,
       description: t.services.service8Text,
       features: null,

@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { ExternalLink, Award, Users } from 'lucide-react';
+import { ExternalLink, ShoppingBag, Mic, Award, PartyPopper } from 'lucide-react';
 
 const Projects = () => {
     const { t } = useLanguage();
@@ -14,7 +14,7 @@ const Projects = () => {
             textKey: 'project1Text',
             image: "https://images.unsplash.com/photo-1697134674327-3f2261031064",
             alt: "معرض تجاري كبير بتصميم حديث",
-            icon: Users,
+            icon: ShoppingBag,
             categoryKey: 'categoryTrade'
         },
         {
@@ -23,7 +23,7 @@ const Projects = () => {
             textKey: 'project2Text',
             image: "https://images.unsplash.com/photo-1700936656167-5dc37a6f1e20",
             alt: "مؤتمر علمي في قاعة كبيرة",
-            icon: Award,
+            icon: Mic,
             categoryKey: 'categoryConference'
         },
         {
@@ -32,7 +32,7 @@ const Projects = () => {
             textKey: 'project3Text',
             image: "https://images.unsplash.com/photo-1554123460-3f3501064723",
             alt: "حفل تكريم أنيق بإضاءة ذهبية",
-            icon: ExternalLink,
+            icon: Award,
             categoryKey: 'categoryCeremony'
         },
         {
@@ -41,7 +41,7 @@ const Projects = () => {
             textKey: 'project4Text',
             image: "https://images.unsplash.com/photo-1508672019048-805c876b67e2",
             alt: "مهرجان البُر",
-            icon: Users,
+            icon: PartyPopper,
             categoryKey: 'categoryCeremony'
         }
     ];
