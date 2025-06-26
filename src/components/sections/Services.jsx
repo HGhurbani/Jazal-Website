@@ -161,7 +161,7 @@ const Services = () => {
         </div>
 
         {storeService && (
-          <div className="text-center pt-8">
+          <div className="text-center pt-8 bg-white rounded-xl border border-[#b18344] shadow-lg p-8">
             {(() => {
               const Icon = storeService.icon;
               return <Icon className="w-10 h-10 text-[#b18344] mx-auto mb-4" />;
