@@ -153,10 +153,12 @@ const Clients = () => {
                                     }}
                                 ></div>
                                 <div className="relative flex items-center justify-center h-20">
-                                    <img  
+                                    <img
                                         className="h-16 w-auto object-contain filter group-hover:brightness-110 transition-all duration-300"
                                         alt={client.alt}
                                         src={client.logo}
+                                        loading="lazy"
+                                        decoding="async"
                                     />
                                 </div>
                             </div>

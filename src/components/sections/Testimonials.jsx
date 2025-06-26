@@ -54,7 +54,13 @@ const TestimonialCard = ({ quote, name, title, avatar, rating }) => {
       </div>
       
       <div className="flex items-center gap-4 pt-4 border-t border-gray-100">
-        <img src={avatar} alt={name} className="w-14 h-14 rounded-full object-cover border-2 border-[#b18344]/50 shadow-md" />
+        <img
+          src={avatar}
+          alt={name}
+          className="w-14 h-14 rounded-full object-cover border-2 border-[#b18344]/50 shadow-md"
+          loading="lazy"
+          decoding="async"
+        />
         <div>
           <h4 className="font-bold text-gray-800">{name}</h4>
           <p className="text-sm text-gray-500">{title}</p>
