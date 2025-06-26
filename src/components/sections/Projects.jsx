@@ -34,6 +34,15 @@ const Projects = () => {
             alt: "حفل تكريم أنيق بإضاءة ذهبية",
             icon: ExternalLink,
             categoryKey: 'categoryCeremony'
+        },
+        {
+            id: 4,
+            titleKey: 'project4Title',
+            textKey: 'project4Text',
+            image: "https://images.unsplash.com/photo-1508672019048-805c876b67e2",
+            alt: "مهرجان البُر",
+            icon: Users,
+            categoryKey: 'categoryCeremony'
         }
     ];
 

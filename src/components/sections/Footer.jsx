@@ -78,10 +78,17 @@ const Footer = () => {
               
               {/* Social Media */}
               <div className="flex space-x-4 rtl:space-x-reverse">
-                {[Facebook, Twitter, Instagram, Linkedin].map((Icon, index) => (
+                {[
+                  { Icon: Facebook, url: 'https://facebook.com/Jzlcompany' },
+                  { Icon: Twitter, url: 'https://twitter.com/Jzlcompany' },
+                  { Icon: Instagram, url: 'https://instagram.com/Jzlcompany' },
+                  { Icon: Linkedin, url: 'https://linkedin.com/company/Jzlcompany' }
+                ].map(({ Icon, url }, index) => (
                   <motion.a
                     key={index}
-                    href="#"
+                    href={url}
+                    target="_blank"
+                    rel="noreferrer"
                     whileHover={{ scale: 1.1, y: -2 }}
                     whileTap={{ scale: 0.95 }}
                     className="w-10 h-10 rounded-full border-2 border-gray-600 flex items-center justify-center hover:border-[#b18344] hover:bg-[#b18344] transition-all duration-300 group"
@@ -90,6 +97,7 @@ const Footer = () => {
                   </motion.a>
                 ))}
               </div>
+              <p className="mt-4 text-sm text-gray-400">@Jzlcompany</p>
             </motion.div>
 
             {/* Quick Services */}
