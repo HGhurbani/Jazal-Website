@@ -364,6 +364,7 @@ const Hero = ({ handleFeatureClick }) => {
       className="min-h-screen flex items-center justify-center relative overflow-hidden bg-cover bg-center"
       style={{
         backgroundImage: 'linear-gradient(to bottom, #1e293b, #111827)',
+        backgroundImage: 'url(https://jazl.sa/1.png)',
       }}
       aria-label={t.hero.sectionAriaLabel || "الصفحة الرئيسية"}
     >

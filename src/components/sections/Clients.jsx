@@ -11,37 +11,37 @@ const Clients = () => {
         {
             id: 1,
             nameKey: 'client1',
-            logo: "https://upload.wikimedia.org/wikipedia/commons/7/76/Mobily_logo.svg",
+            logo: "https://upload.wikimedia.org/wikipedia/commons/f/fe/Mobily_Logo.svg",
             alt: "شعار موبايلي"
         },
         {
             id: 2,
             nameKey: 'client2',
-            logo: "https://upload.wikimedia.org/wikipedia/commons/7/73/Ministry_of_Environment_Water_and_Agriculture_logo.svg",
+            logo: "https://pbs.twimg.com/profile_images/1795113660903231488/6fCPt4Iy_400x400.jpg",
             alt: "شعار وزارة الزراعة"
         },
         {
             id: 3,
             nameKey: 'client3',
-            logo: "https://upload.wikimedia.org/wikipedia/commons/8/80/Ministry_of_Education_Saudi_Arabia_Logo.svg",
+            logo: "https://alzaheer.wordpress.com/wp-content/uploads/2015/12/alzaher_2015_logo2.png",
             alt: "شعار وزارة التعليم"
         },
         {
             id: 4,
             nameKey: 'client4',
-            logo: "https://upload.wikimedia.org/wikipedia/commons/3/3e/Ministry_of_Defense_Saudi_Arabia.png",
+            logo: "https://upload.wikimedia.org/wikipedia/ar/thumb/d/d7/Saudi_Ministry_of_Defense_Logo.svg/1200px-Saudi_Ministry_of_Defense_Logo.svg.png",
             alt: "شعار وزارة الدفاع"
         },
         {
             id: 5,
             nameKey: 'client5',
-            logo: "https://upload.wikimedia.org/wikipedia/commons/2/2b/Emblem_of_Saudi_Arabia_Ministry_of_Interior.png",
+            logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Ministry_of_Interior_Saudi_Arabia.svg/2033px-Ministry_of_Interior_Saudi_Arabia.svg.png",
             alt: "شعار وزارة الداخلية"
         },
         {
             id: 6,
             nameKey: 'client6',
-            logo: "https://upload.wikimedia.org/wikipedia/commons/8/8e/Nissan_logo.png",
+            logo: "https://upload.wikimedia.org/wikipedia/ar/thumb/2/2f/Nissan.svg/535px-Nissan.svg.png",
             alt: "شعار شركة نيسان"
         }
     ];
