@@ -15,7 +15,7 @@ const Contact = ({ handleContactSubmit }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const whatsappNumber = '0504447148';
+  const whatsappNumber = '+966504447148';
 
   const handleInputChange = (e) => {
     setFormData({
@@ -154,125 +154,27 @@ const Contact = ({ handleContactSubmit }) => {
               </div>
             </motion.div>
 
-            {/* فورم التواصل */}
+            {/* خريطة الموقع */}
             <motion.div
               variants={fadeInUp}
               initial="initial"
               whileInView="animate"
-              viewport={{ once: true, amount: 0.3 }}
+              viewport={{ once: true, amount: 0.2 }}
             >
-              <div className="bg-white/90 backdrop-blur-sm p-6 sm:p-8 rounded-3xl shadow-xl border border-white/20 relative overflow-hidden h-full">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#b18344]/10 to-transparent rounded-full blur-2xl"></div>
-                
-                <div className="relative z-10">
-                  <div className="text-center mb-8">
-                    <h3 className="text-2xl font-bold text-gray-800 mb-2">{t.contact.formTitle}</h3>
-                    <p className="text-gray-600 text-sm">{t.contact.formSubtitle}</p>
-                  </div>
-
-                  {showSuccess && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="bg-green-50 border border-green-200 rounded-2xl p-4 mb-6 flex items-center gap-3"
-                    >
-                      <CheckCircle className="w-6 h-6 text-green-500" />
-                      <span className="text-green-700 font-medium">{t.toast.successTitle}</span>
-                    </motion.div>
-                  )}
-
-                  <form onSubmit={handleFormSubmit} className="space-y-6">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-3 text-start">
-                        {t.contact.formName}
-                      </label>
-                      <input 
-                        type="text" 
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-5 py-4 border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-[#b18344] focus:border-[#b18344] transition-all duration-300 bg-gray-50 focus:bg-white"
-                        placeholder={t.contact.formNamePlaceholder}
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-3 text-start">
-                        {t.contact.phone}
-                      </label>
-                      <input 
-                        type="tel" 
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-5 py-4 border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-[#b18344] focus:border-[#b18344] transition-all duration-300 bg-gray-50 focus:bg-white text-left"
-                        placeholder={t.contact.formPhonePlaceholder}
-                        dir="ltr"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-3 text-start">
-                        {t.contact.formMessage}
-                      </label>
-                      <textarea 
-                        name="message"
-                        value={formData.message}
-                        onChange={handleInputChange}
-                        required
-                        rows="5"
-                        className="w-full px-5 py-4 border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-[#b18344] focus:border-[#b18344] transition-all duration-300 bg-gray-50 focus:bg-white resize-none"
-                        placeholder={t.contact.formMessagePlaceholder}
-                      ></textarea>
-                    </div>
-                    
-                    <Button 
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full bg-gradient-to-r from-[#b18344] to-[#d4a574] hover:from-[#9a6d35] hover:to-[#b18344] text-white py-4 text-lg font-bold rounded-2xl transition-all duration-300 transform hover:scale-[1.02] hover:shadow-2xl shadow-lg disabled:opacity-70 disabled:cursor-not-allowed relative overflow-hidden"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform -skew-x-12 -translate-x-full group-hover:animate-shimmer"></div>
-                      {isSubmitting ? (
-                        <div className="flex items-center justify-center gap-2">
-                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                          {t.contact.sending}
-                        </div>
-                      ) : (
-                        <div className="flex items-center justify-center gap-2">
-                          <Send className="w-5 h-5" />
-                          {t.contact.whatsappSubmit}
-                        </div>
-                      )}
-                    </Button>
-                  </form>
-                </div>
+              <div className="rounded-3xl overflow-hidden shadow-xl border border-gray-200/50 h-full">
+                <iframe
+                  src="https://www.google.com/maps?q=8133+%D8%A7%D9%84%D9%82%D8%AF%D9%8A%D8%AD+-+%D8%AD%D9%8A+%D8%A7%D9%84%D9%86%D8%AF%D9%89+%D8%AD%D9%8A+%D8%A7%D9%84%D9%86%D8%AF%D9%89,+%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6+RADA8133,+%D8%A7%D9%84%D9%85%D9%85%D9%84%D9%83%D8%A9+%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9+%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9&output=embed"
+                  width="100%"
+                  height="450"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="موقع شركتنا"
+                ></iframe>
               </div>
             </motion.div>
           </div>
-
-          {/* قسم الخريطة الجديد */}
-          <motion.div
-            variants={fadeInUp}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true, amount: 0.2 }}
-            className="mt-16"
-          >
-            <div className="rounded-3xl overflow-hidden shadow-xl border border-gray-200/50">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d464147.2335197824!2d46.51608984999999!3d24.7241505!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f03890d489399%3A0xba974d1c98e79fd5!2sRiyadh!5e0!3m2!1sen!2ssa!4v1689776100000"
-                width="100%"
-                height="450"
-                style={{ border: 0 }}
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="موقعنا في الرياض"
-              ></iframe>
-            </div>
-          </motion.div>
         </div>
       </div>
     </section>

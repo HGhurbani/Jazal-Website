@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+// Disable animations by replacing framer-motion components with plain elements
+const motion = {
+  div: ({ children, ...props }) => <div {...props}>{children}</div>,
+  h2: ({ children, ...props }) => <h2 {...props}>{children}</h2>,
+  h3: ({ children, ...props }) => <h3 {...props}>{children}</h3>,
+  p: ({ children, ...props }) => <p {...props}>{children}</p>,
+};
 import { CalendarCheck, LayoutTemplate, Ticket, Hammer, Camera, MapPin, ArrowRight, Gift, Droplet, PartyPopper, Sparkles, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
