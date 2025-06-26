@@ -56,67 +56,73 @@ const Services = () => {
     }
   ];
 
+  const storeService = services.find((s) => s.store);
+  const normalServices = services.filter((s) => !s.store);
+  const firstGroup = normalServices.slice(0, 3);
+  const secondGroup = normalServices.slice(3);
+
   return (
     <section id="services" className="py-20 bg-gray-50">
-      <div className="container mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="grid grid-cols-2 gap-4">
+      <div className="container mx-auto px-6 space-y-16">
+        <div>
+          <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-[#b18344] to-[#d4a574] bg-clip-text text-transparent mb-8">
+            {t.services.title}
+          </h2>
+          <p className="text-gray-600 mb-8 max-w-2xl">{t.services.description}</p>
+        </div>
+
+        {firstGroup.map((service, index) => (
+          <div key={index} className="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+              <h3 className="text-2xl font-bold mb-2 text-[#b18344]">{service.title}</h3>
+              <p className="text-gray-600 leading-relaxed">{service.description}</p>
+            </div>
             <img
-              src={services[0].image}
-              alt={services[0].title}
-              className="rounded-2xl object-cover h-48 w-full"
-              loading="lazy"
-            />
-            <img
-              src={services[1].image}
-              alt={services[1].title}
-              className="rounded-2xl object-cover h-48 w-full"
-              loading="lazy"
-            />
-            <img
-              src={services[2].image}
-              alt={services[2].title}
-              className="rounded-2xl object-cover h-48 w-full col-span-2"
+              src={service.image}
+              alt={service.title}
+              className="rounded-2xl object-cover w-full h-64"
               loading="lazy"
             />
           </div>
-          <div>
-            <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-[#b18344] to-[#d4a574] bg-clip-text text-transparent mb-8">
-              {t.services.title}
-            </h2>
-            <p className="text-gray-600 mb-8 max-w-xl">
-              {t.services.description}
-            </p>
-            <div className="space-y-6">
-              {services.map((service, index) => (
-                <div key={index}>
-                  <h3 className="text-2xl font-bold mb-2 text-[#b18344]">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    {service.description}
-                  </p>
-                  {service.store && (
-                    <p className="text-sm text-green-700 mt-1">
-                      {t.services.storeNote}
-                    </p>
-                  )}
-                  {service.link && (
-                    <a
-                      href={service.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-[#b18344] underline"
-                    >
-                      {service.link}
-                    </a>
-                  )}
+        ))}
 
-                </div>
-              ))}
+        {secondGroup.map((service, index) => (
+          <div key={index} className="grid md:grid-cols-2 gap-8 items-center">
+            <img
+              src={service.image}
+              alt={service.title}
+              className="rounded-2xl object-cover w-full h-64"
+              loading="lazy"
+            />
+            <div className="md:text-right">
+              <h3 className="text-2xl font-bold mb-2 text-[#b18344]">{service.title}</h3>
+              <p className="text-gray-600 leading-relaxed">{service.description}</p>
             </div>
           </div>
-        </div>
+        ))}
+
+        {storeService && (
+          <div className="text-center pt-8">
+            <img
+              src={storeService.image}
+              alt={storeService.title}
+              className="rounded-2xl object-cover w-full max-w-xl mx-auto h-64 mb-6"
+              loading="lazy"
+            />
+            <a
+              href={storeService.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-full font-medium text-white transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+              style={{
+                background: 'linear-gradient(135deg, #b18344 0%, #d4a574 50%, #b18344 100%)',
+                boxShadow: '0 4px 20px rgba(177, 131, 68, 0.3)'
+              }}
+            >
+              <span>{t.services.storeBrowse}</span>
+            </a>
+          </div>
+        )}
       </div>
     </section>
   );
