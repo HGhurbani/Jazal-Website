@@ -361,7 +361,7 @@ const Hero = ({ handleFeatureClick }) => {
       id="home"
       className="min-h-screen flex items-center justify-center relative overflow-hidden bg-cover bg-center"
       style={{
-        backgroundImage: 'url(https://icdo.org/news/2024/ksa/AAG3__9876.jpeg)',
+        backgroundImage: 'url(https://jazl.sa/1.png)',
       }}
       aria-label={t.hero.sectionAriaLabel || "الصفحة الرئيسية"}
     >
