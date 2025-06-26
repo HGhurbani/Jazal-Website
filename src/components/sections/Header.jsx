@@ -117,10 +117,10 @@ const Logo = memo(({ isScrolled }) => {
           src="https://storage.googleapis.com/hostinger-horizons-assets-prod/c3f3bdb0-c5a8-4eed-ac70-a2a78493befa/cc8f541a68d760043559fb919eb461d8.png"
           alt="شعار شركة جزل"
           className={`relative z-10 transition-all duration-700 ${
-            isScrolled ? 'h-11' : 'h-14'
+            isScrolled ? 'h-12' : 'h-16'
           } w-auto filter drop-shadow-md ${
-            imageLoaded 
-              ? 'opacity-100 scale-100' 
+            imageLoaded
+              ? 'opacity-100 scale-100'
               : 'opacity-0 scale-90'
           }`}
           onLoad={() => setImageLoaded(true)}

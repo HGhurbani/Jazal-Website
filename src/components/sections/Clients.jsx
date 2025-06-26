@@ -11,34 +11,38 @@ const Clients = () => {
         {
             id: 1,
             nameKey: 'client1',
-            logo: "https://upload.wikimedia.org/wikipedia/ar/1/19/Saudi_Aramco_logo.png",
-            alt: "شعار شركة أرامكو السعودية",
-            category: t.clients.categoryEnergy,
-            projects: "15+"
+            logo: "https://upload.wikimedia.org/wikipedia/commons/7/76/Mobily_logo.svg",
+            alt: "شعار موبايلي"
         },
         {
             id: 2,
             nameKey: 'client2',
-            logo: "https://upload.wikimedia.org/wikipedia/commons/f/fc/NBE_logo.png",
-            alt: "شعار البنك الأهلي السعودي",
-            category: t.clients.categoryBanks,
-            projects: "8+"
+            logo: "https://upload.wikimedia.org/wikipedia/commons/7/73/Ministry_of_Environment_Water_and_Agriculture_logo.svg",
+            alt: "شعار وزارة الزراعة"
         },
         {
             id: 3,
             nameKey: 'client3',
-            logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Logo_of_Sabic.svg/1200px-Logo_of_Sabic.svg.png",
-            alt: "شعار شركة سابك",
-            category: t.clients.categoryIndustry,
-            projects: "12+"
+            logo: "https://upload.wikimedia.org/wikipedia/commons/8/80/Ministry_of_Education_Saudi_Arabia_Logo.svg",
+            alt: "شعار وزارة التعليم"
         },
         {
             id: 4,
             nameKey: 'client4',
-            logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Logo_Ministry_of_Commerce.svg/2560px-Logo_Ministry_of_Commerce.svg.png",
-            alt: "شعار وزارة التجارة السعودية",
-            category: t.clients.categoryGovernment,
-            projects: "6+"
+            logo: "https://upload.wikimedia.org/wikipedia/commons/3/3e/Ministry_of_Defense_Saudi_Arabia.png",
+            alt: "شعار وزارة الدفاع"
+        },
+        {
+            id: 5,
+            nameKey: 'client5',
+            logo: "https://upload.wikimedia.org/wikipedia/commons/2/2b/Emblem_of_Saudi_Arabia_Ministry_of_Interior.png",
+            alt: "شعار وزارة الداخلية"
+        },
+        {
+            id: 6,
+            nameKey: 'client6',
+            logo: "https://upload.wikimedia.org/wikipedia/commons/8/8e/Nissan_logo.png",
+            alt: "شعار شركة نيسان"
         }
     ];
 
@@ -163,15 +167,6 @@ const Clients = () => {
                                     {t.clients[client.nameKey]}
                                 </h3>
                                 
-                                <div className="flex items-center justify-center gap-4 text-xs text-gray-500 mb-3">
-                                    <span 
-                                        className="px-2 py-1 rounded-full text-[#b18344]"
-                                        style={{ backgroundColor: 'rgba(177, 131, 68, 0.1)' }}
-                                    >
-                                        {client.category}
-                                    </span>
-                                    <span>{client.projects} {t.clients.projectsWord}</span>
-                                </div>
 
                                 {/* Success Indicator */}
                                 <div className="flex items-center justify-center gap-1 text-[#b18344]">
@@ -211,18 +206,10 @@ const Clients = () => {
                             {t.clients.trustedByLeadersDesc}
                         </p>
                         
-                        <div className="grid grid-cols-3 gap-8 mt-6 pt-6 border-t border-gray-200">
+                        <div className="grid grid-cols-1 gap-8 mt-6 pt-6 border-t border-gray-200">
                             <div className="text-center">
-                                <div className="text-lg font-bold text-[#b18344]">ISO 9001</div>
-                                <div className="text-xs text-gray-500">{t.clients.trustCert1}</div>
-                            </div>
-                            <div className="text-center">
-                                <div className="text-lg font-bold text-[#b18344]">AAA+</div>
-                                <div className="text-xs text-gray-500">{t.clients.trustCert2}</div>
-                            </div>
-                            <div className="text-center">
-                                <div className="text-lg font-bold text-[#b18344]">100%</div>
-                                <div className="text-xs text-gray-500">{t.clients.trustCert3}</div>
+                                <div className="text-2xl font-bold text-[#b18344]">100%</div>
+                                <div className="text-sm text-gray-500">{t.clients.trustCert3}</div>
                             </div>
                         </div>
                     </div>

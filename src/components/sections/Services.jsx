@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Users, Building, Briefcase, ArrowRight, Star, CheckCircle, Sparkles } from 'lucide-react';
+import { Users, Building, Briefcase, ArrowRight, Star, CheckCircle, Sparkles, Gift, PartyPopper } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -60,6 +60,8 @@ const iconContainerVariants = {
 
 // Simplified and improved professional service card component
 const ServiceCard = ({ icon: Icon, title, description, features, onButtonClick }) => {
+// Professional service card component
+const ServiceCard = ({ icon: Icon, title, description, features, isPopular = false, onButtonClick, link }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { t } = useLanguage();
 
@@ -176,6 +178,18 @@ const ServiceCard = ({ icon: Icon, title, description, features, onButtonClick }
             <Button
               onClick={onButtonClick}
               className="w-full group/btn relative overflow-hidden transition-all duration-500 border-[#b18344] text-[#b18344] hover:bg-[#b18344] hover:text-white bg-transparent border-2"
+              onClick={() => {
+                if (link) {
+                  window.open(link, '_blank');
+                } else {
+                  onButtonClick();
+                }
+              }}
+              className={`w-full group/btn relative overflow-hidden transition-all duration-500 ${
+                isPopular
+                  ? 'bg-gradient-to-r from-[#b18344] to-[#d4a574] hover:from-[#d4a574] hover:to-[#b18344] text-white shadow-lg hover:shadow-xl'
+                  : 'border-[#b18344] text-[#b18344] hover:bg-[#b18344] hover:text-white bg-transparent border-2'
+              }`}
             >
               <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-[#d4a574] to-[#b18344] opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"
@@ -247,6 +261,30 @@ const Services = ({ handleFeatureClick }) => {
       title: t.services.service6Title,
       description: t.services.service6Text,
       features: null,
+      isPopular: false
+    },
+    {
+      icon: Gift,
+      title: t.services.service7Title,
+      description: t.services.service7Text,
+      features: null,
+      isPopular: false,
+      link: 'https://jzl10.com/'
+    },
+    {
+      icon: Sparkles,
+      title: t.services.service8Title,
+      description: t.services.service8Text,
+      features: null,
+      isPopular: false,
+      link: 'https://jzl10.com/'
+    },
+    {
+      icon: PartyPopper,
+      title: t.services.service9Title,
+      description: t.services.service9Text,
+      features: null,
+      isPopular: false
     }
   ];
 
@@ -311,6 +349,7 @@ const Services = ({ handleFeatureClick }) => {
               description={service.description}
               features={service.features}
               onButtonClick={handleFeatureClick}
+              link={service.link}
             />
           ))}
         </motion.div>
