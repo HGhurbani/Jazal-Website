@@ -10,9 +10,9 @@ import {
   Instagram, 
   Linkedin,
   ArrowUp,
-  Building2,
-  Users,
-  Briefcase,
+  LayoutDashboard,
+  Mic,
+  CalendarCheck,
   ChevronRight
 } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -40,9 +40,9 @@ const Footer = () => {
   const { t } = useLanguage();
 
   const services = [
-    { icon: Building2, title: t.footer.service1Title, desc: t.footer.service1Desc },
-    { icon: Users, title: t.footer.service2Title, desc: t.footer.service2Desc },
-    { icon: Briefcase, title: t.footer.service3Title, desc: t.footer.service3Desc }
+    { icon: LayoutDashboard, title: t.footer.service1Title, desc: t.footer.service1Desc },
+    { icon: Mic, title: t.footer.service2Title, desc: t.footer.service2Desc },
+    { icon: CalendarCheck, title: t.footer.service3Title, desc: t.footer.service3Desc }
   ];
 
   return (
