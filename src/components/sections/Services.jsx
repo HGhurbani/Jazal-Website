@@ -1,5 +1,15 @@
 import React from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import {
+  CalendarCheck,
+  Paintbrush,
+  UserCheck,
+  ClipboardList,
+  Camera,
+  MapPin,
+  PartyPopper,
+  Gift,
+} from 'lucide-react';
 
 const Services = () => {
   const { t } = useLanguage();
@@ -8,51 +18,58 @@ const Services = () => {
     {
       title: t.services.service1Title,
       description: t.services.service1Text,
-      image: 'https://images.unsplash.com/photo-1542838687-9ed1c86d3c61'
+      image: 'https://images.unsplash.com/photo-1542838687-9ed1c86d3c61',
+      icon: CalendarCheck
     },
     {
       title: t.services.service2Title,
       description: t.services.service2Text,
-      image: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e'
+      image: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e',
+      icon: Paintbrush
     },
     {
       title: t.services.service3Title,
       description: t.services.service3Text,
-      image: 'https://images.unsplash.com/photo-1508830524289-0adcbe822b40'
+      image: 'https://images.unsplash.com/photo-1508830524289-0adcbe822b40',
+      icon: UserCheck
     },
     {
       title: t.services.service4Title,
       description: t.services.service4Text,
-      image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d'
+      image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d',
+      icon: ClipboardList
     },
     {
       title: t.services.service5Title,
       description: t.services.service5Text,
-      image: 'https://images.unsplash.com/photo-1531058020387-3be344556be6'
+      image: 'https://images.unsplash.com/photo-1531058020387-3be344556be6',
+      icon: Camera
     },
     {
       title: t.services.service6Title,
       description: t.services.service6Text,
-      image: 'https://images.unsplash.com/photo-1485217988980-11786ced9454'
+      image: 'https://images.unsplash.com/photo-1485217988980-11786ced9454',
+      icon: MapPin
     },
     {
       title: t.services.service7Title,
       description: t.services.service7Text,
-      image: 'https://images.unsplash.com/photo-1519682337058-a94d519337bc',
+      icon: Gift,
       store: true,
       link: 'https://jzl10.com/'
     },
     {
       title: t.services.service8Title,
       description: t.services.service8Text,
-      image: 'https://images.unsplash.com/photo-1512428559087-560fa5ceab42',
+      icon: Gift,
       store: true,
       link: 'https://jzl10.com/'
     },
     {
       title: t.services.service9Title,
       description: t.services.service9Text,
-      image: 'https://images.unsplash.com/photo-1529655683826-aba9b3e77383'
+      image: 'https://images.unsplash.com/photo-1529655683826-aba9b3e77383',
+      icon: PartyPopper
     }
   ];
 
@@ -60,6 +77,19 @@ const Services = () => {
   const normalServices = services.filter((s) => !s.store);
   const firstGroup = normalServices.slice(0, 3);
   const secondGroup = normalServices.slice(3);
+
+  const collage1 = [
+    'top-0 left-0 w-1/2 h-1/2 rotate-3',
+    'bottom-0 right-0 w-1/2 h-1/2 -rotate-6',
+    'top-1/4 left-1/3 w-1/2 h-1/2 rotate-2',
+  ];
+
+  const collage2 = [
+    'top-0 right-0 w-1/2 h-1/2 -rotate-3',
+    'bottom-0 left-0 w-1/2 h-1/2 rotate-2',
+    'top-1/4 left-1/4 w-1/2 h-1/2 rotate-3',
+    'bottom-1/4 right-1/4 w-1/2 h-1/2 -rotate-2',
+  ];
 
   return (
     <section id="services" className="py-20 bg-gray-50">
@@ -71,44 +101,75 @@ const Services = () => {
           <p className="text-gray-600 mb-8 max-w-2xl">{t.services.description}</p>
         </div>
 
-        {firstGroup.map((service, index) => (
-          <div key={index} className="grid md:grid-cols-2 gap-8 items-center">
-            <div>
-              <h3 className="text-2xl font-bold mb-2 text-[#b18344]">{service.title}</h3>
-              <p className="text-gray-600 leading-relaxed">{service.description}</p>
-            </div>
-            <img
-              src={service.image}
-              alt={service.title}
-              className="rounded-2xl object-cover w-full h-64"
-              loading="lazy"
-            />
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="relative h-80">
+            {firstGroup.map((service, index) => (
+              <img
+                key={index}
+                src={service.image}
+                alt={service.title}
+                className={`absolute object-cover rounded-xl shadow-lg ${collage1[index]}`}
+                loading="lazy"
+              />
+            ))}
           </div>
-        ))}
+          <div className="space-y-6">
+            {firstGroup.map((service, index) => {
+              const Icon = service.icon;
+              return (
+                <div key={index} className="flex items-start gap-4">
+                  <Icon className="w-6 h-6 text-[#b18344]" />
+                  <div>
+                    <h3 className="text-xl font-semibold text-[#b18344] mb-1">{service.title}</h3>
+                    <p className="text-gray-600 leading-relaxed">{service.description}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
 
-        {secondGroup.map((service, index) => (
-          <div key={index} className="grid md:grid-cols-2 gap-8 items-center">
-            <img
-              src={service.image}
-              alt={service.title}
-              className="rounded-2xl object-cover w-full h-64"
-              loading="lazy"
-            />
-            <div className="md:text-right">
-              <h3 className="text-2xl font-bold mb-2 text-[#b18344]">{service.title}</h3>
-              <p className="text-gray-600 leading-relaxed">{service.description}</p>
-            </div>
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="md:order-2 relative h-80">
+            {secondGroup.map((service, index) => (
+              <img
+                key={index}
+                src={service.image}
+                alt={service.title}
+                className={`absolute object-cover rounded-xl shadow-lg ${collage2[index]}`}
+                loading="lazy"
+              />
+            ))}
           </div>
-        ))}
+          <div className="md:order-1 space-y-6 md:text-right">
+            {secondGroup.map((service, index) => {
+              const Icon = service.icon;
+              return (
+                <div
+                  key={index}
+                  className="flex items-start gap-4 md:flex-row-reverse md:text-right"
+                >
+                  <Icon className="w-6 h-6 text-[#b18344]" />
+                  <div>
+                    <h3 className="text-xl font-semibold text-[#b18344] mb-1">{service.title}</h3>
+                    <p className="text-gray-600 leading-relaxed">{service.description}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
 
         {storeService && (
           <div className="text-center pt-8">
-            <img
-              src={storeService.image}
-              alt={storeService.title}
-              className="rounded-2xl object-cover w-full max-w-xl mx-auto h-64 mb-6"
-              loading="lazy"
-            />
+            {(() => {
+              const Icon = storeService.icon;
+              return <Icon className="w-10 h-10 text-[#b18344] mx-auto mb-4" />;
+            })()}
+            <h3 className="text-2xl font-bold mb-2 text-[#b18344]">{storeService.title}</h3>
+            <p className="text-gray-600 leading-relaxed mb-6 max-w-xl mx-auto">
+              {storeService.description}
+            </p>
             <a
               href={storeService.link}
               target="_blank"
@@ -116,7 +177,7 @@ const Services = () => {
               className="inline-flex items-center gap-3 px-8 py-4 rounded-full font-medium text-white transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
               style={{
                 background: 'linear-gradient(135deg, #b18344 0%, #d4a574 50%, #b18344 100%)',
-                boxShadow: '0 4px 20px rgba(177, 131, 68, 0.3)'
+                boxShadow: '0 4px 20px rgba(177, 131, 68, 0.3)',
               }}
             >
               <span>{t.services.storeBrowse}</span>
