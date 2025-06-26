@@ -169,32 +169,32 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="border-t border-gray-700">
-          <div className="container mx-auto px-6 py-6">
-            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-              <div
-                className="text-gray-400 text-sm"
-                dangerouslySetInnerHTML={{ __html: t.footer.rights }}
-              />
-              
-              {/* Back to Top Button */}
-              <motion.button
-                onClick={scrollToTop}
-                whileHover={{ scale: 1.1, y: -2 }}
-                whileTap={{ scale: 0.9 }}
-                className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-xl"
-                style={{ backgroundColor: '#b18344' }}
-                onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = '#9a6f39';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = '#b18344';
-                }}
-              >
-                <ArrowUp className="w-5 h-5 text-white" />
-              </motion.button>
-            </div>
-          </div>
-        </div>
+  <div className="container mx-auto px-6 py-6">
+    <div className="flex flex-col items-center space-y-4">
+      <div
+        className="text-gray-400 text-sm text-center"
+        dangerouslySetInnerHTML={{ __html: t.footer.rights }}
+      />
+
+      <motion.button
+        onClick={scrollToTop}
+        whileHover={{ scale: 1.1, y: -2 }}
+        whileTap={{ scale: 0.9 }}
+        className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-xl"
+        style={{ backgroundColor: '#b18344' }}
+        onMouseEnter={(e) => {
+          e.target.style.backgroundColor = '#9a6f39';
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.backgroundColor = '#b18344';
+        }}
+      >
+        <ArrowUp className="w-5 h-5 text-white" />
+      </motion.button>
+    </div>
+  </div>
+</div>
+
       </div>
 
       {/* Decorative Elements */}

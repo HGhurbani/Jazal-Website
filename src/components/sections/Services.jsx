@@ -18,37 +18,37 @@ const Services = () => {
     {
       title: t.services.service1Title,
       description: t.services.service1Text,
-      image: 'https://images.unsplash.com/photo-1542838687-9ed1c86d3c61',
+      image: 'https://i.ibb.co/j9jW4LGw/Whats-App-Image-2025-06-26-at-6-39-20-PM.jpg',
       icon: CalendarCheck
     },
     {
       title: t.services.service2Title,
       description: t.services.service2Text,
-      image: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e',
+      image: 'https://sadanykhalifa.com/uploads/Blog/1715236386.png',
       icon: Paintbrush
     },
     {
       title: t.services.service3Title,
       description: t.services.service3Text,
-      image: 'https://images.unsplash.com/photo-1508830524289-0adcbe822b40',
+      image: 'https://www.icreate-booth.com/images/intro/s16b.jpeg',
       icon: UserCheck
     },
     {
       title: t.services.service4Title,
       description: t.services.service4Text,
-      image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d',
+      image: 'https://www.okaz.com.sa/uploads/images/2023/07/19/2135082.jpg',
       icon: ClipboardList
     },
     {
       title: t.services.service5Title,
       description: t.services.service5Text,
-      image: 'https://images.unsplash.com/photo-1531058020387-3be344556be6',
+      image: 'https://lh3.googleusercontent.com/proxy/qgsYgh7HjyENZJGuN9OLMeDpib03XjH9Iep-hKPzyHZfqUv7T8t6R4fvGrLLhTB0TCHH3QLO4-J13tqO2G4riyADMgw2',
       icon: Camera
     },
     {
       title: t.services.service6Title,
       description: t.services.service6Text,
-      image: 'https://images.unsplash.com/photo-1485217988980-11786ced9454',
+      image: 'https://www.datocms-assets.com/66357/1694520603-mdlbeast2022_1201_201525-0707_kv.webp?auto=format&fit=max&w=3840&q=75',
       icon: MapPin
     },
     {
@@ -68,7 +68,7 @@ const Services = () => {
     {
       title: t.services.service9Title,
       description: t.services.service9Text,
-      image: 'https://images.unsplash.com/photo-1529655683826-aba9b3e77383',
+      image: 'https://www.datocms-assets.com/66357/1694520603-mdlbeast2022_1201_201525-0707_kv.webp?auto=format&fit=max&w=3840&q=75',
       icon: PartyPopper
     }
   ];

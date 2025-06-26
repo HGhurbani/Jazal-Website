@@ -39,7 +39,7 @@ const Projects = () => {
             id: 4,
             titleKey: 'project4Title',
             textKey: 'project4Text',
-            image: "https://images.unsplash.com/photo-1508672019048-805c876b67e2",
+            image: "https://i.ibb.co/WpGmRgqz/Whats-App-Image-2025-06-26-at-6-39-21-PM.jpg",
             alt: "مهرجان البُر",
             icon: PartyPopper,
             categoryKey: 'categoryCeremony'
