@@ -116,6 +116,8 @@ const Logo = memo(({ isScrolled }) => {
         <img
           src="https://storage.googleapis.com/hostinger-horizons-assets-prod/c3f3bdb0-c5a8-4eed-ac70-a2a78493befa/cc8f541a68d760043559fb919eb461d8.png"
           alt="شعار شركة جزل"
+          width="128"
+          height="128"
           className={`relative z-10 transition-all duration-700 ${
             isScrolled ? 'h-12' : 'h-16'
           } w-auto filter drop-shadow-md ${

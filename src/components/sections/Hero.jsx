@@ -223,6 +223,8 @@ const HeroContent = memo(({ t, onFeatureClick, onWatchDemo }) => {
             <img
               src="https://storage.googleapis.com/hostinger-horizons-assets-prod/c3f3bdb0-c5a8-4eed-ac70-a2a78493befa/cc8f541a68d760043559fb919eb461d8.png"
               alt={t.hero.logoAlt || "شعار شركة جزل"}
+              width="256"
+              height="256"
               className={`h-32 w-auto mx-auto mb-8 relative z-10 transition-all duration-600 drop-shadow-lg ${
                 imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
                 }`}
@@ -361,6 +363,7 @@ const Hero = ({ handleFeatureClick }) => {
       id="home"
       className="min-h-screen flex items-center justify-center relative overflow-hidden bg-cover bg-center"
       style={{
+        backgroundImage: 'linear-gradient(to bottom, #1e293b, #111827)',
         backgroundImage: 'url(https://jazl.sa/1.png)',
       }}
       aria-label={t.hero.sectionAriaLabel || "الصفحة الرئيسية"}
