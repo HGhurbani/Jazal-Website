@@ -59,7 +59,6 @@ const iconContainerVariants = {
 };
 
 // Simplified and improved professional service card component
-const ServiceCard = ({ icon: Icon, title, description, features, onButtonClick }) => {
 // Professional service card component
 const ServiceCard = ({ icon: Icon, title, description, features, isPopular = false, onButtonClick, link }) => {
   const [isHovered, setIsHovered] = useState(false);
