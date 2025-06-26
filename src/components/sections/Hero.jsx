@@ -1,8 +1,6 @@
 import React, { memo, useCallback, useState, useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView, useReducedMotion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { SaudiLandmarkIcon } from '@/components/icons/SaudiLandmarkIcon';
-import { GeometricPattern } from '@/components/icons/GeometricPattern';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { ChevronDown, Play, Sparkles, Star, Shield, Award } from 'lucide-react';
 
@@ -12,58 +10,14 @@ const colors = {
   primaryDark: '#8a6335',
   primaryLight: '#c19558',
   accent: '#d4a574',
-  background: '#faf8f5',
-  text: '#2d2a26',
-  textSecondary: '#5a5450'
+  textOnDark: '#FFFFFF',
+  textSecondaryOnDark: '#E5E7EB', // A light gray color
 };
-
-// Enhanced animation variants with professional feel
-const createBackgroundVariants = (shouldReduceMotion) => ({
-  landmark: {
-    animate: shouldReduceMotion ? {} : {
-      y: [-6, 6, -6],
-      rotate: [0, 2, 0],
-      scale: [1, 1.01, 1],
-    },
-    transition: {
-      duration: shouldReduceMotion ? 0 : 25,
-      repeat: shouldReduceMotion ? 0 : Infinity,
-      repeatType: "mirror",
-      ease: "easeInOut"
-    }
-  },
-  pattern1: {
-    animate: shouldReduceMotion ? {} : {
-      y: [4, -4, 4],
-      rotate: [2, -1, 2],
-      opacity: [0.6, 0.8, 0.6],
-    },
-    transition: {
-      duration: shouldReduceMotion ? 0 : 30,
-      repeat: shouldReduceMotion ? 0 : Infinity,
-      repeatType: "mirror",
-      ease: "easeInOut"
-    }
-  },
-  pattern2: {
-    animate: shouldReduceMotion ? {} : {
-      y: [-3, 3, -3],
-      rotate: [-1, 1, -1],
-      scale: [0.99, 1.005, 0.99],
-    },
-    transition: {
-      duration: shouldReduceMotion ? 0 : 35,
-      repeat: shouldReduceMotion ? 0 : Infinity,
-      repeatType: "mirror",
-      ease: "easeInOut"
-    }
-  }
-});
 
 const contentVariants = {
   container: {
     initial: { opacity: 0 },
-    animate: { 
+    animate: {
       opacity: 1,
       transition: {
         duration: 0.8,
@@ -74,11 +28,11 @@ const contentVariants = {
   },
   logo: {
     initial: { opacity: 0, scale: 0.9, y: -15 },
-    animate: { 
-      opacity: 1, 
-      scale: 1, 
+    animate: {
+      opacity: 1,
+      scale: 1,
       y: 0,
-      transition: { 
+      transition: {
         duration: 0.9,
         ease: [0.23, 1, 0.32, 1]
       }
@@ -86,10 +40,10 @@ const contentVariants = {
   },
   title: {
     initial: { opacity: 0, y: 25 },
-    animate: { 
-      opacity: 1, 
+    animate: {
+      opacity: 1,
       y: 0,
-      transition: { 
+      transition: {
         duration: 0.9,
         ease: [0.23, 1, 0.32, 1]
       }
@@ -97,10 +51,10 @@ const contentVariants = {
   },
   subtitle: {
     initial: { opacity: 0, y: 20 },
-    animate: { 
-      opacity: 1, 
+    animate: {
+      opacity: 1,
       y: 0,
-      transition: { 
+      transition: {
         duration: 0.8,
         ease: "easeOut"
       }
@@ -108,10 +62,10 @@ const contentVariants = {
   },
   description: {
     initial: { opacity: 0, y: 20 },
-    animate: { 
-      opacity: 1, 
+    animate: {
+      opacity: 1,
       y: 0,
-      transition: { 
+      transition: {
         duration: 0.8,
         ease: "easeOut"
       }
@@ -119,10 +73,10 @@ const contentVariants = {
   },
   buttons: {
     initial: { opacity: 0, y: 25 },
-    animate: { 
-      opacity: 1, 
+    animate: {
+      opacity: 1,
       y: 0,
-      transition: { 
+      transition: {
         duration: 0.9,
         ease: "easeOut"
       }
@@ -130,10 +84,10 @@ const contentVariants = {
   },
   features: {
     initial: { opacity: 0, y: 20 },
-    animate: { 
-      opacity: 1, 
+    animate: {
+      opacity: 1,
       y: 0,
-      transition: { 
+      transition: {
         duration: 0.8,
         ease: "easeOut"
       }
@@ -141,118 +95,16 @@ const contentVariants = {
   }
 };
 
-// Professional background decorations with sophisticated effects
-const BackgroundDecorations = memo(() => {
-  const shouldReduceMotion = useReducedMotion();
-  const { scrollY } = useScroll();
-  const backgroundVariants = createBackgroundVariants(shouldReduceMotion);
-  
-  // Subtle parallax transforms
-  const y1 = useTransform(scrollY, [0, 400], [0, -120]);
-  const y2 = useTransform(scrollY, [0, 400], [0, -80]);
-  const y3 = useTransform(scrollY, [0, 400], [0, -60]);
-
-  return (
-    <>
-      {/* Professional gradient overlay */}
-      <div 
-        className="absolute inset-0 opacity-5"
-        style={{
-          background: `linear-gradient(135deg, ${colors.primary}20 0%, ${colors.accent}10 50%, ${colors.primaryLight}15 100%)`
-        }}
-        aria-hidden="true"
-      />
-
-      {/* Sophisticated geometric patterns */}
-      <motion.div
-        className="absolute top-16 left-8 w-44 h-auto opacity-20 will-change-transform"
-        variants={backgroundVariants.landmark}
-        animate="animate"
-        style={{ y: y1 }}
-        aria-hidden="true"
-      >
-        <SaudiLandmarkIcon style={{ color: colors.primary }} className="drop-shadow-xl filter" />
-      </motion.div>
-      
-      <motion.div
-        className="absolute bottom-16 right-8 w-28 h-auto opacity-25 will-change-transform"
-        variants={backgroundVariants.pattern1}
-        animate="animate"
-        style={{ y: y2 }}
-        aria-hidden="true"
-      >
-        <GeometricPattern style={{ color: colors.primaryDark }} className="drop-shadow-lg filter" />
-      </motion.div>
-      
-      <motion.div
-        className="absolute top-1/2 left-1/4 w-20 h-auto opacity-10 will-change-transform"
-        variants={backgroundVariants.pattern2}
-        animate="animate"
-        style={{ y: y3 }}
-        aria-hidden="true"
-      >
-        <GeometricPattern style={{ color: colors.accent }} />
-      </motion.div>
-
-      {/* Professional floating elements */}
-      <motion.div
-        className="absolute top-1/4 right-1/3 w-20 h-20 rounded-full blur-sm will-change-transform"
-        style={{ 
-          background: `linear-gradient(135deg, ${colors.primary}15, ${colors.accent}10)` 
-        }}
-        animate={shouldReduceMotion ? {} : {
-          scale: [1, 1.15, 1],
-          opacity: [0.2, 0.4, 0.2],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-        aria-hidden="true"
-      />
-      
-      <motion.div
-        className="absolute bottom-1/4 left-1/5 w-14 h-14 rounded-full blur-sm will-change-transform"
-        style={{ 
-          background: `linear-gradient(135deg, ${colors.accent}20, ${colors.primaryLight}15)` 
-        }}
-        animate={shouldReduceMotion ? {} : {
-          scale: [1.1, 1, 1.1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{
-          duration: 14,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-        aria-hidden="true"
-      />
-
-      {/* Subtle corner accents */}
-      <div 
-        className="absolute top-0 right-0 w-64 h-64 rounded-full blur-3xl opacity-5"
-        style={{ background: `radial-gradient(circle, ${colors.primary}40 0%, transparent 70%)` }}
-        aria-hidden="true"
-      />
-      <div 
-        className="absolute bottom-0 left-0 w-48 h-48 rounded-full blur-3xl opacity-5"
-        style={{ background: `radial-gradient(circle, ${colors.accent}40 0%, transparent 70%)` }}
-        aria-hidden="true"
-      />
-    </>
-  );
-});
 
 // Professional scroll indicator
 const ScrollIndicator = memo(() => {
   const [isVisible, setIsVisible] = useState(true);
-  
+
   useEffect(() => {
     const handleScroll = () => {
       setIsVisible(window.scrollY < 100);
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -268,16 +120,16 @@ const ScrollIndicator = memo(() => {
     <motion.div
       className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
       initial={{ opacity: 0, y: 20 }}
-      animate={{ 
-        opacity: isVisible ? 1 : 0, 
-        y: isVisible ? 0 : 20 
+      animate={{
+        opacity: isVisible ? 1 : 0,
+        y: isVisible ? 0 : 20
       }}
       transition={{ duration: 0.4 }}
     >
       <button
         onClick={scrollToNext}
         className="flex flex-col items-center group focus:outline-none"
-        style={{ color: colors.textSecondary }}
+        style={{ color: colors.textOnDark }}
         aria-label="انتقل إلى القسم التالي"
       >
         <span className="text-sm mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 font-medium">
@@ -285,13 +137,13 @@ const ScrollIndicator = memo(() => {
         </span>
         <motion.div
           className="w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all duration-300 group-hover:scale-110"
-          style={{ 
-            borderColor: colors.primary,
+          style={{
+            borderColor: colors.textOnDark,
             backgroundColor: 'transparent'
           }}
-          whileHover={{ 
-            backgroundColor: colors.primary,
-            color: 'white'
+          whileHover={{
+            backgroundColor: colors.textOnDark,
+            color: colors.primaryDark
           }}
           animate={{ y: [0, 4, 0] }}
           transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
@@ -315,27 +167,27 @@ const TrustIndicators = memo(() => {
   return (
     <motion.div
       variants={contentVariants.features}
-      className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 border-t border-opacity-20 mt-12"
-      style={{ borderColor: colors.primary }}
+      className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 border-t border-opacity-30 mt-12"
+      style={{ borderColor: colors.textOnDark }}
     >
       {trustFeatures.map((feature, index) => (
         <motion.div
           key={index}
           className="flex flex-col items-center p-4 rounded-xl transition-all duration-300 hover:scale-105"
-          style={{ backgroundColor: `${colors.background}80` }}
-          whileHover={{ 
-            backgroundColor: `${colors.primary}08`,
-            boxShadow: `0 8px 25px ${colors.primary}20`
+          style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
+          whileHover={{
+            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+            boxShadow: `0 8px 25px rgba(0, 0, 0, 0.2)`
           }}
         >
-          <feature.icon 
-            className="w-8 h-8 mb-2" 
-            style={{ color: colors.primary }}
+          <feature.icon
+            className="w-8 h-8 mb-2"
+            style={{ color: colors.accent }}
           />
-          <span className="text-lg font-bold mb-1" style={{ color: colors.primary }}>
+          <span className="text-lg font-bold mb-1" style={{ color: colors.accent }}>
             {feature.count}
           </span>
-          <span className="text-sm" style={{ color: colors.textSecondary }}>
+          <span className="text-sm" style={{ color: colors.textSecondaryOnDark }}>
             {feature.text}
           </span>
         </motion.div>
@@ -344,7 +196,6 @@ const TrustIndicators = memo(() => {
   );
 });
 
-BackgroundDecorations.displayName = 'BackgroundDecorations';
 ScrollIndicator.displayName = 'ScrollIndicator';
 TrustIndicators.displayName = 'TrustIndicators';
 
@@ -357,7 +208,7 @@ const HeroContent = memo(({ t, onFeatureClick, onWatchDemo }) => {
 
   return (
     <div
-      className="container mx-auto px-6 text-center relative z-10 pt-[7.5rem] sm:pt-0"
+      className="container mx-auto px-6 text-center relative z-10 pt-[7.5rem]"
       ref={ref}
     >
       <motion.div
@@ -369,20 +220,12 @@ const HeroContent = memo(({ t, onFeatureClick, onWatchDemo }) => {
         {/* Professional logo presentation */}
         <motion.header variants={contentVariants.logo} className="relative">
           <div className="relative inline-block">
-            <motion.div
-              className="absolute inset-0 rounded-full blur-2xl"
-              style={{ 
-                background: `linear-gradient(135deg, ${colors.primary}25, ${colors.accent}15)` 
-              }}
-              animate={{ scale: [1, 1.05, 1], opacity: [0.4, 0.6, 0.4] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            />
             <img
               src="https://storage.googleapis.com/hostinger-horizons-assets-prod/c3f3bdb0-c5a8-4eed-ac70-a2a78493befa/cc8f541a68d760043559fb919eb461d8.png"
               alt={t.hero.logoAlt || "شعار شركة جزل"}
-              className={`h-32 w-auto mx-auto mb-8 relative z-10 transition-all duration-600 filter drop-shadow-lg ${
+              className={`h-32 w-auto mx-auto mb-8 relative z-10 transition-all duration-600 drop-shadow-lg ${
                 imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-              }`}
+                }`}
               loading="eager"
               decoding="async"
               onLoad={() => setImageLoaded(true)}
@@ -392,36 +235,36 @@ const HeroContent = memo(({ t, onFeatureClick, onWatchDemo }) => {
 
         {/* Professional main title */}
         <motion.div variants={contentVariants.title} className="relative">
-          <h1 
-            className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-4"
-            style={{ color: colors.text }}
+          <h1
+            className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-4 text-shadow"
+            style={{ color: colors.textOnDark, textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
           >
             {t.hero.title}
           </h1>
-          <div 
+          <div
             className="w-24 h-1 mx-auto rounded-full"
             style={{ backgroundColor: colors.primary }}
           />
         </motion.div>
 
-        <motion.p 
+        <motion.p
           variants={contentVariants.subtitle}
           className="text-xl md:text-2xl lg:text-3xl font-medium leading-relaxed"
-          style={{ color: colors.textSecondary }}
+          style={{ color: colors.textSecondaryOnDark, textShadow: '0 1px 5px rgba(0,0,0,0.5)' }}
         >
           {t.hero.subtitle}
         </motion.p>
-        
-        <motion.p 
+
+        <motion.p
           variants={contentVariants.description}
           className="text-lg md:text-xl leading-relaxed max-w-4xl mx-auto"
-          style={{ color: colors.textSecondary }}
+          style={{ color: colors.textSecondaryOnDark, textShadow: '0 1px 5px rgba(0,0,0,0.5)' }}
         >
           {t.hero.description}
         </motion.p>
 
         {/* Professional CTA buttons */}
-        <motion.div 
+        <motion.div
           variants={contentVariants.buttons}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6"
         >
@@ -434,7 +277,7 @@ const HeroContent = memo(({ t, onFeatureClick, onWatchDemo }) => {
             <Button
               onClick={onFeatureClick}
               className="relative px-10 py-4 text-lg font-semibold rounded-full shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 overflow-hidden group min-w-[220px] border-0"
-              style={{ 
+              style={{
                 background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.primaryDark} 100%)`,
                 color: 'white',
                 boxShadow: `0 4px 15px ${colors.primary}40`,
@@ -468,18 +311,17 @@ const HeroContent = memo(({ t, onFeatureClick, onWatchDemo }) => {
             <Button
               onClick={onWatchDemo}
               variant="outline"
-              className="px-10 py-4 text-lg font-semibold rounded-full border-2 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 min-w-[220px] group bg-transparent"
-              style={{ 
-                borderColor: colors.primary,
-                color: colors.primary
+              className="px-10 py-4 text-lg font-semibold rounded-full border-2 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 min-w-[220px] group bg-transparent text-white"
+              style={{
+                borderColor: colors.textOnDark,
               }}
               onMouseEnter={(e) => {
-                e.target.style.backgroundColor = colors.primary;
-                e.target.style.color = 'white';
+                e.target.style.backgroundColor = colors.textOnDark;
+                e.target.style.color = colors.primaryDark;
               }}
               onMouseLeave={(e) => {
                 e.target.style.backgroundColor = 'transparent';
-                e.target.style.color = colors.primary;
+                e.target.style.color = colors.textOnDark;
               }}
               aria-label={t.hero.demo}
             >
@@ -498,23 +340,8 @@ const HeroContent = memo(({ t, onFeatureClick, onWatchDemo }) => {
 
 HeroContent.displayName = 'HeroContent';
 
-/**
- * Professional Hero Section Component
- * 
- * Enhanced with sophisticated UX features:
- * - Professional color scheme based on #b18344
- * - Refined animations and micro-interactions
- * - Trust indicators and social proof
- * - Accessibility optimizations
- * - Performance optimizations
- */
 const Hero = ({ handleFeatureClick }) => {
   const { t } = useLanguage();
-  const { scrollY } = useScroll();
-  const shouldReduceMotion = useReducedMotion();
-  
-  // Subtle parallax effect for professional feel
-  const backgroundY = useTransform(scrollY, [0, 500], [0, -100]);
   
   const onFeatureClick = useCallback(() => {
     if (typeof handleFeatureClick === 'function') {
@@ -530,28 +357,20 @@ const Hero = ({ handleFeatureClick }) => {
   }, []);
 
   return (
-    <section 
-      id="home" 
-      className="min-h-screen flex items-center justify-center relative overflow-hidden"
-      style={{ backgroundColor: colors.background }}
+    <section
+      id="home"
+      className="min-h-screen flex items-center justify-center relative overflow-hidden bg-cover bg-center"
+      style={{
+        backgroundImage: 'url(https://icdo.org/news/2024/ksa/AAG3__9876.jpeg)',
+      }}
       aria-label={t.hero.sectionAriaLabel || "الصفحة الرئيسية"}
     >
-      {/* Professional background with subtle gradient */}
-      <motion.div 
-        className="absolute inset-0 opacity-8"
-        style={{ 
-          y: shouldReduceMotion ? 0 : backgroundY,
-          background: `linear-gradient(135deg, ${colors.primary}05 0%, ${colors.accent}03 50%, ${colors.primaryLight}05 100%)`
-        }}
-        aria-hidden="true" 
-      />
-      
-      {/* Professional background decorations */}
-      <BackgroundDecorations />
-      
+      {/* Professional background overlay */}
+      <div className="absolute inset-0 bg-black/60 z-0"></div>
+
       {/* Main content */}
-      <HeroContent 
-        t={t} 
+      <HeroContent
+        t={t}
         onFeatureClick={onFeatureClick}
         onWatchDemo={onWatchDemo}
       />

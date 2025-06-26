@@ -10,6 +10,8 @@ const navigationItems = [
   { key: 'about', href: '#about' },
   { key: 'services', href: '#services' },
   { key: 'projects', href: '#projects' },
+  { key: 'testimonials', href: '#testimonials' },
+  { key: 'faq', href: '#faq' },
   { key: 'contact', href: '#contact' }
 ];
 

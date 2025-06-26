@@ -10,6 +10,8 @@ import About from '@/components/sections/About';
 import Services from '@/components/sections/Services';
 import Projects from '@/components/sections/Projects';
 import Clients from '@/components/sections/Clients';
+import Testimonials from '@/components/sections/Testimonials';
+import Faq from '@/components/sections/Faq';
 import Contact from '@/components/sections/Contact';
 import Footer from '@/components/sections/Footer';
 
@@ -53,6 +55,8 @@ function AppContent() {
           <Services handleFeatureClick={handleFeatureClick} />
           <Projects />
           <Clients />
+          <Testimonials />
+          <Faq />
           <Contact handleContactSubmit={handleContactSubmit} />
         </main>
         <Footer handleFeatureClick={handleFeatureClick} />
