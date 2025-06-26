@@ -92,7 +92,7 @@ const Projects = () => {
                     initial="initial"
                     whileInView="animate"
                     viewport={{ once: true }}
-                    className="grid md:grid-cols-3 gap-8"
+                    className="grid md:grid-cols-4 gap-8"
                 >
                     {projectData.map((project) => {
                         const IconComponent = project.icon;

@@ -70,6 +70,15 @@ const Testimonials = () => {
   const carouselRef = useRef(null);
   const [carouselWidth, setCarouselWidth] = useState(0);
 
+  const scrollBy = (offset) => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: offset, behavior: 'smooth' });
+    }
+  };
+
+  const handlePrev = () => scrollBy(-300);
+  const handleNext = () => scrollBy(300);
+
   useEffect(() => {
     if (carouselRef.current) {
       setCarouselWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth);
@@ -132,15 +141,21 @@ const Testimonials = () => {
               />
             ))}
           </motion.div>
-           {/* Decorative arrows for desktop */}
-           <div className="hidden md:flex absolute top-1/2 -translate-y-1/2 w-full justify-between px-4 pointer-events-none">
-            <div className="p-2 rounded-full bg-white/50 shadow-md text-gray-400">
+          {/* Navigation arrows */}
+          <div className="hidden md:flex absolute top-1/2 -translate-y-1/2 w-full justify-between px-4">
+            <button
+              onClick={handlePrev}
+              className="p-2 rounded-full bg-white/70 shadow-md text-gray-600 hover:bg-white"
+            >
                 <ChevronLeft className="w-6 h-6"/>
-            </div>
-            <div className="p-2 rounded-full bg-white/50 shadow-md text-gray-400">
+            </button>
+            <button
+              onClick={handleNext}
+              className="p-2 rounded-full bg-white/70 shadow-md text-gray-600 hover:bg-white"
+            >
                 <ChevronRight className="w-6 h-6"/>
-            </div>
-           </div>
+            </button>
+          </div>
         </motion.div>
       </div>
     </section>
