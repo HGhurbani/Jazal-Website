@@ -2,7 +2,7 @@ import React, { memo, useCallback, useState, useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView, useReducedMotion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { ChevronDown, Play, Sparkles, Star, Shield, Award } from 'lucide-react';
+import { ChevronDown, Phone, Sparkles, Star, Shield, Award } from 'lucide-react'; // Changed 'Play' to 'Phone'
 
 // Professional color palette based on #b18344
 const colors = {
@@ -295,12 +295,6 @@ const HeroContent = memo(({ t, onFeatureClick, onWatchDemo }) => {
               }}
               aria-label={t.hero.buttonAriaLabel || t.hero.button}
             >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                initial={{ x: '-100%' }}
-                animate={primaryButtonHovered ? { x: '100%' } : { x: '-100%' }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
-              />
               <Sparkles className="w-5 h-5 mr-2 inline" />
               <span className="relative z-10">{t.hero.button}</span>
             </Button>
@@ -327,7 +321,7 @@ const HeroContent = memo(({ t, onFeatureClick, onWatchDemo }) => {
               }}
               aria-label={t.hero.demo}
             >
-              <Play className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform duration-200" />
+              <Phone className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform duration-200" /> {/* Changed to Phone icon */}
               <span>{t.hero.demo}</span>
             </Button>
           </motion.div>

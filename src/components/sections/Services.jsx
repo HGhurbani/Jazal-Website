@@ -24,13 +24,13 @@ const Services = () => {
     {
       title: t.services.service2Title,
       description: t.services.service2Text,
-      image: 'https://sadanykhalifa.com/uploads/Blog/1715236386.png',
+      image: 'https://www.icreate-booth.com/images/intro/s16b.jpeg',
       icon: Paintbrush
     },
     {
       title: t.services.service3Title,
       description: t.services.service3Text,
-      image: 'https://www.icreate-booth.com/images/intro/s16b.jpeg',
+      image: 'https://i.ibb.co/WpGmRgqz/Whats-App-Image-2025-06-26-at-6-39-21-PM.jpg',
       icon: UserCheck
     },
     {
