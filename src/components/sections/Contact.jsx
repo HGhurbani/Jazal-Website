@@ -89,17 +89,74 @@ const Contact = ({ handleContactSubmit }) => {
             whileInView="animate"
             viewport={{ once: true, amount: 0.2 }}
           >
-            <div className="rounded-3xl overflow-hidden shadow-xl border border-gray-200/50 h-full">
-              <iframe
-                src="https://www.google.com/maps?q=8133+%D8%A7%D9%84%D9%82%D8%AF%D9%8A%D8%AD+-+%D8%AD%D9%8A+%D8%A7%D9%84%D9%86%D8%AF%D9%89+%D8%AD%D9%8A+%D8%A7%D9%84%D9%86%D8%AF%D9%89,+%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6+RADA8133,+%D8%A7%D9%84%D9%85%D9%85%D9%84%D9%83%D8%A9+%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9+%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9&output=embed"
-                width="100%"
-                height="450"
-                style={{ border: 0 }}
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="موقع شركتنا"
-              ></iframe>
+            <div className="grid md:grid-cols-2 gap-8 items-start">
+              <form
+                onSubmit={handleFormSubmit}
+                className={`p-6 bg-white rounded-3xl shadow-xl border border-gray-200/50 space-y-4 ${language === 'ar' ? 'md:order-2' : 'md:order-1'}`}
+              >
+                <h3 className="text-2xl font-bold mb-2" style={{ color: '#b18344' }}>
+                  {t.contact.formTitle}
+                </h3>
+                <p className="text-gray-600 mb-4 text-sm">{t.contact.formSubtitle}</p>
+
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder={t.contact.formNamePlaceholder}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#b18344]"
+                />
+
+                <input
+                  type="tel"
+                  name="phone"
+                  required
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder={t.contact.formPhonePlaceholder}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#b18344]"
+                />
+
+                <textarea
+                  name="message"
+                  required
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  placeholder={t.contact.formMessagePlaceholder}
+                  rows="4"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#b18344]"
+                ></textarea>
+
+                <Button
+                  type="submit"
+                  className="w-full mt-2"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? t.contact.sending : t.contact.whatsappSubmit}
+                </Button>
+
+                {showSuccess && (
+                  <div className="flex items-center text-green-600 mt-4">
+                    <CheckCircle className="w-5 h-5 me-2" />
+                    <span>{t.toast.successTitle}</span>
+                  </div>
+                )}
+              </form>
+
+              <div className={`rounded-3xl overflow-hidden shadow-xl border border-gray-200/50 h-full ${language === 'ar' ? 'md:order-1' : 'md:order-2'}`}>
+                <iframe
+                  src="https://www.google.com/maps?q=8133+%D8%A7%D9%84%D9%82%D8%AF%D9%8A%D8%AD+-+%D8%AD%D9%8A+%D8%A7%D9%84%D9%86%D8%AF%D9%89+%D8%AD%D9%8A+%D8%A7%D9%84%D9%86%D8%AF%D9%89,+%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6+RADA8133,+%D8%A7%D9%84%D9%85%D9%85%D9%84%D9%83%D8%A9+%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9+%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9&output=embed"
+                  width="100%"
+                  height="450"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="موقع شركتنا"
+                ></iframe>
+              </div>
             </div>
           </motion.div>
         </div>
