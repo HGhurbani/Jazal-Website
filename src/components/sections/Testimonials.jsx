@@ -38,7 +38,7 @@ const testimonialsData = [
 const TestimonialCard = ({ quote, name, title, avatar, rating }) => {
   return (
     <motion.div
-      className="flex-shrink-0 w-[90%] sm:w-[450px] bg-white rounded-3xl shadow-xl p-8 border border-gray-100 hover:border-[#b18344]/20 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-grab active:cursor-grabbing"
+      className="flex-shrink-0 w-[90%] sm:w-[450px] bg-white rounded-3xl shadow-xl p-8 border border-gray-100 hover:border-[#b18344]/20 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 snap-center"
       variants={fadeInUp}
     >
       <Quote className="w-12 h-12 text-[#b18344]/20 mb-4 transform -scale-x-100" />
@@ -132,9 +132,7 @@ const Testimonials = () => {
         >
           <motion.div
             ref={carouselRef}
-            className="flex gap-8 cursor-grab overflow-x-auto no-scrollbar py-4 px-2"
-            drag="x"
-            dragConstraints={{ right: 0, left: -carouselWidth }}
+            className="flex gap-8 overflow-x-auto no-scrollbar py-4 px-2 scroll-smooth snap-x snap-mandatory"
           >
             {testimonialsData.map((testimonial, index) => (
               <TestimonialCard
