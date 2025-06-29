@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
+import SideMenu from './SideMenu';
+import { useToast } from '@/components/ui/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Dashboard = ({ onLogout }) => {
   const { language, t, updateTranslations } = useLanguage();
+  const { credentials, updateCredentials } = useAuth();
+  const { toast } = useToast();
 
   const [contactPhone, setContactPhone] = useState(t.footer.contactPhone);
   const [contactEmail, setContactEmail] = useState(t.footer.contactEmail);
@@ -24,6 +29,10 @@ const Dashboard = ({ onLogout }) => {
       image: t.projects[`project${i + 1}Image`] || '',
     }))
   );
+
+  const [userName, setUserName] = useState(credentials.username);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleServiceChange = (index, field, value) => {
     setServices((prev) => {
@@ -57,6 +66,17 @@ const Dashboard = ({ onLogout }) => {
     reader.readAsDataURL(file);
   };
 
+  const handleCredentialSave = () => {
+    if (newPassword && newPassword !== confirmPassword) {
+      toast({ title: 'كلمتا المرور غير متطابقتين', variant: 'destructive' });
+      return;
+    }
+    updateCredentials(userName, newPassword || credentials.password);
+    setNewPassword('');
+    setConfirmPassword('');
+    toast({ title: 'تم تحديث بيانات الدخول' });
+  };
+
   const handleSave = () => {
     const serviceUpdates = {};
     services.forEach((s, idx) => {
@@ -83,7 +103,7 @@ const Dashboard = ({ onLogout }) => {
         addressValue: contactAddress,
       },
     });
-    alert('تم الحفظ بنجاح!');
+    toast({ title: 'تم الحفظ بنجاح' });
   };
 
   const sectionVariants = {
@@ -105,18 +125,20 @@ const Dashboard = ({ onLogout }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white p-6">
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={{
-          visible: {
-            transition: {
-              staggerChildren: 0.1,
+      <div className="container mx-auto md:flex gap-6">
+        <SideMenu />
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={{
+            visible: {
+              transition: {
+                staggerChildren: 0.1,
+              },
             },
-          },
-        }}
-        className="container mx-auto px-6 py-8 bg-white rounded-3xl shadow-xl border border-gray-200 space-y-10"
-      >
+          }}
+          className="flex-1 px-6 py-8 bg-white rounded-3xl shadow-xl border border-gray-200 space-y-10"
+        >
         <motion.div variants={itemVariants} className="flex justify-between items-center pb-6 border-b border-gray-200">
           <h1
             className="text-3xl font-bold"
@@ -139,7 +161,7 @@ const Dashboard = ({ onLogout }) => {
           </motion.button>
         </motion.div>
 
-        <motion.section variants={sectionVariants} className="space-y-6">
+        <motion.section id="company" variants={sectionVariants} className="space-y-6">
           <h2
             className="text-2xl font-semibold mb-4"
             style={{
@@ -174,7 +196,48 @@ const Dashboard = ({ onLogout }) => {
           />
         </motion.section>
 
-        <motion.section variants={sectionVariants} className="space-y-6">
+        <motion.section id="account" variants={sectionVariants} className="space-y-6">
+          <h2
+            className="text-2xl font-semibold mb-4"
+            style={{
+              background: 'linear-gradient(135deg, #b18344 0%, #d4a574 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          >
+            بيانات الدخول
+          </h2>
+          <input
+            className="border border-gray-300 p-2 w-full rounded-md focus:outline-none focus:ring-1 focus:ring-[#b18344]"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            placeholder="اسم المستخدم"
+          />
+          <input
+            type="password"
+            className="border border-gray-300 p-2 w-full rounded-md focus:outline-none focus:ring-1 focus:ring-[#b18344]"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            placeholder="كلمة المرور الجديدة"
+          />
+          <input
+            type="password"
+            className="border border-gray-300 p-2 w-full rounded-md focus:outline-none focus:ring-1 focus:ring-[#b18344]"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="تأكيد كلمة المرور"
+          />
+          <motion.button
+            variants={itemVariants}
+            onClick={handleCredentialSave}
+            className="bg-[#b18344] text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:bg-[#d4a574] transition-colors"
+          >
+            حفظ بيانات الدخول
+          </motion.button>
+        </motion.section>
+
+        <motion.section id="services" variants={sectionVariants} className="space-y-6">
           <h2
             className="text-2xl font-semibold mb-4"
             style={{
@@ -233,7 +296,7 @@ const Dashboard = ({ onLogout }) => {
           </div>
         </motion.section>
 
-        <motion.section variants={sectionVariants} className="space-y-6">
+        <motion.section id="projects" variants={sectionVariants} className="space-y-6">
           <h2
             className="text-2xl font-semibold mb-4"
             style={{
@@ -303,6 +366,7 @@ const Dashboard = ({ onLogout }) => {
         </motion.button>
       </motion.div>
     </div>
+  </div>
   );
 };
 
