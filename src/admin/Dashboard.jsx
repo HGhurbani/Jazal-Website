@@ -40,6 +40,22 @@ const Dashboard = ({ onLogout }) => {
     });
   };
 
+  const handleServiceFileUpload = (index, file) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) =>
+      handleServiceChange(index, 'image', e.target.result);
+    reader.readAsDataURL(file);
+  };
+
+  const handleProjectFileUpload = (index, file) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) =>
+      handleProjectChange(index, 'image', e.target.result);
+    reader.readAsDataURL(file);
+  };
+
   const handleSave = () => {
     const serviceUpdates = {};
     services.forEach((s, idx) => {
@@ -131,6 +147,14 @@ const Dashboard = ({ onLogout }) => {
               }
               placeholder={`Service ${idx + 1} Image URL`}
             />
+            <input
+              type="file"
+              accept="image/*"
+              className="border p-2 w-full"
+              onChange={(e) =>
+                handleServiceFileUpload(idx, e.target.files[0])
+              }
+            />
           </div>
         ))}
       </section>
@@ -162,6 +186,14 @@ const Dashboard = ({ onLogout }) => {
                 handleProjectChange(idx, 'image', e.target.value)
               }
               placeholder={`Project ${idx + 1} Image URL`}
+            />
+            <input
+              type="file"
+              accept="image/*"
+              className="border p-2 w-full"
+              onChange={(e) =>
+                handleProjectFileUpload(idx, e.target.files[0])
+              }
             />
           </div>
         ))}
