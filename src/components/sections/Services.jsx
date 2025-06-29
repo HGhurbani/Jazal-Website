@@ -25,9 +25,9 @@ const Services = () => {
     {
       title: t.services.service2Title,
       description: t.services.service2Text,
-      image: 'https://www.icreate-booth.com/images/intro/s16b.jpeg',
-      icon: Paintbrush,
       image: 'https://sadanykhalifa.com/uploads/Blog/1715236386.png',
+      icon: Paintbrush,
+      image: 'https://www.icreate-booth.com/images/intro/s16b.jpeg',
       icon: Paintbrush,
     },
     {
@@ -35,7 +35,6 @@ const Services = () => {
       description: t.services.service3Text,
       image: 'https://i.ibb.co/WpGmRgqz/Whats-App-Image-2025-06-26-at-6-39-21-PM.jpg',
       icon: UserCheck,
-      image: 'https://www.icreate-booth.com/images/intro/s16b.jpeg',
       icon: UserCheck,
     },
     {
@@ -48,20 +47,20 @@ const Services = () => {
       title: t.services.service5Title,
       description: t.services.service5Text,
       image:
-        'https://lh3.googleusercontent.com/proxy/qgsYgh7HjyENZJGuN9OLMeDpib03XjH9Iep-hKPzyHZfqUv7T8t6R4fvGrLLhTB0TCHH3QLO4-J13tqO2G4riyADMgw2',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1jUhs3gDCxkO7GEQtqVlbRQ4LlP6PU71Y_g&s',
       icon: Camera,
     },
     {
       title: t.services.service6Title,
       description: t.services.service6Text,
       image:
-        'https://www.datocms-assets.com/66357/1694520603-mdlbeast2022_1201201525-0707_kv.webp?auto=format&fit=max&w=3840&q=75',
+        'https://www.alanyagroup.com/wp-content/uploads/2023/03/Meeting-Halls-in-Antalya.jpg',
       icon: MapPin,
     },
     {
       title: t.services.service7Title,
       description: t.services.service7Text,
-      image: 'https://images.unsplash.com/photo-1519682337058-a94d519337bc',
+      image: 'https://hyatok.com/mwfiles/thumbs/fit630x300/30951/1589198002/%D8%B7%D8%B1%D9%8A%D9%82%D8%A9_%D8%AA%D9%82%D8%AF%D9%8A%D9%85_%D8%A7%D9%84%D9%87%D8%AF%D8%A7%D9%8A%D8%A7.jpg',
       icon: Gift,
       store: true,
       link: 'https://jzl10.com/',
@@ -69,7 +68,7 @@ const Services = () => {
     {
       title: t.services.service8Title,
       description: t.services.service8Text,
-      image: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f',
+      image: 'https://perfumesheaven.com/wp-content/uploads/2025/02/%D8%B9%D8%B7%D8%B1-%D8%AC%D9%8A%D9%81%D9%86%D8%B4%D9%8A-780x470.png',
       icon: Gift,
       store: true,
       link: 'https://jzl10.com/',
@@ -78,7 +77,7 @@ const Services = () => {
       title: t.services.service9Title,
       description: t.services.service9Text,
       image:
-        'https://www.datocms-assets.com/66357/1694520603-mdlbeast2022_1201201525-0707_kv.webp?auto=format&fit=max&w=3840&q=75',
+        'https://shehabnews.com/uploads/images/2022/06/JiBP0.png',
       icon: PartyPopper,
     },
   ];

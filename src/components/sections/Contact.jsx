@@ -131,7 +131,7 @@ const Contact = ({ handleContactSubmit }) => {
 
                 <Button
                   type="submit"
-                  className="w-full mt-2"
+                  className="w-full mt-2 !bg-[#b18344] hover:!bg-[#9e6f37] text-white"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? t.contact.sending : t.contact.whatsappSubmit}
