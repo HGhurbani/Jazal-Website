@@ -1,8 +1,11 @@
 import React from 'react';
 import { MessageCircle } from 'lucide-react';
 
+import { useLanguage } from '@/contexts/LanguageContext';
+
 const WhatsAppPopup = () => {
-  const whatsappNumber = '9660504447148';
+  const { t } = useLanguage();
+  const whatsappNumber = (t.footer && t.footer.contactPhone) || '9660504447148';
 
   const handleClick = () => {
     window.open(`https://wa.me/${whatsappNumber}`, '_blank');
