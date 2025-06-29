@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback, memo } from 'react';
+import React, { useState, useEffect, useCallback, memo, useRef } from 'react';
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
-import { Menu, X, ChevronDown, Phone, Mail, MapPin, ArrowLeft } from 'lucide-react';
+import { Menu, X, Phone, Mail, ArrowLeft } from 'lucide-react';
 
 // Navigation items configuration
 const navigationItems = [
@@ -15,22 +15,6 @@ const navigationItems = [
   { key: 'contact', href: '#contact' }
 ];
 
-// Enhanced animation variants
-const headerVariants = {
-  hidden: { 
-    opacity: 0, 
-    y: -100,
-    transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] }
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.7,
-      ease: [0.25, 0.46, 0.45, 0.94]
-    }
-  }
-};
 
 const mobileMenuVariants = {
   closed: {
@@ -299,14 +283,21 @@ const Header = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const menuOpenRef = useRef(false);
+
+  useEffect(() => {
+    menuOpenRef.current = isMobileMenuOpen;
+  }, [isMobileMenuOpen]);
 
   // Enhanced scroll effects
   useMotionValueEvent(scrollY, "change", (latest) => {
+    if (menuOpenRef.current) return;
+
     const currentScrollY = latest;
-    
+
     // Professional header background transition
     setIsScrolled(currentScrollY > 30);
-    
+
     // Smart hide/show header
     if (currentScrollY > lastScrollY && currentScrollY > 150) {
       setIsVisible(false);
@@ -339,6 +330,10 @@ const Header = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
+  }, [isMobileMenuOpen]);
 
   // Smooth navigation handler
   const handleNavigate = useCallback((e, href, callback) => {
@@ -382,15 +377,12 @@ const Header = () => {
 
   return (
     <>
-      <motion.header
-        variants={headerVariants}
-        initial="hidden"
-        animate={isVisible ? "visible" : "hidden"}
-        className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-          isScrolled 
-            ? 'bg-white/95 backdrop-blur-2xl shadow-2xl border-b border-[#b18344]/10' 
+      <header
+        className={`fixed top-0 w-full z-50 transition-colors duration-500 ${
+          isScrolled
+            ? 'bg-white/95 backdrop-blur-2xl shadow-2xl border-b border-[#b18344]/10'
             : 'bg-white/80 backdrop-blur-xl shadow-lg'
-        }`}
+        } ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
       >
         {/* Premium top accent line */}
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#b18344] via-[#d4a574] to-[#b18344]" />
@@ -470,7 +462,7 @@ const Header = () => {
           activeSection={activeSection}
           onNavigate={handleNavigate}
         />
-      </motion.header>
+      </header>
 
       {/* Professional spacer */}
       <div className={`transition-all duration-500 ${
