@@ -3,9 +3,11 @@ import { translations } from '@/lib/translations';
 
 const LanguageContext = createContext();
 
-const loadCustomTranslations = () => {
+const loadCustomTranslations = async () => {
   try {
-    return JSON.parse(localStorage.getItem('customTranslations')) || {};
+    const res = await fetch('/api/data');
+    const data = await res.json();
+    return data.customTranslations || {};
   } catch {
     return {};
   }
@@ -26,10 +28,10 @@ const mergeDeep = (target, source) => {
 
 export const LanguageProvider = ({ children }) => {
   const [language, setLanguage] = useState('ar');
-  const [custom, setCustom] = useState(loadCustomTranslations());
+  const [custom, setCustom] = useState({});
 
   useEffect(() => {
-    setCustom(loadCustomTranslations());
+    loadCustomTranslations().then(setCustom).catch(() => {});
   }, []);
 
   const updateTranslations = (lang, updates) => {
@@ -38,7 +40,11 @@ export const LanguageProvider = ({ children }) => {
       [lang]: mergeDeep(custom[lang] || {}, updates),
     };
     setCustom(updated);
-    localStorage.setItem('customTranslations', JSON.stringify(updated));
+    fetch('/api/translations', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ lang, updates }),
+    }).catch(() => {});
   };
 
   const t = mergeDeep(translations[language], custom[language] || {});
