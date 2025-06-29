@@ -12,6 +12,7 @@ const Dashboard = ({ onLogout }) => {
     Array.from({ length: 9 }, (_, i) => ({
       title: t.services[`service${i + 1}Title`] || '',
       text: t.services[`service${i + 1}Text`] || '',
+      image: t.services[`service${i + 1}Image`] || '',
     }))
   );
 
@@ -19,6 +20,7 @@ const Dashboard = ({ onLogout }) => {
     Array.from({ length: 4 }, (_, i) => ({
       title: t.projects[`project${i + 1}Title`] || '',
       text: t.projects[`project${i + 1}Text`] || '',
+      image: t.projects[`project${i + 1}Image`] || '',
     }))
   );
 
@@ -43,11 +45,13 @@ const Dashboard = ({ onLogout }) => {
     services.forEach((s, idx) => {
       serviceUpdates[`service${idx + 1}Title`] = s.title;
       serviceUpdates[`service${idx + 1}Text`] = s.text;
+      serviceUpdates[`service${idx + 1}Image`] = s.image;
     });
     const projectUpdates = {};
     projects.forEach((p, idx) => {
       projectUpdates[`project${idx + 1}Title`] = p.title;
       projectUpdates[`project${idx + 1}Text`] = p.text;
+      projectUpdates[`project${idx + 1}Image`] = p.image;
     });
 
     updateTranslations(language, {
@@ -119,6 +123,14 @@ const Dashboard = ({ onLogout }) => {
               }
               placeholder={`Service ${idx + 1} Description`}
             />
+            <input
+              className="border p-2 w-full"
+              value={service.image}
+              onChange={(e) =>
+                handleServiceChange(idx, 'image', e.target.value)
+              }
+              placeholder={`Service ${idx + 1} Image URL`}
+            />
           </div>
         ))}
       </section>
@@ -142,6 +154,14 @@ const Dashboard = ({ onLogout }) => {
                 handleProjectChange(idx, 'text', e.target.value)
               }
               placeholder={`Project ${idx + 1} Description`}
+            />
+            <input
+              className="border p-2 w-full"
+              value={project.image}
+              onChange={(e) =>
+                handleProjectChange(idx, 'image', e.target.value)
+              }
+              placeholder={`Project ${idx + 1} Image URL`}
             />
           </div>
         ))}
