@@ -1,4 +1,61 @@
 {
-  "customTranslations": {},
-  "credentials": { "username": "admin", "password": "admin" }
+  "customTranslations": {
+    "ar": {
+      "services": {
+        "service1Title": "تخطيط وتنفيذ الفعاليات",
+        "service1Text": "من الفكرة إلى التنفيذ بإتقان كامل لكل المراحل.",
+        "service1Image": "https://i.ibb.co/j9jW4LGw/Whats-App-Image-2025-06-26-at-6-39-20-PM.jpg",
+        "service2Title": "تصميم أجنحة المعارض",
+        "service2Text": "ابتكار التصاميم وتنفيذها بأعلى جودة ممكنة.",
+        "service2Image": "https://sadanykhalifa.com/uploads/Blog/1715236386.png",
+        "service3Title": "إدارة الحضور والتسجيل",
+        "service3Text": "حلول متكاملة لتنظيم الحضور وتسهيل إجراءات التسجيل.",
+        "service3Image": "https://i.ibb.co/WpGmRgqz/Whats-App-Image-2025-06-26-at-6-39-21-PM.jpg",
+        "service4Title": "تنظيم ورش العمل",
+        "service4Text": "تنسيق وإدارة ورش العمل بكفاءة عالية.",
+        "service4Image": "https://www.okaz.com.sa/uploads/images/2023/07/19/2135082.jpg",
+        "service5Title": "التصوير والتغطية الإعلامية",
+        "service5Text": "توثيق احترافي وتصوير شامل للفعاليات.",
+        "service5Image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1jUhs3gDCxkO7GEQtqVlbRQ4LlP6PU71Y_g&s",
+        "service6Title": "حجز القاعات والخدمات اللوجستية",
+        "service6Text": "تأمين المواقع وكل ما يلزم من خدمات مساندة.",
+        "service6Image": "https://www.alanyagroup.com/wp-content/uploads/2023/03/Meeting-Halls-in-Antalya.jpg",
+        "service7Title": "تقديم الهدايا",
+        "service7Text": "خدمة متخصصة بتجهيز وتوصيل الهدايا المميزة.",
+        "service7Image": "https://hyatok.com/mwfiles/thumbs/fit630x300/30951/1589198002/%D8%B7%D8%B1%D9%8A%D9%82%D8%A9_%D8%AA%D9%82%D8%AF%D9%8A%D9%85_%D8%A7%D9%84%D9%87%D8%AF%D8%A7%D9%8A%D8%A7.jpg",
+        "service8Title": "تقديم العطور والعود ومستحضرات التجميل",
+        "service8Text": "نوفر أجود أنواع العطور والعود ومنتجات التجميل.",
+        "service8Image": "https://perfumesheaven.com/wp-content/uploads/2025/02/%D8%B9%D8%B7%D8%B1-%D8%AC%D9%8A%D9%81%D9%86%D8%B4%D9%8A-780x470.png",
+        "service9Title": "الفعاليات الترفيهية",
+        "service9Text": "تنظيم فعاليات ومهرجانات ترفيهية متنوعة.",
+        "service9Image": "https://shehabnews.com/uploads/images/2022/06/JiBP0.png"
+      },
+      "projects": {
+        "project1Title": "معرض الرياض التجاري",
+        "project1Text": "معرض تجاري متخصص استقطب أكثر من 50,000 زائر.",
+        "project1Image": "https://images.unsplash.com/photo-1697134674327-3f2261031064",
+        "project2Title": "مؤتمر التقنية والابتكار",
+        "project2Text": "مؤتمر دولي جمع خبراء من 20 دولة.",
+        "project2Image": "https://images.unsplash.com/photo-1700936656167-5dc37a6f1e20",
+        "project3Title": "حفل التميز السنوي",
+        "project3Text": "فعالية تكريمية لأبرز الشخصيات المؤثرة.",
+        "project3Image": "https://images.unsplash.com/photo-1554123460-3f3501064723",
+        "project4Title": "مهرجان البُر",
+        "project4Text": "فعالية سنوية تبرز أهمية زراعة وحصاد البُر.",
+        "project4Image": "https://i.ibb.co/WpGmRgqz/Whats-App-Image-2025-06-26-at-6-39-21-PM.jpg"
+      },
+      "footer": {
+        "contactPhone": "+966504447148",
+        "contactEmail": "Jzl.co@hotmail.com",
+        "contactAddress": "8133 القديح - حي الندى حي الندى, الرياض RADA8133, المملكة العربية السعودية"
+      },
+      "contact": {
+        "addressValue": "8133 القديح - حي الندى حي الندى, الرياض RADA8133, المملكة العربية السعودية"
+      }
+    }
+  },
+  "credentials": {
+    "username": "admin",
+    "password": "admin"
+  }
 }
