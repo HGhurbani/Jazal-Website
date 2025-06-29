@@ -12,7 +12,7 @@ const Projects = () => {
             id: 1,
             titleKey: 'project1Title',
             textKey: 'project1Text',
-            image: "https://images.unsplash.com/photo-1697134674327-3f2261031064",
+            image: t.projects.project1Image,
             alt: "معرض تجاري كبير بتصميم حديث",
             icon: ShoppingBag,
             categoryKey: 'categoryTrade'
@@ -21,7 +21,7 @@ const Projects = () => {
             id: 2,
             titleKey: 'project2Title',
             textKey: 'project2Text',
-            image: "https://images.unsplash.com/photo-1700936656167-5dc37a6f1e20",
+            image: t.projects.project2Image,
             alt: "مؤتمر علمي في قاعة كبيرة",
             icon: Mic,
             categoryKey: 'categoryConference'
@@ -30,7 +30,7 @@ const Projects = () => {
             id: 3,
             titleKey: 'project3Title',
             textKey: 'project3Text',
-            image: "https://images.unsplash.com/photo-1554123460-3f3501064723",
+            image: t.projects.project3Image,
             alt: "حفل تكريم أنيق بإضاءة ذهبية",
             icon: Award,
             categoryKey: 'categoryCeremony'
@@ -39,7 +39,7 @@ const Projects = () => {
             id: 4,
             titleKey: 'project4Title',
             textKey: 'project4Text',
-            image: "https://i.ibb.co/WpGmRgqz/Whats-App-Image-2025-06-26-at-6-39-21-PM.jpg",
+            image: t.projects.project4Image,
             alt: "مهرجان البُر",
             icon: PartyPopper,
             categoryKey: 'categoryCeremony'
