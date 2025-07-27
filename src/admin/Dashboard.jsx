@@ -68,71 +68,124 @@ const Dashboard = ({ onLogout }) => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  // Sections Content State
+  // Sections Content State with enhanced structure
   const [sectionsContent, setSectionsContent] = useState({
     hero: {
-      title: t.hero.title || '',
-      subtitle: t.hero.subtitle || '',
-      description: t.hero.description || '',
-      button: t.hero.button || '',
-      demo: t.hero.demo || ''
+      title: t.hero?.title || '',
+      subtitle: t.hero?.subtitle || '',
+      description: t.hero?.description || '',
+      button: t.hero?.button || '',
+      demo: t.hero?.demo || '',
+      backgroundImage: t.hero?.backgroundImage || '',
+      overlayOpacity: t.hero?.overlayOpacity || 0.5
     },
     about: {
-      title: t.about.title || '',
-      description: t.about.description || '',
-      card1Title: t.about.card1Title || '',
-      card1Text: t.about.card1Text || '',
-      card2Title: t.about.card2Title || '',
-      card2Text: t.about.card2Text || '',
-      card3Title: t.about.card3Title || '',
-      card3Text: t.about.card3Text || ''
+      title: t.about?.title || '',
+      subtitle: t.about?.subtitle || '',
+      description: t.about?.description || '',
+      backgroundImage: t.about?.backgroundImage || '',
+      cards: [
+        {
+          id: 1,
+          title: t.about?.card1Title || '',
+          text: t.about?.card1Text || '',
+          icon: t.about?.card1Icon || '',
+          image: t.about?.card1Image || ''
+        },
+        {
+          id: 2,
+          title: t.about?.card2Title || '',
+          text: t.about?.card2Text || '',
+          icon: t.about?.card2Icon || '',
+          image: t.about?.card2Image || ''
+        },
+        {
+          id: 3,
+          title: t.about?.card3Title || '',
+          text: t.about?.card3Text || '',
+          icon: t.about?.card3Icon || '',
+          image: t.about?.card3Image || ''
+        }
+      ]
     },
     clients: {
-      title: t.clients.title || '',
-      description: t.clients.description || '',
-      client1: t.clients.client1 || '',
-      client2: t.clients.client2 || '',
-      client3: t.clients.client3 || '',
-      client4: t.clients.client4 || '',
-      client5: t.clients.client5 || '',
-      client6: t.clients.client6 || ''
+      title: t.clients?.title || '',
+      subtitle: t.clients?.subtitle || '',
+      description: t.clients?.description || '',
+      backgroundImage: t.clients?.backgroundImage || '',
+      logos: [
+        { id: 1, name: t.clients?.client1 || '', logo: t.clients?.client1Logo || '' },
+        { id: 2, name: t.clients?.client2 || '', logo: t.clients?.client2Logo || '' },
+        { id: 3, name: t.clients?.client3 || '', logo: t.clients?.client3Logo || '' },
+        { id: 4, name: t.clients?.client4 || '', logo: t.clients?.client4Logo || '' },
+        { id: 5, name: t.clients?.client5 || '', logo: t.clients?.client5Logo || '' },
+        { id: 6, name: t.clients?.client6 || '', logo: t.clients?.client6Logo || '' }
+      ]
     },
     testimonials: {
-      title: t.testimonials.title || '',
-      description: t.testimonials.description || '',
-      testimonial1Quote: t.testimonials.testimonial1Quote || '',
-      testimonial1Name: t.testimonials.testimonial1Name || '',
-      testimonial1Title: t.testimonials.testimonial1Title || '',
-      testimonial2Quote: t.testimonials.testimonial2Quote || '',
-      testimonial2Name: t.testimonials.testimonial2Name || '',
-      testimonial2Title: t.testimonials.testimonial2Title || '',
-      testimonial3Quote: t.testimonials.testimonial3Quote || '',
-      testimonial3Name: t.testimonials.testimonial3Name || '',
-      testimonial3Title: t.testimonials.testimonial3Title || '',
-      testimonial4Quote: t.testimonials.testimonial4Quote || '',
-      testimonial4Name: t.testimonials.testimonial4Name || '',
-      testimonial4Title: t.testimonials.testimonial4Title || ''
+      title: t.testimonials?.title || '',
+      subtitle: t.testimonials?.subtitle || '',
+      description: t.testimonials?.description || '',
+      backgroundImage: t.testimonials?.backgroundImage || '',
+      items: [
+        {
+          id: 1,
+          quote: t.testimonials?.testimonial1Quote || '',
+          name: t.testimonials?.testimonial1Name || '',
+          title: t.testimonials?.testimonial1Title || '',
+          avatar: t.testimonials?.testimonial1Avatar || '',
+          rating: t.testimonials?.testimonial1Rating || 5
+        },
+        {
+          id: 2,
+          quote: t.testimonials?.testimonial2Quote || '',
+          name: t.testimonials?.testimonial2Name || '',
+          title: t.testimonials?.testimonial2Title || '',
+          avatar: t.testimonials?.testimonial2Avatar || '',
+          rating: t.testimonials?.testimonial2Rating || 5
+        },
+        {
+          id: 3,
+          quote: t.testimonials?.testimonial3Quote || '',
+          name: t.testimonials?.testimonial3Name || '',
+          title: t.testimonials?.testimonial3Title || '',
+          avatar: t.testimonials?.testimonial3Avatar || '',
+          rating: t.testimonials?.testimonial3Rating || 5
+        },
+        {
+          id: 4,
+          quote: t.testimonials?.testimonial4Quote || '',
+          name: t.testimonials?.testimonial4Name || '',
+          title: t.testimonials?.testimonial4Title || '',
+          avatar: t.testimonials?.testimonial4Avatar || '',
+          rating: t.testimonials?.testimonial4Rating || 5
+        }
+      ]
     },
     faq: {
-      title: t.faq.title || '',
-      description: t.faq.description || '',
-      q1: t.faq.q1 || '',
-      a1: t.faq.a1 || '',
-      q2: t.faq.q2 || '',
-      a2: t.faq.a2 || '',
-      q3: t.faq.q3 || '',
-      a3: t.faq.a3 || '',
-      q4: t.faq.q4 || '',
-      a4: t.faq.a4 || ''
+      title: t.faq?.title || '',
+      subtitle: t.faq?.subtitle || '',
+      description: t.faq?.description || '',
+      backgroundImage: t.faq?.backgroundImage || '',
+      items: [
+        { id: 1, question: t.faq?.q1 || '', answer: t.faq?.a1 || '' },
+        { id: 2, question: t.faq?.q2 || '', answer: t.faq?.a2 || '' },
+        { id: 3, question: t.faq?.q3 || '', answer: t.faq?.a3 || '' },
+        { id: 4, question: t.faq?.q4 || '', answer: t.faq?.a4 || '' }
+      ]
     },
     contact: {
-      title: t.contact.title || '',
-      description: t.contact.description || '',
-      formTitle: t.contact.formTitle || '',
-      formSubtitle: t.contact.formSubtitle || ''
+      title: t.contact?.title || '',
+      subtitle: t.contact?.subtitle || '',
+      description: t.contact?.description || '',
+      formTitle: t.contact?.formTitle || '',
+      formSubtitle: t.contact?.formSubtitle || '',
+      backgroundImage: t.contact?.backgroundImage || '',
+      mapImage: t.contact?.mapImage || ''
     },
     header: {
-      startProject: t.header.startProject || ''
+      logo: t.header?.logo || '',
+      startProject: t.header?.startProject || ''
     }
   });
 
@@ -221,6 +274,49 @@ const Dashboard = ({ onLogout }) => {
     markAsChanged();
   };
 
+  const handleArrayItemChange = (section, arrayField, index, field, value) => {
+    setSectionsContent((prev) => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [arrayField]: prev[section][arrayField].map((item, i) => 
+          i === index ? { ...item, [field]: value } : item
+        )
+      }
+    }));
+    markAsChanged();
+  };
+
+  const addArrayItem = (section, arrayField, newItem) => {
+    setSectionsContent((prev) => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [arrayField]: [...prev[section][arrayField], { ...newItem, id: Date.now() }]
+      }
+    }));
+    markAsChanged();
+  };
+
+  const removeArrayItem = (section, arrayField, index) => {
+    setSectionsContent((prev) => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [arrayField]: prev[section][arrayField].filter((_, i) => i !== index)
+      }
+    }));
+    markAsChanged();
+  };
+
+  const handleImageUpload = (callback) => (file) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => callback(e.target.result);
+    reader.readAsDataURL(file);
+    markAsChanged();
+  };
+
   const handleCredentialSave = () => {
     if (newPassword && newPassword !== confirmPassword) {
       toast({ 
@@ -254,6 +350,66 @@ const Dashboard = ({ onLogout }) => {
       projectUpdates[`project${idx + 1}Image`] = p.image;
     });
 
+    // Convert sectionsContent structure to translations format
+    const sectionsUpdates = {
+      hero: sectionsContent.hero,
+      about: {
+        title: sectionsContent.about.title,
+        subtitle: sectionsContent.about.subtitle,
+        description: sectionsContent.about.description,
+        backgroundImage: sectionsContent.about.backgroundImage,
+        // Convert cards array to individual properties for backward compatibility
+        ...sectionsContent.about.cards.reduce((acc, card, index) => {
+          acc[`card${index + 1}Title`] = card.title;
+          acc[`card${index + 1}Text`] = card.text;
+          acc[`card${index + 1}Icon`] = card.icon;
+          acc[`card${index + 1}Image`] = card.image;
+          return acc;
+        }, {})
+      },
+      clients: {
+        title: sectionsContent.clients.title,
+        subtitle: sectionsContent.clients.subtitle,
+        description: sectionsContent.clients.description,
+        backgroundImage: sectionsContent.clients.backgroundImage,
+        // Convert logos array to individual properties
+        ...sectionsContent.clients.logos.reduce((acc, logo, index) => {
+          acc[`client${index + 1}`] = logo.name;
+          acc[`client${index + 1}Logo`] = logo.logo;
+          return acc;
+        }, {})
+      },
+      testimonials: {
+        title: sectionsContent.testimonials.title,
+        subtitle: sectionsContent.testimonials.subtitle,
+        description: sectionsContent.testimonials.description,
+        backgroundImage: sectionsContent.testimonials.backgroundImage,
+        // Convert items array to individual properties
+        ...sectionsContent.testimonials.items.reduce((acc, item, index) => {
+          acc[`testimonial${index + 1}Quote`] = item.quote;
+          acc[`testimonial${index + 1}Name`] = item.name;
+          acc[`testimonial${index + 1}Title`] = item.title;
+          acc[`testimonial${index + 1}Avatar`] = item.avatar;
+          acc[`testimonial${index + 1}Rating`] = item.rating;
+          return acc;
+        }, {})
+      },
+      faq: {
+        title: sectionsContent.faq.title,
+        subtitle: sectionsContent.faq.subtitle,
+        description: sectionsContent.faq.description,
+        backgroundImage: sectionsContent.faq.backgroundImage,
+        // Convert items array to individual properties
+        ...sectionsContent.faq.items.reduce((acc, item, index) => {
+          acc[`q${index + 1}`] = item.question;
+          acc[`a${index + 1}`] = item.answer;
+          return acc;
+        }, {})
+      },
+      contact: sectionsContent.contact,
+      header: sectionsContent.header
+    };
+
     updateTranslations(language, {
       services: serviceUpdates,
       projects: projectUpdates,
@@ -265,12 +421,7 @@ const Dashboard = ({ onLogout }) => {
       contact: {
         addressValue: contactAddress,
       },
-      hero: sectionsContent.hero,
-      about: sectionsContent.about,
-      clients: sectionsContent.clients,
-      testimonials: sectionsContent.testimonials,
-      faq: sectionsContent.faq,
-      header: sectionsContent.header,
+      ...sectionsUpdates
     });
 
     setHasUnsavedChanges(false);
@@ -621,11 +772,29 @@ const Dashboard = ({ onLogout }) => {
                         <div className="w-2 h-2 bg-[#b18344] rounded-full"></div>
                         <span>قسم الهيدر</span>
                       </h3>
-                      <div className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-2">شعار الموقع</label>
+                          <input
+                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344] mb-2"
+                            value={sectionsContent.header.logo}
+                            onChange={(e) => handleSectionContentChange('header', 'logo', e.target.value)}
+                            placeholder="رابط الشعار"
+                          />
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#b18344] file:text-white hover:file:bg-[#d4a574]"
+                            onChange={(e) => handleImageUpload((result) => handleSectionContentChange('header', 'logo', result))(e.target.files[0])}
+                          />
+                          {sectionsContent.header.logo && (
+                            <img src={sectionsContent.header.logo} alt="معاينة الشعار" className="w-24 h-12 object-contain mt-2 border rounded" />
+                          )}
+                        </div>
                         <div>
                           <label className="block text-sm font-medium text-slate-700 mb-2">نص زر البدء</label>
                           <input
-                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344] focus:border-transparent"
+                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344]"
                             value={sectionsContent.header.startProject}
                             onChange={(e) => handleSectionContentChange('header', 'startProject', e.target.value)}
                             placeholder="ابدأ مشروعك"
@@ -681,22 +850,59 @@ const Dashboard = ({ onLogout }) => {
                             onChange={(e) => handleSectionContentChange('hero', 'demo', e.target.value)}
                           />
                         </div>
+                        <div className="md:col-span-2">
+                          <label className="block text-sm font-medium text-slate-700 mb-2">صورة الخلفية</label>
+                          <input
+                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344] mb-2"
+                            value={sectionsContent.hero.backgroundImage}
+                            onChange={(e) => handleSectionContentChange('hero', 'backgroundImage', e.target.value)}
+                            placeholder="رابط صورة الخلفية"
+                          />
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#b18344] file:text-white hover:file:bg-[#d4a574]"
+                            onChange={(e) => handleImageUpload((result) => handleSectionContentChange('hero', 'backgroundImage', result))(e.target.files[0])}
+                          />
+                          {sectionsContent.hero.backgroundImage && (
+                            <img src={sectionsContent.hero.backgroundImage} alt="معاينة خلفية الهيرو" className="w-full h-32 object-cover rounded-lg mt-2" />
+                          )}
+                        </div>
                       </div>
                     </div>
 
                     {/* قسم من نحن */}
                     <div className="bg-slate-50 rounded-xl p-6">
-                      <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2 rtl:space-x-reverse">
-                        <div className="w-2 h-2 bg-[#b18344] rounded-full"></div>
-                        <span>قسم من نحن</span>
-                      </h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="md:col-span-2">
-                          <label className="block text-sm font-medium text-slate-700 mb-2">العنوان</label>
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-bold text-slate-800 flex items-center space-x-2 rtl:space-x-reverse">
+                          <div className="w-2 h-2 bg-[#b18344] rounded-full"></div>
+                          <span>قسم من نحن</span>
+                        </h3>
+                        <button
+                          onClick={() => addArrayItem('about', 'cards', { title: '', text: '', icon: '', image: '' })}
+                          className="flex items-center space-x-2 rtl:space-x-reverse px-3 py-1 bg-[#b18344] text-white rounded-lg hover:bg-[#d4a574] transition-colors text-sm"
+                        >
+                          <Plus className="w-4 h-4" />
+                          <span>إضافة بطاقة</span>
+                        </button>
+                      </div>
+                      
+                      {/* عام للقسم */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-2">العنوان الرئيسي</label>
                           <input
                             className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344]"
                             value={sectionsContent.about.title}
                             onChange={(e) => handleSectionContentChange('about', 'title', e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-2">العنوان الفرعي</label>
+                          <input
+                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344]"
+                            value={sectionsContent.about.subtitle}
+                            onChange={(e) => handleSectionContentChange('about', 'subtitle', e.target.value)}
                           />
                         </div>
                         <div className="md:col-span-2">
@@ -707,70 +913,129 @@ const Dashboard = ({ onLogout }) => {
                             onChange={(e) => handleSectionContentChange('about', 'description', e.target.value)}
                           />
                         </div>
-                        <div>
-                          <label className="block text-sm font-medium text-slate-700 mb-2">عنوان البطاقة الأولى</label>
+                        <div className="md:col-span-2">
+                          <label className="block text-sm font-medium text-slate-700 mb-2">صورة خلفية القسم</label>
                           <input
-                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344]"
-                            value={sectionsContent.about.card1Title}
-                            onChange={(e) => handleSectionContentChange('about', 'card1Title', e.target.value)}
+                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344] mb-2"
+                            value={sectionsContent.about.backgroundImage}
+                            onChange={(e) => handleSectionContentChange('about', 'backgroundImage', e.target.value)}
+                            placeholder="رابط صورة الخلفية"
                           />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-slate-700 mb-2">نص البطاقة الأولى</label>
-                          <textarea
-                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344] h-16 resize-none text-sm"
-                            value={sectionsContent.about.card1Text}
-                            onChange={(e) => handleSectionContentChange('about', 'card1Text', e.target.value)}
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-slate-700 mb-2">عنوان البطاقة الثانية</label>
                           <input
-                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344]"
-                            value={sectionsContent.about.card2Title}
-                            onChange={(e) => handleSectionContentChange('about', 'card2Title', e.target.value)}
+                            type="file"
+                            accept="image/*"
+                            className="w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#b18344] file:text-white hover:file:bg-[#d4a574]"
+                            onChange={(e) => handleImageUpload((result) => handleSectionContentChange('about', 'backgroundImage', result))(e.target.files[0])}
                           />
                         </div>
-                        <div>
-                          <label className="block text-sm font-medium text-slate-700 mb-2">نص البطاقة الثانية</label>
-                          <textarea
-                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344] h-16 resize-none text-sm"
-                            value={sectionsContent.about.card2Text}
-                            onChange={(e) => handleSectionContentChange('about', 'card2Text', e.target.value)}
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-slate-700 mb-2">عنوان البطاقة الثالثة</label>
-                          <input
-                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344]"
-                            value={sectionsContent.about.card3Title}
-                            onChange={(e) => handleSectionContentChange('about', 'card3Title', e.target.value)}
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-slate-700 mb-2">نص البطاقة الثالثة</label>
-                          <textarea
-                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344] h-16 resize-none text-sm"
-                            value={sectionsContent.about.card3Text}
-                            onChange={(e) => handleSectionContentChange('about', 'card3Text', e.target.value)}
-                          />
-                        </div>
+                      </div>
+
+                      {/* البطاقات */}
+                      <div className="space-y-6">
+                        <h4 className="font-medium text-slate-700 border-t border-slate-200 pt-4">البطاقات</h4>
+                        {sectionsContent.about.cards.map((card, index) => (
+                          <div key={card.id} className="border border-slate-200 rounded-lg p-4 bg-white">
+                            <div className="flex items-center justify-between mb-3">
+                              <span className="text-sm font-medium text-slate-600">البطاقة #{index + 1}</span>
+                              {sectionsContent.about.cards.length > 1 && (
+                                <button
+                                  onClick={() => removeArrayItem('about', 'cards', index)}
+                                  className="text-red-500 hover:text-red-700 transition-colors"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              )}
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                              <div>
+                                <label className="block text-xs font-medium text-slate-600 mb-1">العنوان</label>
+                                <input
+                                  className="w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-[#b18344] text-sm"
+                                  value={card.title}
+                                  onChange={(e) => handleArrayItemChange('about', 'cards', index, 'title', e.target.value)}
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-xs font-medium text-slate-600 mb-1">الأيقونة</label>
+                                <input
+                                  className="w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-[#b18344] text-sm mb-1"
+                                  value={card.icon}
+                                  onChange={(e) => handleArrayItemChange('about', 'cards', index, 'icon', e.target.value)}
+                                  placeholder="رابط الأيقونة"
+                                />
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  className="w-full text-xs file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-[#b18344] file:text-white hover:file:bg-[#d4a574]"
+                                  onChange={(e) => handleImageUpload((result) => handleArrayItemChange('about', 'cards', index, 'icon', result))(e.target.files[0])}
+                                />
+                                {card.icon && (
+                                  <img src={card.icon} alt="معاينة الأيقونة" className="w-8 h-8 object-contain mt-1 border rounded" />
+                                )}
+                              </div>
+                              <div className="md:col-span-2">
+                                <label className="block text-xs font-medium text-slate-600 mb-1">الوصف</label>
+                                <textarea
+                                  className="w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-[#b18344] h-16 resize-none text-sm"
+                                  value={card.text}
+                                  onChange={(e) => handleArrayItemChange('about', 'cards', index, 'text', e.target.value)}
+                                />
+                              </div>
+                              <div className="md:col-span-2">
+                                <label className="block text-xs font-medium text-slate-600 mb-1">صورة البطاقة (اختياري)</label>
+                                <input
+                                  className="w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-[#b18344] text-sm mb-1"
+                                  value={card.image}
+                                  onChange={(e) => handleArrayItemChange('about', 'cards', index, 'image', e.target.value)}
+                                  placeholder="رابط صورة البطاقة"
+                                />
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  className="w-full text-xs file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-[#b18344] file:text-white hover:file:bg-[#d4a574]"
+                                  onChange={(e) => handleImageUpload((result) => handleArrayItemChange('about', 'cards', index, 'image', result))(e.target.files[0])}
+                                />
+                                {card.image && (
+                                  <img src={card.image} alt="معاينة صورة البطاقة" className="w-full h-24 object-cover rounded mt-1" />
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
 
                     {/* قسم العملاء */}
                     <div className="bg-slate-50 rounded-xl p-6">
-                      <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2 rtl:space-x-reverse">
-                        <div className="w-2 h-2 bg-[#b18344] rounded-full"></div>
-                        <span>قسم العملاء</span>
-                      </h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="md:col-span-2">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-bold text-slate-800 flex items-center space-x-2 rtl:space-x-reverse">
+                          <div className="w-2 h-2 bg-[#b18344] rounded-full"></div>
+                          <span>قسم العملاء</span>
+                        </h3>
+                        <button
+                          onClick={() => addArrayItem('clients', 'logos', { name: '', logo: '' })}
+                          className="flex items-center space-x-2 rtl:space-x-reverse px-3 py-1 bg-[#b18344] text-white rounded-lg hover:bg-[#d4a574] transition-colors text-sm"
+                        >
+                          <Plus className="w-4 h-4" />
+                          <span>إضافة عميل</span>
+                        </button>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div>
                           <label className="block text-sm font-medium text-slate-700 mb-2">العنوان</label>
                           <input
                             className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344]"
                             value={sectionsContent.clients.title}
                             onChange={(e) => handleSectionContentChange('clients', 'title', e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-2">العنوان الفرعي</label>
+                          <input
+                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344]"
+                            value={sectionsContent.clients.subtitle}
+                            onChange={(e) => handleSectionContentChange('clients', 'subtitle', e.target.value)}
                           />
                         </div>
                         <div className="md:col-span-2">
@@ -781,32 +1046,84 @@ const Dashboard = ({ onLogout }) => {
                             onChange={(e) => handleSectionContentChange('clients', 'description', e.target.value)}
                           />
                         </div>
-                        {[1, 2, 3, 4, 5, 6].map(num => (
-                          <div key={num}>
-                            <label className="block text-sm font-medium text-slate-700 mb-2">العميل {num}</label>
-                            <input
-                              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344]"
-                              value={sectionsContent.clients[`client${num}`]}
-                              onChange={(e) => handleSectionContentChange('clients', `client${num}`, e.target.value)}
-                            />
-                          </div>
-                        ))}
+                      </div>
+
+                      <div className="space-y-4">
+                        <h4 className="font-medium text-slate-700 border-t border-slate-200 pt-4">شعارات العملاء</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                          {sectionsContent.clients.logos.map((client, index) => (
+                            <div key={client.id} className="border border-slate-200 rounded-lg p-3 bg-white">
+                              <div className="flex items-center justify-between mb-2">
+                                <span className="text-xs font-medium text-slate-600">عميل #{index + 1}</span>
+                                {sectionsContent.clients.logos.length > 1 && (
+                                  <button
+                                    onClick={() => removeArrayItem('clients', 'logos', index)}
+                                    className="text-red-500 hover:text-red-700 transition-colors"
+                                  >
+                                    <Trash2 className="w-3 h-3" />
+                                  </button>
+                                )}
+                              </div>
+                              <div className="space-y-2">
+                                <input
+                                  className="w-full px-2 py-1 border border-slate-300 rounded text-xs"
+                                  value={client.name}
+                                  onChange={(e) => handleArrayItemChange('clients', 'logos', index, 'name', e.target.value)}
+                                  placeholder="اسم العميل"
+                                />
+                                <input
+                                  className="w-full px-2 py-1 border border-slate-300 rounded text-xs mb-1"
+                                  value={client.logo}
+                                  onChange={(e) => handleArrayItemChange('clients', 'logos', index, 'logo', e.target.value)}
+                                  placeholder="رابط الشعار"
+                                />
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  className="w-full text-xs file:mr-1 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-[#b18344] file:text-white hover:file:bg-[#d4a574]"
+                                  onChange={(e) => handleImageUpload((result) => handleArrayItemChange('clients', 'logos', index, 'logo', result))(e.target.files[0])}
+                                />
+                                {client.logo && (
+                                  <img src={client.logo} alt={client.name} className="w-full h-12 object-contain border rounded" />
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
 
                     {/* قسم الشهادات */}
                     <div className="bg-slate-50 rounded-xl p-6">
-                      <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2 rtl:space-x-reverse">
-                        <div className="w-2 h-2 bg-[#b18344] rounded-full"></div>
-                        <span>قسم آراء العملاء</span>
-                      </h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="md:col-span-2">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-bold text-slate-800 flex items-center space-x-2 rtl:space-x-reverse">
+                          <div className="w-2 h-2 bg-[#b18344] rounded-full"></div>
+                          <span>قسم آراء العملاء</span>
+                        </h3>
+                        <button
+                          onClick={() => addArrayItem('testimonials', 'items', { quote: '', name: '', title: '', avatar: '', rating: 5 })}
+                          className="flex items-center space-x-2 rtl:space-x-reverse px-3 py-1 bg-[#b18344] text-white rounded-lg hover:bg-[#d4a574] transition-colors text-sm"
+                        >
+                          <Plus className="w-4 h-4" />
+                          <span>إضافة شهادة</span>
+                        </button>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div>
                           <label className="block text-sm font-medium text-slate-700 mb-2">العنوان</label>
                           <input
                             className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344]"
                             value={sectionsContent.testimonials.title}
                             onChange={(e) => handleSectionContentChange('testimonials', 'title', e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-2">العنوان الفرعي</label>
+                          <input
+                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344]"
+                            value={sectionsContent.testimonials.subtitle}
+                            onChange={(e) => handleSectionContentChange('testimonials', 'subtitle', e.target.value)}
                           />
                         </div>
                         <div className="md:col-span-2">
@@ -817,32 +1134,75 @@ const Dashboard = ({ onLogout }) => {
                             onChange={(e) => handleSectionContentChange('testimonials', 'description', e.target.value)}
                           />
                         </div>
-                        {[1, 2, 3, 4].map(num => (
-                          <div key={num} className="md:col-span-2 border-t border-slate-200 pt-4 mt-4">
-                            <h4 className="font-medium text-slate-700 mb-3">الشاهد {num}</h4>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h4 className="font-medium text-slate-700 border-t border-slate-200 pt-4">الشهادات</h4>
+                        {sectionsContent.testimonials.items.map((testimonial, index) => (
+                          <div key={testimonial.id} className="border border-slate-200 rounded-lg p-4 bg-white">
+                            <div className="flex items-center justify-between mb-3">
+                              <span className="text-sm font-medium text-slate-600">الشهادة #{index + 1}</span>
+                              {sectionsContent.testimonials.items.length > 1 && (
+                                <button
+                                  onClick={() => removeArrayItem('testimonials', 'items', index)}
+                                  className="text-red-500 hover:text-red-700 transition-colors"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              )}
+                            </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                               <div>
                                 <label className="block text-xs font-medium text-slate-600 mb-1">الاسم</label>
                                 <input
                                   className="w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-[#b18344] text-sm"
-                                  value={sectionsContent.testimonials[`testimonial${num}Name`]}
-                                  onChange={(e) => handleSectionContentChange('testimonials', `testimonial${num}Name`, e.target.value)}
+                                  value={testimonial.name}
+                                  onChange={(e) => handleArrayItemChange('testimonials', 'items', index, 'name', e.target.value)}
                                 />
                               </div>
                               <div>
                                 <label className="block text-xs font-medium text-slate-600 mb-1">المنصب</label>
                                 <input
                                   className="w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-[#b18344] text-sm"
-                                  value={sectionsContent.testimonials[`testimonial${num}Title`]}
-                                  onChange={(e) => handleSectionContentChange('testimonials', `testimonial${num}Title`, e.target.value)}
+                                  value={testimonial.title}
+                                  onChange={(e) => handleArrayItemChange('testimonials', 'items', index, 'title', e.target.value)}
                                 />
+                              </div>
+                              <div>
+                                <label className="block text-xs font-medium text-slate-600 mb-1">التقييم (1-5)</label>
+                                <input
+                                  type="number"
+                                  min="1"
+                                  max="5"
+                                  className="w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-[#b18344] text-sm"
+                                  value={testimonial.rating}
+                                  onChange={(e) => handleArrayItemChange('testimonials', 'items', index, 'rating', parseInt(e.target.value))}
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-xs font-medium text-slate-600 mb-1">الصورة الشخصية</label>
+                                <input
+                                  className="w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-[#b18344] text-sm mb-1"
+                                  value={testimonial.avatar}
+                                  onChange={(e) => handleArrayItemChange('testimonials', 'items', index, 'avatar', e.target.value)}
+                                  placeholder="رابط الصورة"
+                                />
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  className="w-full text-xs file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-[#b18344] file:text-white hover:file:bg-[#d4a574]"
+                                  onChange={(e) => handleImageUpload((result) => handleArrayItemChange('testimonials', 'items', index, 'avatar', result))(e.target.files[0])}
+                                />
+                                {testimonial.avatar && (
+                                  <img src={testimonial.avatar} alt={testimonial.name} className="w-12 h-12 object-cover rounded-full mt-1 border" />
+                                )}
                               </div>
                               <div className="md:col-span-2">
                                 <label className="block text-xs font-medium text-slate-600 mb-1">الشهادة</label>
                                 <textarea
-                                  className="w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-[#b18344] h-16 resize-none text-sm"
-                                  value={sectionsContent.testimonials[`testimonial${num}Quote`]}
-                                  onChange={(e) => handleSectionContentChange('testimonials', `testimonial${num}Quote`, e.target.value)}
+                                  className="w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-[#b18344] h-20 resize-none text-sm"
+                                  value={testimonial.quote}
+                                  onChange={(e) => handleArrayItemChange('testimonials', 'items', index, 'quote', e.target.value)}
                                 />
                               </div>
                             </div>
@@ -853,17 +1213,35 @@ const Dashboard = ({ onLogout }) => {
 
                     {/* قسم الأسئلة الشائعة */}
                     <div className="bg-slate-50 rounded-xl p-6">
-                      <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2 rtl:space-x-reverse">
-                        <div className="w-2 h-2 bg-[#b18344] rounded-full"></div>
-                        <span>قسم الأسئلة الشائعة</span>
-                      </h3>
-                      <div className="space-y-4">
-                        <div className="md:col-span-2">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-bold text-slate-800 flex items-center space-x-2 rtl:space-x-reverse">
+                          <div className="w-2 h-2 bg-[#b18344] rounded-full"></div>
+                          <span>قسم الأسئلة الشائعة</span>
+                        </h3>
+                        <button
+                          onClick={() => addArrayItem('faq', 'items', { question: '', answer: '' })}
+                          className="flex items-center space-x-2 rtl:space-x-reverse px-3 py-1 bg-[#b18344] text-white rounded-lg hover:bg-[#d4a574] transition-colors text-sm"
+                        >
+                          <Plus className="w-4 h-4" />
+                          <span>إضافة سؤال</span>
+                        </button>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div>
                           <label className="block text-sm font-medium text-slate-700 mb-2">العنوان</label>
                           <input
                             className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344]"
                             value={sectionsContent.faq.title}
                             onChange={(e) => handleSectionContentChange('faq', 'title', e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-2">العنوان الفرعي</label>
+                          <input
+                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344]"
+                            value={sectionsContent.faq.subtitle}
+                            onChange={(e) => handleSectionContentChange('faq', 'subtitle', e.target.value)}
                           />
                         </div>
                         <div className="md:col-span-2">
@@ -874,24 +1252,38 @@ const Dashboard = ({ onLogout }) => {
                             onChange={(e) => handleSectionContentChange('faq', 'description', e.target.value)}
                           />
                         </div>
-                        {[1, 2, 3, 4].map(num => (
-                          <div key={num} className="border-t border-slate-200 pt-4">
-                            <h4 className="font-medium text-slate-700 mb-3">السؤال {num}</h4>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h4 className="font-medium text-slate-700 border-t border-slate-200 pt-4">الأسئلة والأجوبة</h4>
+                        {sectionsContent.faq.items.map((faqItem, index) => (
+                          <div key={faqItem.id} className="border border-slate-200 rounded-lg p-4 bg-white">
+                            <div className="flex items-center justify-between mb-3">
+                              <span className="text-sm font-medium text-slate-600">السؤال #{index + 1}</span>
+                              {sectionsContent.faq.items.length > 1 && (
+                                <button
+                                  onClick={() => removeArrayItem('faq', 'items', index)}
+                                  className="text-red-500 hover:text-red-700 transition-colors"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              )}
+                            </div>
                             <div className="space-y-3">
                               <div>
                                 <label className="block text-xs font-medium text-slate-600 mb-1">السؤال</label>
                                 <input
                                   className="w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-[#b18344] text-sm"
-                                  value={sectionsContent.faq[`q${num}`]}
-                                  onChange={(e) => handleSectionContentChange('faq', `q${num}`, e.target.value)}
+                                  value={faqItem.question}
+                                  onChange={(e) => handleArrayItemChange('faq', 'items', index, 'question', e.target.value)}
                                 />
                               </div>
                               <div>
                                 <label className="block text-xs font-medium text-slate-600 mb-1">الإجابة</label>
                                 <textarea
-                                  className="w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-[#b18344] h-16 resize-none text-sm"
-                                  value={sectionsContent.faq[`a${num}`]}
-                                  onChange={(e) => handleSectionContentChange('faq', `a${num}`, e.target.value)}
+                                  className="w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-[#b18344] h-20 resize-none text-sm"
+                                  value={faqItem.answer}
+                                  onChange={(e) => handleArrayItemChange('faq', 'items', index, 'answer', e.target.value)}
                                 />
                               </div>
                             </div>
@@ -907,12 +1299,20 @@ const Dashboard = ({ onLogout }) => {
                         <span>قسم التواصل</span>
                       </h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="md:col-span-2">
+                        <div>
                           <label className="block text-sm font-medium text-slate-700 mb-2">العنوان</label>
                           <input
                             className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344]"
                             value={sectionsContent.contact.title}
                             onChange={(e) => handleSectionContentChange('contact', 'title', e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-2">العنوان الفرعي</label>
+                          <input
+                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344]"
+                            value={sectionsContent.contact.subtitle}
+                            onChange={(e) => handleSectionContentChange('contact', 'subtitle', e.target.value)}
                           />
                         </div>
                         <div className="md:col-span-2">
@@ -938,6 +1338,24 @@ const Dashboard = ({ onLogout }) => {
                             value={sectionsContent.contact.formSubtitle}
                             onChange={(e) => handleSectionContentChange('contact', 'formSubtitle', e.target.value)}
                           />
+                        </div>
+                        <div className="md:col-span-2">
+                          <label className="block text-sm font-medium text-slate-700 mb-2">صورة الخريطة</label>
+                          <input
+                            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344] mb-2"
+                            value={sectionsContent.contact.mapImage}
+                            onChange={(e) => handleSectionContentChange('contact', 'mapImage', e.target.value)}
+                            placeholder="رابط صورة الخريطة"
+                          />
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#b18344] file:text-white hover:file:bg-[#d4a574]"
+                            onChange={(e) => handleImageUpload((result) => handleSectionContentChange('contact', 'mapImage', result))(e.target.files[0])}
+                          />
+                          {sectionsContent.contact.mapImage && (
+                            <img src={sectionsContent.contact.mapImage} alt="معاينة الخريطة" className="w-full h-32 object-cover rounded-lg mt-2" />
+                          )}
                         </div>
                       </div>
                     </div>
