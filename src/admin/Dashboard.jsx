@@ -11,7 +11,7 @@ import {
   EyeOff, 
   Settings, 
   Building2, 
-  ServiceIcon as Wrench,
+  Wrench,
   FolderOpen,
   User,
   Shield,
