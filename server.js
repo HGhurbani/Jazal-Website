@@ -28,6 +28,8 @@ function sendJSON(res, data, status = 200) {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
+    // Ensure API responses are never cached so updates are immediately visible
+    'Cache-Control': 'no-store',
   });
   res.end(JSON.stringify(data));
 }

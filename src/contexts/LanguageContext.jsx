@@ -5,7 +5,8 @@ const LanguageContext = createContext();
 
 const loadCustomTranslations = async () => {
   try {
-    const res = await fetch('/api/data');
+    // Bypass any caches to always retrieve the latest data
+    const res = await fetch('/api/data', { cache: 'no-store' });
     const data = await res.json();
     return data.customTranslations || {};
   } catch {
@@ -34,17 +35,22 @@ export const LanguageProvider = ({ children }) => {
     loadCustomTranslations().then(setCustom).catch(() => {});
   }, []);
 
-  const updateTranslations = (lang, updates) => {
+  const updateTranslations = async (lang, updates) => {
     const updated = {
       ...custom,
       [lang]: mergeDeep(custom[lang] || {}, updates),
     };
     setCustom(updated);
-    fetch('/api/translations', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ lang, updates }),
-    }).catch(() => {});
+    try {
+      await fetch('/api/translations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lang, updates }),
+        cache: 'no-store',
+      });
+    } catch {
+      // Ignore network errors; state already updated locally
+    }
   };
 
   const t = mergeDeep(translations[language], custom[language] || {});
