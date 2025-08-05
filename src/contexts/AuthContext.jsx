@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [credentials, setCredentials] = useState(DEFAULT_CREDS);
 
   useEffect(() => {
-    fetch('/api/data')
+    fetch('/api/data', { cache: 'no-store' })
       .then((res) => res.json())
       .then((data) => {
         if (data.credentials) setCredentials(data.credentials);
@@ -15,13 +15,18 @@ export const AuthProvider = ({ children }) => {
       .catch(() => {});
   }, []);
 
-  const updateCredentials = (username, password) => {
+  const updateCredentials = async (username, password) => {
     setCredentials({ username, password });
-    fetch('/api/credentials', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    }).catch(() => {});
+    try {
+      await fetch('/api/credentials', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+        cache: 'no-store',
+      });
+    } catch {
+      // Ignore network errors; state already updated locally
+    }
   };
 
   const authenticate = (username, password) =>
