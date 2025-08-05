@@ -25,6 +25,21 @@ module.exports = {
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
+
+                // Custom brand colors based on the existing design
+                brand: {
+                    50: '#FDF9F3',   // A very light shade for backgrounds
+                    100: '#FBF5EB',
+                    200: '#F6E8D1',
+                    300: '#F0DAAA',
+                    400: '#EACD83',
+                    500: '#E4BF5C', // A mid-tone gold
+                    600: '#d4a574', // The primary gold/accent from Header/Hero
+                    700: '#b18344', // The main gold color used everywhere
+                    800: '#9d7239', // Darker shade of gold
+                    900: '#8a6335', // Even darker for contrast
+                },
+
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',
