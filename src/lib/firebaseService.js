@@ -123,19 +123,30 @@ class FirebaseService {
   // رفع صورة إلى الاستضافة المحلية
   async uploadImage(file, path) {
     try {
-      // إنشاء اسم فريد للملف
+      // إنشاء اسم آمن وفريد للملف
       const timestamp = Date.now();
-      const fileName = `${timestamp}_${file.name}`;
-      const filePath = `/uploads/${path}/${fileName}`;
-      
-      // في البيئة الحقيقية، سيتم رفع الملف إلى الاستضافة
-      // هنا نعيد URL مؤقت للاختبار
-      const imageUrl = `${window.location.origin}${filePath}`;
-      
-      // يمكن إضافة منطق رفع الملف إلى الاستضافة هنا
-      // مثال: رفع إلى مجلد public/uploads/
-      
-      return imageUrl;
+      const safeName = `${timestamp}_${file.name}`.replace(/[^a-zA-Z0-9.\-]/g, '_');
+
+      // قراءة الملف كـ Base64
+      const imageData = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+
+      // رفع الصورة إلى خادم الـ API
+      const response = await fetch('/api/upload-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fileName: safeName, imageData }),
+      });
+
+      const data = await response.json();
+      if (!data.url) throw new Error('Upload failed');
+
+      // إرجاع الرابط الكامل للصورة المرفوعة
+      return `${window.location.origin}${data.url}`;
     } catch (error) {
       console.error('خطأ في رفع الصورة:', error);
       throw error;

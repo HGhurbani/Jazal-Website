@@ -344,44 +344,23 @@ const Dashboard = ({ onLogout }) => {
     }
 
     try {
-      // رفع الصورة إلى الاستضافة المحلية
+      // رفع الصورة إلى الاستضافة المحلية عبر خدمة FirebaseService
       const imageUrl = await firebaseService.uploadImage(file, 'website-images');
       callback(imageUrl);
       markAsChanged();
-      
+
       toast({
         title: 'تم رفع الصورة بنجاح',
         description: 'الصورة جاهزة للاستخدام في الاستضافة المحلية',
       });
     } catch (error) {
       console.error('خطأ في رفع الصورة:', error);
-      toast({ 
-        title: 'خطأ في رفع الصورة', 
+      toast({
+        title: 'خطأ في رفع الصورة',
         description: 'فشل في رفع الصورة، يرجى المحاولة مرة أخرى',
-        variant: 'destructive' 
+        variant: 'destructive'
       });
     }
-    markAsChanged();
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      const imageData = e.target.result;
-      try {
-        const res = await fetch('/api/upload-image', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ fileName: file.name, imageData }),
-        });
-        const data = await res.json();
-        if (data.url) {
-          callback(data.url);
-          return;
-        }
-      } catch {
-        // If upload fails, fall back to local preview
-      }
-      callback(imageData);
-    };
-    reader.readAsDataURL(file);
   };
 
   const handleCredentialSave = () => {
