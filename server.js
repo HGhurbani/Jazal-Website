@@ -1,12 +1,11 @@
 import { createServer } from 'http';
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { dirname, join, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_FILE = join(__dirname, 'data.json');
 const BUILD_DIR = resolve(__dirname, 'dist');
-const UPLOAD_DIR = join(__dirname, 'uploads', 'website-images');
 
 function loadData() {
   if (existsSync(DATA_FILE)) {
@@ -81,40 +80,6 @@ const server = createServer((req, res) => {
       saveData(data);
       sendJSON(res, { status: 'ok' });
     });
-  } else if (req.method === 'POST' && req.url === '/api/upload-image') {
-    handleBody(req, ({ fileName, imageData }) => {
-      try {
-        if (!fileName || !imageData) throw new Error('missing data');
-        const matches = imageData.match(/^data:(.+);base64,(.+)$/);
-        const base64 = matches ? matches[2] : imageData;
-        const buffer = Buffer.from(base64, 'base64');
-        mkdirSync(UPLOAD_DIR, { recursive: true });
-        const safeName = fileName.replace(/[^a-zA-Z0-9.\-]/g, '_');
-        const filePath = join(UPLOAD_DIR, safeName);
-        writeFileSync(filePath, buffer);
-        sendJSON(res, { status: 'ok', url: `/uploads/website-images/${safeName}` });
-      } catch {
-        sendJSON(res, { error: 'Invalid image data' }, 400);
-      }
-    });
-  } else if (req.method === 'GET' && req.url.startsWith('/uploads/')) {
-    const filePath = join(__dirname, req.url);
-    if (existsSync(filePath)) {
-      const extname = String(filePath.split('.').pop()).toLowerCase();
-      const mimeTypes = {
-        png: 'image/png',
-        jpg: 'image/jpeg',
-        jpeg: 'image/jpeg',
-        gif: 'image/gif',
-        svg: 'image/svg+xml',
-      };
-      const contentType = mimeTypes[extname] || 'application/octet-stream';
-      res.writeHead(200, { 'Content-Type': contentType });
-      res.end(readFileSync(filePath));
-    } else {
-      res.writeHead(404);
-      res.end('404 Not Found');
-    }
   } else if (req.method === 'GET') {
     const filePath = join(BUILD_DIR, req.url === '/' ? 'index.html' : req.url);
 

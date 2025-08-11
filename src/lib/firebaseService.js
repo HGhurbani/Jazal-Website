@@ -1,9 +1,9 @@
-import { 
-  doc, 
-  getDoc, 
-  setDoc, 
-  updateDoc, 
-  collection, 
+import {
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  collection,
   getDocs,
   query,
   where,
@@ -11,7 +11,8 @@ import {
   addDoc,
   deleteDoc
 } from 'firebase/firestore';
-import { db } from './firebase';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { db, storage } from './firebase';
 
 // خدمة إدارة البيانات في Firebase
 class FirebaseService {
@@ -120,45 +121,25 @@ class FirebaseService {
     }
   }
 
-  // رفع صورة إلى الاستضافة المحلية
+  // رفع صورة إلى Firebase Storage
   async uploadImage(file, path) {
     try {
-      // إنشاء اسم آمن وفريد للملف
       const timestamp = Date.now();
       const safeName = `${timestamp}_${file.name}`.replace(/[^a-zA-Z0-9.\-]/g, '_');
-
-      // قراءة الملف كـ Base64
-      const imageData = await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-
-      // رفع الصورة إلى خادم الـ API
-      const response = await fetch('/api/upload-image', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fileName: safeName, imageData }),
-      });
-
-      const data = await response.json();
-      if (!data.url) throw new Error('Upload failed');
-
-      // إرجاع الرابط الكامل للصورة المرفوعة
-      return `${window.location.origin}${data.url}`;
+      const storageRef = ref(storage, `${path}/${safeName}`);
+      await uploadBytes(storageRef, file);
+      return await getDownloadURL(storageRef);
     } catch (error) {
       console.error('خطأ في رفع الصورة:', error);
       throw error;
     }
   }
 
-  // حذف صورة من الاستضافة المحلية
+  // حذف صورة من Firebase Storage
   async deleteImage(imageUrl) {
     try {
-      // في البيئة الحقيقية، سيتم حذف الملف من الاستضافة
-      console.log('حذف الصورة:', imageUrl);
-      // يمكن إضافة منطق حذف الملف من الاستضافة هنا
+      const storageRef = ref(storage, imageUrl);
+      await deleteObject(storageRef);
     } catch (error) {
       console.error('خطأ في حذف الصورة:', error);
       // لا نريد إيقاف العملية إذا فشل حذف الصورة
