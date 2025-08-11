@@ -311,10 +311,27 @@ const Dashboard = ({ onLogout }) => {
 
   const handleImageUpload = (callback) => (file) => {
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (e) => callback(e.target.result);
-    reader.readAsDataURL(file);
     markAsChanged();
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const imageData = e.target.result;
+      try {
+        const res = await fetch('/api/upload-image', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fileName: file.name, imageData }),
+        });
+        const data = await res.json();
+        if (data.url) {
+          callback(data.url);
+          return;
+        }
+      } catch {
+        // If upload fails, fall back to local preview
+      }
+      callback(imageData);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleCredentialSave = () => {
