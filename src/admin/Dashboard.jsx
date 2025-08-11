@@ -1,9 +1,10 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useToast } from '@/components/ui/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
+import firebaseService from '@/lib/firebaseService';
 import { 
   Save, 
   Upload, 
@@ -37,6 +38,7 @@ const Dashboard = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState('company');
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   // Company Info State
   const [contactPhone, setContactPhone] = useState(t.footer.contactPhone);
@@ -219,12 +221,21 @@ const Dashboard = ({ onLogout }) => {
     markAsChanged();
   };
 
-  const handleFileUpload = (callback) => (file) => {
+  const handleFileUpload = (callback) => async (file) => {
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (e) => callback(e.target.result);
-    reader.readAsDataURL(file);
-    markAsChanged();
+    try {
+      // رفع الصورة إلى Firebase Storage
+      const imageUrl = await firebaseService.uploadImage(file, 'website-images');
+      callback(imageUrl);
+      markAsChanged();
+    } catch (error) {
+      console.error('خطأ في رفع الصورة:', error);
+      toast({ 
+        title: 'خطأ في رفع الصورة', 
+        description: 'فشل في رفع الصورة، يرجى المحاولة مرة أخرى',
+        variant: 'destructive' 
+      });
+    }
   };
 
   const addService = () => {
@@ -309,12 +320,47 @@ const Dashboard = ({ onLogout }) => {
     markAsChanged();
   };
 
-  const handleImageUpload = (callback) => (file) => {
+  const handleImageUpload = (callback) => async (file) => {
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (e) => callback(e.target.result);
-    reader.readAsDataURL(file);
-    markAsChanged();
+    
+    // التحقق من نوع الملف
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: 'خطأ في نوع الملف',
+        description: 'يرجى اختيار ملف صورة صالح',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    // التحقق من حجم الملف (حد أقصى 5 ميجابايت)
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: 'خطأ في حجم الملف',
+        description: 'يرجى اختيار صورة بحجم أقل من 5 ميجابايت',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    try {
+      // رفع الصورة إلى الاستضافة المحلية
+      const imageUrl = await firebaseService.uploadImage(file, 'website-images');
+      callback(imageUrl);
+      markAsChanged();
+      
+      toast({
+        title: 'تم رفع الصورة بنجاح',
+        description: 'الصورة جاهزة للاستخدام في الاستضافة المحلية',
+      });
+    } catch (error) {
+      console.error('خطأ في رفع الصورة:', error);
+      toast({ 
+        title: 'خطأ في رفع الصورة', 
+        description: 'فشل في رفع الصورة، يرجى المحاولة مرة أخرى',
+        variant: 'destructive' 
+      });
+    }
   };
 
   const handleCredentialSave = () => {
@@ -335,100 +381,150 @@ const Dashboard = ({ onLogout }) => {
     });
   };
 
-  const handleSave = () => {
-    const serviceUpdates = {};
-    services.forEach((s, idx) => {
-      serviceUpdates[`service${idx + 1}Title`] = s.title;
-      serviceUpdates[`service${idx + 1}Text`] = s.text;
-      serviceUpdates[`service${idx + 1}Image`] = s.image;
-    });
+  const handleSave = async () => {
+    try {
+      setIsSaving(true);
+      
+      // تجهيز البيانات المحدثة
+      const updatedData = {
+        [language]: {
+          services: {},
+          projects: {},
+          footer: {
+            contactPhone,
+            contactEmail,
+            contactAddress,
+          },
+          contact: {
+            addressValue: contactAddress,
+          }
+        }
+      };
 
-    const projectUpdates = {};
-    projects.forEach((p, idx) => {
-      projectUpdates[`project${idx + 1}Title`] = p.title;
-      projectUpdates[`project${idx + 1}Text`] = p.text;
-      projectUpdates[`project${idx + 1}Image`] = p.image;
-    });
+      // إضافة بيانات الخدمات
+      services.forEach((s, idx) => {
+        updatedData[language].services[`service${idx + 1}Title`] = s.title;
+        updatedData[language].services[`service${idx + 1}Text`] = s.text;
+        updatedData[language].services[`service${idx + 1}Image`] = s.image;
+      });
 
-    // Convert sectionsContent structure to translations format
-    const sectionsUpdates = {
-      hero: sectionsContent.hero,
-      about: {
-        title: sectionsContent.about.title,
-        subtitle: sectionsContent.about.subtitle,
-        description: sectionsContent.about.description,
-        backgroundImage: sectionsContent.about.backgroundImage,
-        // Convert cards array to individual properties for backward compatibility
-        ...sectionsContent.about.cards.reduce((acc, card, index) => {
-          acc[`card${index + 1}Title`] = card.title;
-          acc[`card${index + 1}Text`] = card.text;
-          acc[`card${index + 1}Icon`] = card.icon;
-          acc[`card${index + 1}Image`] = card.image;
-          return acc;
-        }, {})
-      },
-      clients: {
-        title: sectionsContent.clients.title,
-        subtitle: sectionsContent.clients.subtitle,
-        description: sectionsContent.clients.description,
-        backgroundImage: sectionsContent.clients.backgroundImage,
-        // Convert logos array to individual properties
-        ...sectionsContent.clients.logos.reduce((acc, logo, index) => {
-          acc[`client${index + 1}`] = logo.name;
-          acc[`client${index + 1}Logo`] = logo.logo;
-          return acc;
-        }, {})
-      },
-      testimonials: {
-        title: sectionsContent.testimonials.title,
-        subtitle: sectionsContent.testimonials.subtitle,
-        description: sectionsContent.testimonials.description,
-        backgroundImage: sectionsContent.testimonials.backgroundImage,
-        // Convert items array to individual properties
-        ...sectionsContent.testimonials.items.reduce((acc, item, index) => {
-          acc[`testimonial${index + 1}Quote`] = item.quote;
-          acc[`testimonial${index + 1}Name`] = item.name;
-          acc[`testimonial${index + 1}Title`] = item.title;
-          acc[`testimonial${index + 1}Avatar`] = item.avatar;
-          acc[`testimonial${index + 1}Rating`] = item.rating;
-          return acc;
-        }, {})
-      },
-      faq: {
-        title: sectionsContent.faq.title,
-        subtitle: sectionsContent.faq.subtitle,
-        description: sectionsContent.faq.description,
-        backgroundImage: sectionsContent.faq.backgroundImage,
-        // Convert items array to individual properties
-        ...sectionsContent.faq.items.reduce((acc, item, index) => {
-          acc[`q${index + 1}`] = item.question;
-          acc[`a${index + 1}`] = item.answer;
-          return acc;
-        }, {})
-      },
-      contact: sectionsContent.contact,
-      header: sectionsContent.header
-    };
+      // إضافة بيانات المشاريع
+      projects.forEach((p, idx) => {
+        updatedData[language].projects[`project${idx + 1}Title`] = p.title;
+        updatedData[language].projects[`project${idx + 1}Text`] = p.text;
+        updatedData[language].projects[`project${idx + 1}Image`] = p.image;
+      });
 
-    updateTranslations(language, {
-      services: serviceUpdates,
-      projects: projectUpdates,
-      footer: {
-        contactPhone,
-        contactEmail,
-        contactAddress,
-      },
-      contact: {
-        addressValue: contactAddress,
-      },
-      ...sectionsUpdates
-    });
+      // إضافة بيانات الأقسام الأخرى
+      if (sectionsContent.hero) {
+        updatedData[language].hero = sectionsContent.hero;
+      }
+      
+      if (sectionsContent.about) {
+        updatedData[language].about = {
+          title: sectionsContent.about.title,
+          subtitle: sectionsContent.about.subtitle,
+          description: sectionsContent.about.description,
+          backgroundImage: sectionsContent.about.backgroundImage,
+          // تحويل مصفوفة البطاقات إلى خصائص فردية
+          ...sectionsContent.about.cards.reduce((acc, card, index) => {
+            acc[`card${index + 1}Title`] = card.title;
+            acc[`card${index + 1}Text`] = card.text;
+            acc[`card${index + 1}Icon`] = card.icon;
+            acc[`card${index + 1}Image`] = card.image;
+            return acc;
+          }, {})
+        };
+      }
 
-    setHasUnsavedChanges(false);
-    toast({ 
-      title: 'تم الحفظ بنجاح', 
-      description: 'جميع التغييرات محفوظة وظاهرة للمستخدمين',
-    });
+      if (sectionsContent.clients) {
+        updatedData[language].clients = {
+          title: sectionsContent.clients.title,
+          subtitle: sectionsContent.clients.subtitle,
+          description: sectionsContent.clients.description,
+          backgroundImage: sectionsContent.clients.backgroundImage,
+          // تحويل مصفوفة الشعارات إلى خصائص فردية
+          ...sectionsContent.clients.logos.reduce((acc, logo, index) => {
+            acc[`client${index + 1}`] = logo.name;
+            acc[`client${index + 1}Logo`] = logo.logo;
+            return acc;
+          }, {})
+        };
+      }
+
+      if (sectionsContent.testimonials) {
+        updatedData[language].testimonials = {
+          title: sectionsContent.testimonials.title,
+          subtitle: sectionsContent.testimonials.subtitle,
+          description: sectionsContent.testimonials.description,
+          backgroundImage: sectionsContent.testimonials.backgroundImage,
+          // تحويل مصفوفة التوصيات إلى خصائص فردية
+          ...sectionsContent.testimonials.items.reduce((acc, item, index) => {
+            acc[`testimonial${index + 1}Quote`] = item.quote;
+            acc[`testimonial${index + 1}Name`] = item.name;
+            acc[`testimonial${index + 1}Title`] = item.title;
+            acc[`testimonial${index + 1}Avatar`] = item.avatar;
+            acc[`testimonial${index + 1}Rating`] = item.rating;
+            return acc;
+          }, {})
+        };
+      }
+
+      if (sectionsContent.faq) {
+        updatedData[language].faq = {
+          title: sectionsContent.faq.title,
+          subtitle: sectionsContent.faq.subtitle,
+          description: sectionsContent.faq.description,
+          backgroundImage: sectionsContent.faq.backgroundImage,
+          // تحويل مصفوفة الأسئلة إلى خصائص فردية
+          ...sectionsContent.faq.items.reduce((acc, item, index) => {
+            acc[`q${index + 1}`] = item.question;
+            acc[`a${index + 1}`] = item.answer;
+            return acc;
+          }, {})
+        };
+      }
+
+      if (sectionsContent.contact) {
+        updatedData[language].contact = sectionsContent.contact;
+      }
+
+      if (sectionsContent.header) {
+        updatedData[language].header = sectionsContent.header;
+      }
+
+      // حفظ البيانات مع دمجها مع البيانات الموجودة
+      console.log('البيانات المراد حفظها:', updatedData);
+      await firebaseService.saveWebsiteData(updatedData);
+      console.log('تم الحفظ بنجاح');
+
+      setHasUnsavedChanges(false);
+      toast({ 
+        title: 'تم الحفظ بنجاح', 
+        description: 'جميع التغييرات محفوظة في قاعدة البيانات وظاهرة للمستخدمين',
+      });
+    } catch (error) {
+      console.error('خطأ في حفظ البيانات:', error);
+      
+      // رسالة خطأ أكثر تفصيلاً
+      let errorMessage = 'فشل في حفظ البيانات، يرجى المحاولة مرة أخرى';
+      
+      if (error.code === 'permission-denied') {
+        errorMessage = 'خطأ في الأذونات، يرجى التحقق من قواعد Firebase';
+      } else if (error.code === 'unavailable') {
+        errorMessage = 'خطأ في الاتصال، يرجى التحقق من الإنترنت';
+      } else if (error.code === 'invalid-argument') {
+        errorMessage = 'بيانات غير صحيحة، يرجى التحقق من المدخلات';
+      }
+      
+      toast({ 
+        title: 'خطأ في الحفظ', 
+        description: errorMessage,
+        variant: 'destructive' 
+      });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handlePreviewWebsite = () => {
@@ -475,11 +571,20 @@ const Dashboard = ({ onLogout }) => {
 
               <button
                 onClick={handleSave}
-                disabled={!hasUnsavedChanges}
+                disabled={!hasUnsavedChanges || isSaving}
                 className="flex items-center space-x-2 rtl:space-x-reverse px-6 py-2 bg-gradient-to-r from-[#b18344] to-[#d4a574] text-white rounded-lg hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Save className="w-4 h-4" />
-                <span>حفظ التغييرات</span>
+                {isSaving ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                    <span>جاري الحفظ...</span>
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-4 h-4" />
+                    <span>حفظ التغييرات</span>
+                  </>
+                )}
               </button>
 
               <button

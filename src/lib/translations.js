@@ -1,4 +1,7 @@
-export const translations = {
+import firebaseService from './firebaseService';
+
+// البيانات الافتراضية (للنسخ الاحتياطي)
+export const defaultTranslations = {
   ar: {
     title: "جزل - شركة تنظيم المعارض والمؤتمرات والفعاليات",
     description: "شركة جزل السعودية الرائدة في تنظيم المعارض والمؤتمرات والفعاليات. خبرة واسعة في تقديم حلول متكاملة لجميع أنواع الفعاليات في المملكة العربية السعودية.",
@@ -416,3 +419,51 @@ export const translations = {
     }
   },
 };
+
+// متغير لتخزين البيانات الحالية
+let currentTranslations = null;
+
+// دالة لجلب البيانات من Firebase
+export const loadTranslations = async () => {
+  try {
+    const data = await firebaseService.getWebsiteData();
+    currentTranslations = data;
+    return data;
+  } catch (error) {
+    console.error('خطأ في تحميل البيانات من Firebase:', error);
+    // استخدام البيانات الافتراضية في حالة الخطأ
+    currentTranslations = defaultTranslations;
+    return defaultTranslations;
+  }
+};
+
+// دالة لتحديث البيانات في Firebase
+export const updateTranslations = async (language, updates) => {
+  try {
+    if (!currentTranslations) {
+      await loadTranslations();
+    }
+    
+    // تحديث البيانات المحلية
+    currentTranslations[language] = {
+      ...currentTranslations[language],
+      ...updates
+    };
+    
+    // حفظ البيانات في Firebase
+    await firebaseService.saveWebsiteData(currentTranslations);
+    
+    return true;
+  } catch (error) {
+    console.error('خطأ في تحديث البيانات:', error);
+    throw error;
+  }
+};
+
+// دالة للحصول على الترجمة الحالية
+export const getTranslations = () => {
+  return currentTranslations || defaultTranslations;
+};
+
+// تصدير البيانات الافتراضية للاستخدام في الحالات الطارئة
+export const translations = defaultTranslations;
