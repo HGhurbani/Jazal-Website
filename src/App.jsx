@@ -10,7 +10,7 @@ import About from '@/components/sections/About';
 import Services from '@/components/sections/Services';
 import Projects from '@/components/sections/Projects';
 import Clients from '@/components/sections/Clients';
-import Testimonials from '@/components/sections/Testimonials';
+// import Testimonials from '@/components/sections/Testimonials';
 import Faq from '@/components/sections/Faq';
 import Contact from '@/components/sections/Contact';
 import Footer from '@/components/sections/Footer';
@@ -18,12 +18,22 @@ import WhatsAppPopup from '@/components/ui/WhatsAppPopup';
 
 function AppContent() {
   const { toast } = useToast();
-  const { language, t } = useLanguage();
+  const { language, t, lastUpdate } = useLanguage();
 
   useEffect(() => {
     document.documentElement.lang = language;
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
   }, [language]);
+
+  // إظهار إشعار عند تحديث البيانات
+  useEffect(() => {
+    if (lastUpdate > Date.now() - 10000) { // إذا تم التحديث في آخر 10 ثوانٍ
+      toast({
+        title: 'تم تحديث البيانات',
+        description: 'تم تحديث محتوى الموقع بأحدث التغييرات',
+      });
+    }
+  }, [lastUpdate, toast]);
 
   const handleContactSubmit = (e) => {
     e.preventDefault();
@@ -56,18 +66,19 @@ function AppContent() {
           <Services handleFeatureClick={handleFeatureClick} />
           <Projects />
           <Clients />
-          <Testimonials />
+          {/* <Testimonials /> */}
           <Faq />
           <Contact handleContactSubmit={handleContactSubmit} />
         </main>
         <Footer handleFeatureClick={handleFeatureClick} />
         <WhatsAppPopup />
         <Toaster />
+        
+
       </div>
     </>
   );
 }
-
 
 function App() {
   return (

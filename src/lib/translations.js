@@ -10,7 +10,8 @@ export const defaultTranslations = {
       about: "من نحن",
       services: "خدماتنا",
       projects: "أعمالنا",
-      testimonials: "آراء العملاء",
+      // testimonials: "آراء العملاء",
+      faq: "الأسئلة الشائعة",
       contact: "تواصل معنا",
     },
     header: {
@@ -219,6 +220,7 @@ export const defaultTranslations = {
       services: "Services",
       projects: "Our Work",
       testimonials: "Testimonials",
+      faq: "FAQ",
       contact: "Contact Us",
     },
     header: {
@@ -426,11 +428,27 @@ let currentTranslations = null;
 // دالة لجلب البيانات من Firebase
 export const loadTranslations = async () => {
   try {
+    console.log('بدء تحميل البيانات من Firebase...');
+    
+    // محاولة جلب البيانات من Firebase
     const data = await firebaseService.getWebsiteData();
-    currentTranslations = data;
-    return data;
+    
+    if (data && data.ar && data.ar.nav) {
+      console.log('تم العثور على بيانات صحيحة من Firebase:', data);
+      currentTranslations = data;
+    } else {
+      console.log('البيانات من Firebase غير مكتملة، استخدام البيانات الافتراضية');
+      currentTranslations = defaultTranslations;
+    }
+    
+    // إضافة timestamp للتحديث
+    currentTranslations.lastLoaded = new Date().toISOString();
+    
+    console.log('تم تحميل البيانات بنجاح:', currentTranslations);
+    return currentTranslations;
   } catch (error) {
     console.error('خطأ في تحميل البيانات من Firebase:', error);
+    console.log('استخدام البيانات الافتراضية في حالة الخطأ');
     // استخدام البيانات الافتراضية في حالة الخطأ
     currentTranslations = defaultTranslations;
     return defaultTranslations;

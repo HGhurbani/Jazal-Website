@@ -10,7 +10,7 @@ const navigationItems = [
   { key: 'about', href: '#about' },
   { key: 'services', href: '#services' },
   { key: 'projects', href: '#projects' },
-  { key: 'testimonials', href: '#testimonials' },
+  // { key: 'testimonials', href: '#testimonials' },
   { key: 'faq', href: '#faq' },
   { key: 'contact', href: '#contact' }
 ];
@@ -224,7 +224,17 @@ const MobileMenu = memo(({ isOpen, onClose, t, activeSection, onNavigate }) => {
                         : 'text-gray-700 hover:text-[#b18344] hover:bg-[#b18344]/5 border border-transparent hover:border-[#b18344]/20'
                     }`}
                   >
-                    <span className="tracking-wide">{t.nav[item.key]}</span>
+                    <span className="tracking-wide">{t.nav?.[item.key] || (() => {
+                      switch(item.key) {
+                        case 'faq': return 'الأسئلة الشائعة';
+                        case 'home': return 'الرئيسية';
+                        case 'about': return 'من نحن';
+                        case 'services': return 'خدماتنا';
+                        case 'projects': return 'أعمالنا';
+                        case 'contact': return 'تواصل معنا';
+                        default: return item.key;
+                      }
+                    })()}</span>
                     <ArrowLeft 
                       className={`w-4 h-4 transition-transform duration-300 group-hover:-translate-x-1 ${
                         activeSection === item.key ? 'text-white' : 'text-[#b18344]'
@@ -403,7 +413,17 @@ const Header = () => {
                   isActive={activeSection === item.key}
                   onClick={(e) => handleNavigate(e, item.href)}
                 >
-                  {t.nav[item.key]}
+                  {t.nav?.[item.key] || (() => {
+                    switch(item.key) {
+                      case 'faq': return 'الأسئلة الشائعة';
+                      case 'home': return 'الرئيسية';
+                      case 'about': return 'من نحن';
+                      case 'services': return 'خدماتنا';
+                      case 'projects': return 'أعمالنا';
+                      case 'contact': return 'تواصل معنا';
+                      default: return item.key;
+                    }
+                  })()}
                 </NavLink>
               ))}
               

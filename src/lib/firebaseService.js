@@ -52,7 +52,20 @@ class FirebaseService {
       // دمج البيانات الجديدة مع الموجودة
       const mergedData = this.mergeData(existingData, newData);
       
+      // إضافة timestamp للتحديث
+      mergedData.lastUpdated = new Date().toISOString();
+      mergedData.lastUpdatedBy = 'admin';
+      
+      console.log('حفظ البيانات المدمجة:', mergedData);
+      
       await setDoc(docRef, mergedData, { merge: true });
+      
+      // التأكد من حفظ البيانات
+      const savedDoc = await getDoc(docRef);
+      if (savedDoc.exists()) {
+        console.log('تم حفظ البيانات بنجاح:', savedDoc.data());
+      }
+      
       return true;
     } catch (error) {
       console.error('خطأ في حفظ البيانات:', error);
@@ -152,14 +165,15 @@ class FirebaseService {
       ar: {
         title: "جزل - شركة تنظيم المعارض والمؤتمرات والفعاليات",
         description: "شركة جزل السعودية الرائدة في تنظيم المعارض والمؤتمرات والفعاليات. خبرة واسعة في تقديم حلول متكاملة لجميع أنواع الفعاليات في المملكة العربية السعودية.",
-        nav: {
-          home: "الرئيسية",
-          about: "من نحن",
-          services: "خدماتنا",
-          projects: "أعمالنا",
-          testimonials: "آراء العملاء",
-          contact: "تواصل معنا",
-        },
+            nav: {
+      home: "الرئيسية",
+      about: "من نحن",
+      services: "خدماتنا",
+      projects: "أعمالنا",
+      // testimonials: "آراء العملاء",
+      faq: "الأسئلة الشائعة",
+      contact: "تواصل معنا",
+    },
         header: {
           startProject: "ابدأ مشروعك",
         },
@@ -366,6 +380,7 @@ class FirebaseService {
           services: "Services",
           projects: "Our Work",
           testimonials: "Testimonials",
+          faq: "FAQ",
           contact: "Contact Us",
         },
         header: {

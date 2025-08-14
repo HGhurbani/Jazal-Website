@@ -31,7 +31,7 @@ import {
 } from 'lucide-react';
 
 const Dashboard = ({ onLogout }) => {
-  const { language, t, updateTranslations } = useLanguage();
+  const { language, t, updateTranslations, refreshData } = useLanguage();
   const { credentials, updateCredentials } = useAuth();
   const { toast } = useToast();
 
@@ -124,46 +124,46 @@ const Dashboard = ({ onLogout }) => {
         { id: 6, name: t.clients?.client6 || '', logo: t.clients?.client6Logo || '' }
       ]
     },
-    testimonials: {
-      title: t.testimonials?.title || '',
-      subtitle: t.testimonials?.subtitle || '',
-      description: t.testimonials?.description || '',
-      backgroundImage: t.testimonials?.backgroundImage || '',
-      items: [
-        {
-          id: 1,
-          quote: t.testimonials?.testimonial1Quote || '',
-          name: t.testimonials?.testimonial1Name || '',
-          title: t.testimonials?.testimonial1Title || '',
-          avatar: t.testimonials?.testimonial1Avatar || '',
-          rating: t.testimonials?.testimonial1Rating || 5
-        },
-        {
-          id: 2,
-          quote: t.testimonials?.testimonial2Quote || '',
-          name: t.testimonials?.testimonial2Name || '',
-          title: t.testimonials?.testimonial2Title || '',
-          avatar: t.testimonials?.testimonial2Avatar || '',
-          rating: t.testimonials?.testimonial2Rating || 5
-        },
-        {
-          id: 3,
-          quote: t.testimonials?.testimonial3Quote || '',
-          name: t.testimonials?.testimonial3Name || '',
-          title: t.testimonials?.testimonial3Title || '',
-          avatar: t.testimonials?.testimonial3Avatar || '',
-          rating: t.testimonials?.testimonial3Rating || 5
-        },
-        {
-          id: 4,
-          quote: t.testimonials?.testimonial4Quote || '',
-          name: t.testimonials?.testimonial4Name || '',
-          title: t.testimonials?.testimonial4Title || '',
-          avatar: t.testimonials?.testimonial4Avatar || '',
-          rating: t.testimonials?.testimonial4Rating || 5
-        }
-      ]
-    },
+    // testimonials: {
+    //   title: t.testimonials?.title || '',
+    //   subtitle: t.testimonials?.subtitle || '',
+    //   description: t.testimonials?.description || '',
+    //   backgroundImage: t.testimonials?.backgroundImage || '',
+    //   items: [
+    //     {
+    //       id: 1,
+    //       quote: t.testimonials?.testimonial1Quote || '',
+    //       name: t.testimonials?.testimonial1Name || '',
+    //       title: t.testimonials?.testimonial1Title || '',
+    //       avatar: t.testimonials?.testimonial1Avatar || '',
+    //       rating: t.testimonials?.testimonial1Rating || 5
+    //       },
+    //     {
+    //       id: 2,
+    //       quote: t.testimonials?.testimonial2Quote || '',
+    //       name: t.testimonials?.testimonial2Name || '',
+    //       title: t.testimonials?.testimonial2Title || '',
+    //       avatar: t.testimonials?.testimonial2Avatar || '',
+    //       rating: t.testimonials?.testimonial2Rating || 5
+    //       },
+    //     {
+    //       id: 3,
+    //       quote: t.testimonials?.testimonial3Quote || '',
+    //       name: t.testimonials?.testimonial3Name || '',
+    //       title: t.testimonials?.testimonial3Title || '',
+    //       avatar: t.testimonials?.testimonial3Avatar || '',
+    //       rating: t.testimonials?.testimonial3Rating || 5
+    //       },
+    //     {
+    //       id: 4,
+    //       quote: t.testimonials?.testimonial4Quote || '',
+    //       name: t.testimonials?.testimonial4Name || '',
+    //       title: t.testimonials?.testimonial4Title || '',
+    //       avatar: t.testimonials?.testimonial4Avatar || '',
+    //       rating: t.testimonials?.testimonial4Rating || 5
+    //       }
+    //   ]
+    // },
     faq: {
       title: t.faq?.title || '',
       subtitle: t.faq?.subtitle || '',
@@ -452,23 +452,23 @@ const Dashboard = ({ onLogout }) => {
         };
       }
 
-      if (sectionsContent.testimonials) {
-        updatedData[language].testimonials = {
-          title: sectionsContent.testimonials.title,
-          subtitle: sectionsContent.testimonials.subtitle,
-          description: sectionsContent.testimonials.description,
-          backgroundImage: sectionsContent.testimonials.backgroundImage,
-          // تحويل مصفوفة التوصيات إلى خصائص فردية
-          ...sectionsContent.testimonials.items.reduce((acc, item, index) => {
-            acc[`testimonial${index + 1}Quote`] = item.quote;
-            acc[`testimonial${index + 1}Name`] = item.name;
-            acc[`testimonial${index + 1}Title`] = item.title;
-            acc[`testimonial${index + 1}Avatar`] = item.avatar;
-            acc[`testimonial${index + 1}Rating`] = item.rating;
-            return acc;
-          }, {})
-        };
-      }
+      // if (sectionsContent.testimonials) {
+      //   updatedData[language].testimonials = {
+      //     title: sectionsContent.testimonials.title,
+      //     subtitle: sectionsContent.testimonials.subtitle,
+      //     description: sectionsContent.testimonials.description,
+      //     backgroundImage: sectionsContent.testimonials.backgroundImage,
+      //     // تحويل مصفوفة التوصيات إلى خصائص فردية
+      //     ...sectionsContent.testimonials.items.reduce((acc, item, index) => {
+      //       acc[`testimonial${index + 1}Quote`] = item.quote;
+      //       acc[`testimonial${index + 1}Name`] = item.quote;
+      //       acc[`testimonial${index + 1}Title`] = item.title;
+      //       acc[`testimonial${index + 1}Avatar`] = item.avatar;
+      //       acc[`testimonial${index + 1}Rating`] = item.rating;
+      //       return acc;
+      //     }, {})
+      //   };
+      // }
 
       if (sectionsContent.faq) {
         updatedData[language].faq = {
@@ -501,8 +501,16 @@ const Dashboard = ({ onLogout }) => {
       setHasUnsavedChanges(false);
       toast({ 
         title: 'تم الحفظ بنجاح', 
-        description: 'جميع التغييرات محفوظة في قاعدة البيانات وظاهرة للمستخدمين',
+        description: 'جميع التغييرات محفوظة في قاعدة البيانات وظاهرة للمستخدمين في الوقت الفعلي',
       });
+      
+      // إظهار رسالة تأكيد إضافية
+      setTimeout(() => {
+        toast({
+          title: 'تم التحديث التلقائي',
+          description: 'سيتم تحديث الموقع الرئيسي تلقائياً خلال ثوانٍ قليلة',
+        });
+      }, 1000);
     } catch (error) {
       console.error('خطأ في حفظ البيانات:', error);
       
@@ -529,6 +537,136 @@ const Dashboard = ({ onLogout }) => {
 
   const handlePreviewWebsite = () => {
     window.open('/', '_blank');
+  };
+
+  const handleRefreshData = async () => {
+    try {
+      toast({ 
+        title: 'جاري تحديث البيانات...', 
+        description: 'يتم جلب أحدث التحديثات من قاعدة البيانات'
+      });
+      
+      await refreshData();
+      
+      // إعادة تحميل البيانات في الحقول
+      setContactPhone(t.footer.contactPhone);
+      setContactEmail(t.footer.contactEmail);
+      setContactAddress(t.footer.contactAddress);
+      
+      setServices(
+        Array.from({ length: 9 }, (_, i) => ({
+          id: i + 1,
+          title: t.services[`service${i + 1}Title`] || '',
+          text: t.services[`service${i + 1}Text`] || '',
+          image: t.services[`service${i + 1}Image`] || '',
+        }))
+      );
+      
+      setProjects(
+        Array.from({ length: 4 }, (_, i) => ({
+          id: i + 1,
+          title: t.projects[`project${i + 1}Title`] || '',
+          text: t.projects[`project${i + 1}Text`] || '',
+          image: t.projects[`project${i + 1}Image`] || '',
+        }))
+      );
+      
+      // إعادة تحميل بيانات الأقسام
+      setSectionsContent(prev => ({
+        ...prev,
+        hero: {
+          title: t.hero?.title || '',
+          subtitle: t.hero?.subtitle || '',
+          description: t.hero?.description || '',
+          button: t.hero?.button || '',
+          demo: t.hero?.demo || '',
+          backgroundImage: t.hero?.backgroundImage || '',
+          overlayOpacity: t.hero?.overlayOpacity || 0.5
+        },
+        about: {
+          title: t.about?.title || '',
+          subtitle: t.about?.subtitle || '',
+          description: t.about?.description || '',
+          backgroundImage: t.about?.backgroundImage || '',
+          cards: [
+            {
+              id: 1,
+              title: t.about?.card1Title || '',
+              text: t.about?.card1Text || '',
+              icon: t.about?.card1Icon || '',
+              image: t.about?.card1Image || ''
+            },
+            {
+              id: 2,
+              title: t.about?.card2Title || '',
+              text: t.about?.card2Text || '',
+              icon: t.about?.card2Icon || '',
+              image: t.about?.card2Image || ''
+            },
+            {
+              id: 3,
+              title: t.about?.card3Title || '',
+              text: t.about?.card3Text || '',
+              icon: t.about?.card3Icon || '',
+              image: t.about?.card3Image || ''
+            }
+          ]
+        },
+        clients: {
+          title: t.clients?.title || '',
+          subtitle: t.clients?.subtitle || '',
+          description: t.clients?.description || '',
+          backgroundImage: t.clients?.backgroundImage || '',
+          logos: [
+            { id: 1, name: t.clients?.client1 || '', logo: t.clients?.client1Logo || '' },
+            { id: 2, name: t.clients?.client2 || '', logo: t.clients?.client2Logo || '' },
+            { id: 3, name: t.clients?.client3 || '', logo: t.clients?.client3Logo || '' },
+            { id: 4, name: t.clients?.client4 || '', logo: t.clients?.client4Logo || '' },
+            { id: 5, name: t.clients?.client5 || '', logo: t.clients?.client5Logo || '' },
+            { id: 6, name: t.clients?.client6 || '', logo: t.clients?.client6Logo || '' }
+          ]
+        },
+        faq: {
+          title: t.faq?.title || '',
+          subtitle: t.faq?.subtitle || '',
+          description: t.faq?.description || '',
+          backgroundImage: t.faq?.backgroundImage || '',
+          items: [
+            { question: t.faq?.q1 || '', answer: t.faq?.a1 || '' },
+            { question: t.faq?.q2 || '', answer: t.faq?.a2 || '' },
+            { question: t.faq?.q3 || '', answer: t.faq?.a3 || '' },
+            { question: t.faq?.q4 || '', answer: t.faq?.a4 || '' },
+            { question: t.faq?.q5 || '', answer: t.faq?.a5 || '' }
+          ]
+        },
+        contact: {
+          title: t.contact?.title || '',
+          subtitle: t.contact?.subtitle || '',
+          description: t.contact?.description || '',
+          backgroundImage: t.contact?.backgroundImage || '',
+          formTitle: t.contact?.formTitle || '',
+          formSubtitle: t.contact?.formSubtitle || '',
+          mapImage: t.contact?.mapImage || ''
+        },
+        header: {
+          startProject: t.header?.startProject || ''
+        }
+      }));
+      
+      setHasUnsavedChanges(false);
+      
+      toast({ 
+        title: 'تم تحديث البيانات بنجاح', 
+        description: 'تم جلب أحدث التحديثات من قاعدة البيانات'
+      });
+    } catch (error) {
+      console.error('خطأ في تحديث البيانات:', error);
+      toast({ 
+        title: 'خطأ في تحديث البيانات', 
+        description: 'فشل في جلب التحديثات، يرجى المحاولة مرة أخرى',
+        variant: 'destructive' 
+      });
+    }
   };
 
   return (
@@ -568,6 +706,34 @@ const Dashboard = ({ onLogout }) => {
                 <Globe className="w-4 h-4" />
                 <span>معاينة الموقع</span>
               </button>
+
+              <button
+                onClick={handleRefreshData}
+                className="flex items-center space-x-2 rtl:space-x-reverse px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg transition-colors"
+                title="تحديث البيانات من قاعدة البيانات"
+              >
+                <div className="w-4 h-4">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                </div>
+                <span>تحديث البيانات</span>
+              </button>
+              
+              <div className="text-xs text-slate-500 px-3 py-2 bg-slate-50 rounded-lg border border-slate-200">
+                <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span>متصل</span>
+                </div>
+                <div>آخر تحديث:</div>
+                <div className="font-mono">
+                  {new Date().toLocaleTimeString('ar-SA', { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    second: '2-digit'
+                  })}
+                </div>
+              </div>
 
               <button
                 onClick={handleSave}
@@ -1198,8 +1364,8 @@ const Dashboard = ({ onLogout }) => {
                       </div>
                     </div>
 
-                    {/* قسم الشهادات */}
-                    <div className="bg-slate-50 rounded-xl p-6">
+                    {/* قسم آراء العملاء - تم إلغاؤه */}
+                    {/* <div className="bg-slate-50 rounded-xl p-6">
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="text-lg font-bold text-slate-800 flex items-center space-x-2 rtl:space-x-reverse">
                           <div className="w-2 h-2 bg-[#b18344] rounded-full"></div>
@@ -1235,7 +1401,7 @@ const Dashboard = ({ onLogout }) => {
                           <label className="block text-sm font-medium text-slate-700 mb-2">الوصف</label>
                           <textarea
                             className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b18344] h-20 resize-none"
-                            value={sectionsContent.testimonials.description}
+                            value={sectionsContent.testimonials.subtitle}
                             onChange={(e) => handleSectionContentChange('testimonials', 'description', e.target.value)}
                           />
                         </div>
@@ -1287,7 +1453,7 @@ const Dashboard = ({ onLogout }) => {
                               <div>
                                 <label className="block text-xs font-medium text-slate-600 mb-1">الصورة الشخصية</label>
                                 <input
-                                  className="w-full px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-[#b18344] text-sm mb-1"
+                                  className="w-full px-4 py-2 border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-[#b18344] text-sm mb-1"
                                   value={testimonial.avatar}
                                   onChange={(e) => handleArrayItemChange('testimonials', 'items', index, 'avatar', e.target.value)}
                                   placeholder="رابط الصورة"
@@ -1295,7 +1461,7 @@ const Dashboard = ({ onLogout }) => {
                                 <input
                                   type="file"
                                   accept="image/*"
-                                  className="w-full text-xs file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-[#b18344] file:text-white hover:file:bg-[#d4a574]"
+                                  className="w-full text-xs file:mr-2 file:py-1 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-[#b18344] file:text-white hover:file:bg-[#d4a574]"
                                   onChange={(e) => handleImageUpload((result) => handleArrayItemChange('testimonials', 'items', index, 'avatar', result))(e.target.files[0])}
                                 />
                                 {testimonial.avatar && (
@@ -1314,7 +1480,7 @@ const Dashboard = ({ onLogout }) => {
                           </div>
                         ))}
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* قسم الأسئلة الشائعة */}
                     <div className="bg-slate-50 rounded-xl p-6">

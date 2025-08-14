@@ -1,5 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { loadTranslations, updateTranslations as updateTranslationsFirebase, getTranslations } from '@/lib/translations';
+import { loadTranslations, updateTranslations as updateTranslationsFirebase, getTranslations, defaultTranslations } from '@/lib/translations';
+import { onSnapshot, doc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 const LanguageContext = createContext();
 
@@ -18,8 +20,9 @@ const mergeDeep = (target, source) => {
 
 export const LanguageProvider = ({ children }) => {
   const [language, setLanguage] = useState('ar');
-  const [translations, setTranslations] = useState(null);
+  const [translations, setTranslations] = useState(defaultTranslations);
   const [loading, setLoading] = useState(true);
+  const [lastUpdate, setLastUpdate] = useState(Date.now());
 
   // تحميل البيانات من Firebase عند بدء التطبيق
   useEffect(() => {
@@ -28,6 +31,7 @@ export const LanguageProvider = ({ children }) => {
         setLoading(true);
         const data = await loadTranslations();
         setTranslations(data);
+        setLastUpdate(Date.now());
       } catch (error) {
         console.error('خطأ في تحميل البيانات:', error);
       } finally {
@@ -37,6 +41,51 @@ export const LanguageProvider = ({ children }) => {
 
     loadData();
   }, []);
+
+  // الاستماع للتغييرات في Firebase في الوقت الفعلي
+  useEffect(() => {
+    if (!db) return;
+
+    const unsubscribe = onSnapshot(
+      doc(db, 'website', 'data'),
+      (doc) => {
+        if (doc.exists()) {
+          const data = doc.data();
+          setTranslations(data);
+          setLastUpdate(Date.now());
+          console.log('تم تحديث البيانات تلقائياً من Firebase');
+        } else {
+          // إذا لم توجد بيانات في Firebase، استخدم البيانات الافتراضية
+          console.log('لا توجد بيانات في Firebase، استخدام البيانات الافتراضية');
+          setTranslations(defaultTranslations);
+        }
+      },
+      (error) => {
+        console.error('خطأ في الاستماع للتغييرات:', error);
+        // في حالة الخطأ، استخدم البيانات الافتراضية
+        console.log('استخدام البيانات الافتراضية في حالة الخطأ');
+        setTranslations(defaultTranslations);
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
+
+  // دالة لإعادة تحميل البيانات يدوياً
+  const refreshData = async () => {
+    try {
+      setLoading(true);
+      const data = await loadTranslations();
+      setTranslations(data);
+      setLastUpdate(Date.now());
+      return true;
+    } catch (error) {
+      console.error('خطأ في إعادة تحميل البيانات:', error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const updateTranslations = async (lang, updates) => {
     try {
@@ -49,6 +98,9 @@ export const LanguageProvider = ({ children }) => {
         [lang]: mergeDeep(prev[lang] || {}, updates)
       }));
       
+      // تحديث وقت آخر تحديث
+      setLastUpdate(Date.now());
+      
       return true;
     } catch (error) {
       console.error('خطأ في تحديث البيانات:', error);
@@ -56,16 +108,20 @@ export const LanguageProvider = ({ children }) => {
     }
   };
 
-  // الحصول على الترجمة الحالية
-  const t = translations ? mergeDeep(translations[language] || {}, {}) : {};
+  // الحصول على الترجمة الحالية مع fallback للبيانات الافتراضية
+  const t = translations && translations[language] ? 
+    mergeDeep(defaultTranslations[language] || {}, translations[language] || {}) : 
+    defaultTranslations[language] || {};
 
   const value = {
     language,
     setLanguage,
     t,
     updateTranslations,
+    refreshData,
     loading,
-    translations
+    translations,
+    lastUpdate
   };
 
   if (loading) {
