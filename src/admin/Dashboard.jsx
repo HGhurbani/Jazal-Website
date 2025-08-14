@@ -493,9 +493,9 @@ const Dashboard = ({ onLogout }) => {
         updatedData[language].header = sectionsContent.header;
       }
 
-      // حفظ البيانات مع دمجها مع البيانات الموجودة
+      // حفظ البيانات مع تحديث الحالة المحلية وترحيلها إلى Firebase
       console.log('البيانات المراد حفظها:', updatedData);
-      await firebaseService.saveWebsiteData(updatedData);
+      await updateTranslations(language, updatedData[language]);
       console.log('تم الحفظ بنجاح');
 
       setHasUnsavedChanges(false);
