@@ -4,7 +4,7 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"dev": "concurrently \"node server.js\" \"vite\"",
+                "dev": "node tools/dev.js",
 		"build": "node tools/generate-llms.js || true && vite build",
 		"preview": "vite preview"
 	},
