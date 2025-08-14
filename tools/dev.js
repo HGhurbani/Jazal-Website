@@ -1,8 +1,13 @@
 #!/usr/bin/env node
 
 import { spawn } from 'child_process';
+import { fileURLToPath } from 'url';
 
-const vitePath = new URL('../node_modules/vite/bin/vite.js', import.meta.url).pathname;
+// Use fileURLToPath to properly decode the file URL on all platforms
+// especially on Windows where pathname encoding can break native paths.
+const vitePath = fileURLToPath(
+  new URL('../node_modules/vite/bin/vite.js', import.meta.url)
+);
 
 const processes = [
   spawn(process.execPath, ['server.js'], { stdio: 'inherit' }),
