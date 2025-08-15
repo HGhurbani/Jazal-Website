@@ -461,16 +461,34 @@ export const updateTranslations = async (language, updates) => {
     if (!currentTranslations) {
       await loadTranslations();
     }
-    
-    // تحديث البيانات المحلية
-    currentTranslations[language] = {
-      ...currentTranslations[language],
-      ...updates
+
+    // دمج عميق للبيانات المحلية مع التحديثات لضمان عدم فقدان الحقول غير المعدلة
+    const mergeDeep = (target = {}, source = {}) => {
+      const output = { ...target };
+      Object.keys(source).forEach((key) => {
+        if (
+          source[key] &&
+          typeof source[key] === 'object' &&
+          !Array.isArray(source[key])
+        ) {
+          output[key] = mergeDeep(target[key] || {}, source[key]);
+        } else {
+          output[key] = source[key];
+        }
+      });
+      return output;
     };
-    
-    // حفظ البيانات في Firebase
-    await firebaseService.saveWebsiteData(currentTranslations);
-    
+
+    currentTranslations[language] = mergeDeep(
+      currentTranslations[language] || {},
+      updates
+    );
+
+    // حفظ البيانات المحدثة في Firebase مع دمجها مع البيانات الموجودة
+    await firebaseService.saveWebsiteData({
+      [language]: currentTranslations[language]
+    });
+
     return true;
   } catch (error) {
     console.error('خطأ في تحديث البيانات:', error);
