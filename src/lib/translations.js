@@ -458,9 +458,16 @@ export const loadTranslations = async () => {
 // دالة لتحديث البيانات في Firebase
 export const updateTranslations = async (language, updates) => {
   try {
+    console.log('🔄 بدء تحديث الترجمات...');
+    console.log('🌐 اللغة:', language);
+    console.log('📝 التحديثات:', updates);
+    
     if (!currentTranslations) {
+      console.log('📥 تحميل البيانات الحالية...');
       await loadTranslations();
     }
+
+    console.log('📊 البيانات الحالية قبل التحديث:', currentTranslations);
 
     // دمج عميق للبيانات المحلية مع التحديثات لضمان عدم فقدان الحقول غير المعدلة
     const mergeDeep = (target = {}, source = {}) => {
@@ -479,19 +486,31 @@ export const updateTranslations = async (language, updates) => {
       return output;
     };
 
+    // تحديث البيانات المحلية
     currentTranslations[language] = mergeDeep(
       currentTranslations[language] || {},
       updates
     );
 
+    console.log('🔗 البيانات المدمجة:', currentTranslations[language]);
+
     // حفظ البيانات المحدثة في Firebase مع دمجها مع البيانات الموجودة
+    console.log('💾 حفظ البيانات في Firebase...');
     await firebaseService.saveWebsiteData({
       [language]: currentTranslations[language]
     });
 
+    console.log('✅ تم تحديث البيانات بنجاح في Firebase');
+    console.log('📊 البيانات النهائية:', currentTranslations);
+
     return true;
   } catch (error) {
-    console.error('خطأ في تحديث البيانات:', error);
+    console.error('❌ خطأ في تحديث البيانات:', error);
+    console.error('🔍 تفاصيل الخطأ:', {
+      code: error.code,
+      message: error.message,
+      stack: error.stack
+    });
     throw error;
   }
 };

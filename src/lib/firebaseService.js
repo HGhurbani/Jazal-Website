@@ -39,6 +39,9 @@ class FirebaseService {
   // حفظ جميع البيانات مع دمج البيانات الجديدة مع الموجودة
   async saveWebsiteData(newData) {
     try {
+      console.log('🔄 بدء حفظ البيانات في Firebase...');
+      console.log('📝 البيانات الجديدة:', newData);
+      
       const docRef = doc(db, 'website', 'data');
       
       // الحصول على البيانات الموجودة أولاً
@@ -47,6 +50,9 @@ class FirebaseService {
       
       if (existingDoc.exists()) {
         existingData = existingDoc.data();
+        console.log('📊 البيانات الموجودة:', existingData);
+      } else {
+        console.log('⚠️ لا توجد بيانات موجودة، سيتم إنشاء مستند جديد');
       }
       
       // دمج البيانات الجديدة مع الموجودة
@@ -56,19 +62,38 @@ class FirebaseService {
       mergedData.lastUpdated = new Date().toISOString();
       mergedData.lastUpdatedBy = 'admin';
       
-      console.log('حفظ البيانات المدمجة:', mergedData);
+      console.log('🔗 البيانات المدمجة:', mergedData);
       
+      // حفظ البيانات باستخدام setDoc مع merge: true
       await setDoc(docRef, mergedData, { merge: true });
+      console.log('✅ تم حفظ البيانات بنجاح');
       
       // التأكد من حفظ البيانات
       const savedDoc = await getDoc(docRef);
       if (savedDoc.exists()) {
-        console.log('تم حفظ البيانات بنجاح:', savedDoc.data());
+        const savedData = savedDoc.data();
+        console.log('✅ تم التحقق من حفظ البيانات:', savedData);
+        console.log('🕒 وقت آخر تحديث:', savedData.lastUpdated);
+        
+        // مقارنة البيانات المحفوظة مع البيانات المراد حفظها
+        const isDataSaved = JSON.stringify(savedData) === JSON.stringify(mergedData);
+        console.log('🔍 البيانات محفوظة بشكل صحيح:', isDataSaved);
+        
+        if (!isDataSaved) {
+          console.warn('⚠️ تحذير: البيانات المحفوظة لا تتطابق مع البيانات المراد حفظها');
+        }
+      } else {
+        console.error('❌ فشل في حفظ البيانات: المستند غير موجود بعد الحفظ');
       }
       
       return true;
     } catch (error) {
-      console.error('خطأ في حفظ البيانات:', error);
+      console.error('❌ خطأ في حفظ البيانات:', error);
+      console.error('🔍 تفاصيل الخطأ:', {
+        code: error.code,
+        message: error.message,
+        stack: error.stack
+      });
       throw error;
     }
   }
@@ -112,6 +137,9 @@ class FirebaseService {
   // تحديث قسم معين مع دمج البيانات
   async updateSection(section, data) {
     try {
+      console.log('🔄 بدء تحديث القسم:', section);
+      console.log('📝 بيانات التحديث:', data);
+      
       const docRef = doc(db, 'website', 'data');
       
       // الحصول على البيانات الموجودة
@@ -120,16 +148,40 @@ class FirebaseService {
       
       if (existingDoc.exists()) {
         existingData = existingDoc.data();
+        console.log('📊 البيانات الموجودة للقسم:', existingData[section]);
+      } else {
+        console.log('⚠️ لا توجد بيانات موجودة، سيتم إنشاء مستند جديد');
       }
       
       // دمج البيانات الجديدة مع الموجودة في القسم المحدد
       const updatedData = {};
       updatedData[section] = this.mergeNestedObject(existingData[section] || {}, data);
       
+      // إضافة timestamp للتحديث
+      updatedData.lastUpdated = new Date().toISOString();
+      updatedData.lastUpdatedBy = 'admin';
+      
+      console.log('🔗 البيانات المحدثة للقسم:', updatedData);
+      
       await updateDoc(docRef, updatedData);
+      console.log('✅ تم تحديث القسم بنجاح');
+      
+      // التأكد من التحديث
+      const updatedDoc = await getDoc(docRef);
+      if (updatedDoc.exists()) {
+        const finalData = updatedDoc.data();
+        console.log('✅ تم التحقق من تحديث القسم:', finalData[section]);
+        console.log('🕒 وقت آخر تحديث:', finalData.lastUpdated);
+      }
+      
       return true;
     } catch (error) {
-      console.error('خطأ في تحديث القسم:', error);
+      console.error('❌ خطأ في تحديث القسم:', error);
+      console.error('🔍 تفاصيل الخطأ:', {
+        section,
+        code: error.code,
+        message: error.message
+      });
       throw error;
     }
   }

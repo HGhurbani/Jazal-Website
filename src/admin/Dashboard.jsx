@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -31,7 +30,7 @@ import {
 } from 'lucide-react';
 
 const Dashboard = ({ onLogout }) => {
-  const { language, t, updateTranslations, refreshData } = useLanguage();
+  const { language, t, updateTranslations, refreshData, isListening, lastUpdate, translations } = useLanguage();
   const { credentials, updateCredentials } = useAuth();
   const { toast } = useToast();
 
@@ -511,6 +510,14 @@ const Dashboard = ({ onLogout }) => {
           description: 'سيتم تحديث الموقع الرئيسي تلقائياً خلال ثوانٍ قليلة',
         });
       }, 1000);
+      
+      // إظهار رسالة تأكيد نهائية
+      setTimeout(() => {
+        toast({
+          title: '✅ التحديث مكتمل',
+          description: `تم تحديث ${Object.keys(updatedData[language]).length} قسم بنجاح. يمكنك الآن معاينة الموقع الرئيسي.`,
+        });
+      }, 3000);
     } catch (error) {
       console.error('خطأ في حفظ البيانات:', error);
       
@@ -719,19 +726,65 @@ const Dashboard = ({ onLogout }) => {
                 </div>
                 <span>تحديث البيانات</span>
               </button>
+
+              <button
+                onClick={async () => {
+                  try {
+                    toast({ 
+                      title: 'اختبار الاتصال...', 
+                      description: 'جاري اختبار الاتصال مع Firebase'
+                    });
+                    
+                    // اختبار بسيط للاتصال
+                    const testData = { test: 'test-value', timestamp: Date.now() };
+                    await updateTranslations(language, { testSection: testData });
+                    
+                    toast({ 
+                      title: '✅ اختبار ناجح', 
+                      description: 'الاتصال مع Firebase يعمل بشكل صحيح'
+                    });
+                  } catch (error) {
+                    toast({ 
+                      title: '❌ اختبار فاشل', 
+                      description: 'فشل في الاتصال مع Firebase: ' + error.message,
+                      variant: 'destructive'
+                    });
+                  }
+                }}
+                className="flex items-center space-x-2 rtl:space-x-reverse px-4 py-2 bg-green-100 hover:bg-green-200 text-green-700 rounded-lg transition-colors"
+                title="اختبار الاتصال مع Firebase"
+              >
+                <div className="w-4 h-4">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <span>اختبار الاتصال</span>
+              </button>
               
               <div className="text-xs text-slate-500 px-3 py-2 bg-slate-50 rounded-lg border border-slate-200">
                 <div className="flex items-center space-x-2 rtl:space-x-reverse">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span>متصل</span>
+                  <div className={`w-2 h-2 rounded-full animate-pulse ${
+                    isListening ? 'bg-green-500' : 'bg-red-500'
+                  }`}></div>
+                  <span>{isListening ? 'متصل' : 'غير متصل'}</span>
                 </div>
                 <div>آخر تحديث:</div>
                 <div className="font-mono">
-                  {new Date().toLocaleTimeString('ar-SA', { 
+                  {new Date(lastUpdate).toLocaleTimeString('ar-SA', { 
                     hour: '2-digit', 
                     minute: '2-digit',
                     second: '2-digit'
                   })}
+                </div>
+                <div className="text-xs mt-1">
+                  {isListening ? '🔄 تحديثات تلقائية' : '⚠️ تحديثات يدوية فقط'}
+                </div>
+                <div className="text-xs mt-1 text-blue-600">
+                  {translations?.lastUpdated ? 
+                    `آخر تحديث في Firebase: ${new Date(translations.lastUpdated).toLocaleString('ar-SA')}` : 
+                    'لم يتم تحديث Firebase بعد'
+                  }
                 </div>
               </div>
 

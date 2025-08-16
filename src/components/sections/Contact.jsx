@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Phone, MapPin, MessageCircle, Send, CheckCircle } from 'lucide-react';
+import { Phone, MapPin, MessageCircle, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -13,7 +13,6 @@ const Contact = ({ handleContactSubmit }) => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
 
   const whatsappNumber = t.footer.contactPhone || '+966504447148';
 
@@ -45,11 +44,9 @@ const Contact = ({ handleContactSubmit }) => {
     window.open(`https://wa.me/${whatsappNumber.replace('+', '')}?text=${whatsappMessage}`, '_blank');
     
     setIsSubmitting(false);
-    setShowSuccess(true);
     
     setFormData({ name: '', phone: '', message: '' });
     
-    setTimeout(() => setShowSuccess(false), 3000);
   };
 
   return (
@@ -137,12 +134,7 @@ const Contact = ({ handleContactSubmit }) => {
                   {isSubmitting ? t.contact.sending : t.contact.whatsappSubmit}
                 </Button>
 
-                {showSuccess && (
-                  <div className="flex items-center text-green-600 mt-4">
-                    <CheckCircle className="w-5 h-5 me-2" />
-                    <span>{t.toast.successTitle}</span>
-                  </div>
-                )}
+                {/* تم إزالة رسالة النجاح */}
               </form>
 
               <div className={`rounded-3xl overflow-hidden shadow-xl border border-gray-200/50 h-full ${language === 'ar' ? 'md:order-1' : 'md:order-2'}`}>

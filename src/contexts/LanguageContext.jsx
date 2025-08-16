@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { loadTranslations, updateTranslations as updateTranslationsFirebase, getTranslations, defaultTranslations } from '@/lib/translations';
-import { onSnapshot, doc } from 'firebase/firestore';
+import { onSnapshot, doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
 const LanguageContext = createContext();
@@ -23,17 +23,28 @@ export const LanguageProvider = ({ children }) => {
   const [translations, setTranslations] = useState(defaultTranslations);
   const [loading, setLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState(Date.now());
+  const [isListening, setIsListening] = useState(false);
 
   // تحميل البيانات من Firebase عند بدء التطبيق
   useEffect(() => {
     const loadData = async () => {
       try {
         setLoading(true);
+        console.log('🔄 بدء تحميل البيانات من Firebase...');
+        
         const data = await loadTranslations();
+        console.log('✅ تم تحميل البيانات بنجاح:', data);
+        
         setTranslations(data);
         setLastUpdate(Date.now());
+        
+        // بدء الاستماع للتغييرات بعد تحميل البيانات الأولية
+        startRealtimeListener();
       } catch (error) {
-        console.error('خطأ في تحميل البيانات:', error);
+        console.error('❌ خطأ في تحميل البيانات:', error);
+        // استخدام البيانات الافتراضية في حالة الخطأ
+        setTranslations(defaultTranslations);
+        setLastUpdate(Date.now());
       } finally {
         setLoading(false);
       }
@@ -42,45 +53,83 @@ export const LanguageProvider = ({ children }) => {
     loadData();
   }, []);
 
-  // الاستماع للتغييرات في Firebase في الوقت الفعلي
-  useEffect(() => {
-    if (!db) return;
+  // دالة لبدء الاستماع للتغييرات في الوقت الفعلي
+  const startRealtimeListener = () => {
+    if (!db || isListening) return;
 
-    const unsubscribe = onSnapshot(
-      doc(db, 'website', 'data'),
-      (doc) => {
-        if (doc.exists()) {
-          const data = doc.data();
-          setTranslations(data);
-          setLastUpdate(Date.now());
-          console.log('تم تحديث البيانات تلقائياً من Firebase');
-        } else {
-          // إذا لم توجد بيانات في Firebase، استخدم البيانات الافتراضية
-          console.log('لا توجد بيانات في Firebase، استخدام البيانات الافتراضية');
+    try {
+      console.log('🔊 بدء الاستماع للتغييرات في Firebase...');
+      
+      const unsubscribe = onSnapshot(
+        doc(db, 'website', 'data'),
+        (docSnapshot) => {
+          if (docSnapshot.exists()) {
+            const data = docSnapshot.data();
+            console.log('📡 تم استلام تحديث من Firebase:', data);
+            console.log('🕒 وقت التحديث:', new Date().toLocaleString('ar-SA'));
+            
+            // تحديث البيانات المحلية
+            setTranslations(prev => {
+              const newData = { ...data };
+              console.log('📊 البيانات السابقة:', prev);
+              console.log('📊 البيانات الجديدة:', newData);
+              return newData;
+            });
+            
+            setLastUpdate(Date.now());
+            console.log('✅ تم تحديث البيانات المحلية بنجاح');
+          } else {
+            console.log('⚠️ لا توجد بيانات في Firebase، استخدام البيانات الافتراضية');
+            setTranslations(defaultTranslations);
+            setLastUpdate(Date.now());
+          }
+        },
+        (error) => {
+          console.error('❌ خطأ في الاستماع للتغييرات:', error);
+          // في حالة الخطأ، استخدم البيانات الافتراضية
+          console.log('🔄 استخدام البيانات الافتراضية في حالة الخطأ');
           setTranslations(defaultTranslations);
+          setLastUpdate(Date.now());
         }
-      },
-      (error) => {
-        console.error('خطأ في الاستماع للتغييرات:', error);
-        // في حالة الخطأ، استخدم البيانات الافتراضية
-        console.log('استخدام البيانات الافتراضية في حالة الخطأ');
-        setTranslations(defaultTranslations);
-      }
-    );
+      );
 
-    return () => unsubscribe();
-  }, []);
+      setIsListening(true);
+      console.log('✅ تم بدء الاستماع للتغييرات بنجاح');
+
+      // تنظيف الاستماع عند إلغاء التطبيق
+      return () => {
+        console.log('🛑 إيقاف الاستماع للتغييرات');
+        unsubscribe();
+        setIsListening(false);
+      };
+    } catch (error) {
+      console.error('❌ خطأ في بدء الاستماع للتغييرات:', error);
+    }
+  };
 
   // دالة لإعادة تحميل البيانات يدوياً
   const refreshData = async () => {
     try {
+      console.log('🔄 بدء إعادة تحميل البيانات...');
       setLoading(true);
+      
+      // إيقاف الاستماع الحالي
+      if (isListening) {
+        setIsListening(false);
+      }
+      
       const data = await loadTranslations();
+      console.log('✅ تم إعادة تحميل البيانات بنجاح:', data);
+      
       setTranslations(data);
       setLastUpdate(Date.now());
+      
+      // إعادة بدء الاستماع
+      startRealtimeListener();
+      
       return true;
     } catch (error) {
-      console.error('خطأ في إعادة تحميل البيانات:', error);
+      console.error('❌ خطأ في إعادة تحميل البيانات:', error);
       throw error;
     } finally {
       setLoading(false);
@@ -89,21 +138,47 @@ export const LanguageProvider = ({ children }) => {
 
   const updateTranslations = async (lang, updates) => {
     try {
+      console.log('🔄 بدء تحديث البيانات...');
+      console.log('🌐 اللغة:', lang);
+      console.log('📝 التحديثات:', updates);
+      
       // تحديث البيانات في Firebase
       await updateTranslationsFirebase(lang, updates);
+      console.log('✅ تم حفظ البيانات في Firebase بنجاح');
       
-      // تحديث البيانات المحلية
-      setTranslations(prev => ({
-        ...prev,
-        [lang]: mergeDeep(prev[lang] || {}, updates)
-      }));
+      // تحديث البيانات المحلية فوراً
+      setTranslations(prev => {
+        const updated = {
+          ...prev,
+          [lang]: mergeDeep(prev[lang] || {}, updates)
+        };
+        console.log('📊 البيانات المحلية المحدثة:', updated);
+        return updated;
+      });
       
       // تحديث وقت آخر تحديث
       setLastUpdate(Date.now());
+      console.log('✅ تم تحديث البيانات المحلية بنجاح');
+      
+      // إعادة تحميل البيانات من Firebase للتأكد من التحديث
+      setTimeout(async () => {
+        try {
+          console.log('🔄 إعادة تحميل البيانات للتأكد من التحديث...');
+          const freshData = await getDoc(doc(db, 'website', 'data'));
+          if (freshData.exists()) {
+            const data = freshData.data();
+            console.log('📡 البيانات المحدثة من Firebase:', data);
+            setTranslations(data);
+            setLastUpdate(Date.now());
+          }
+        } catch (error) {
+          console.error('❌ خطأ في إعادة تحميل البيانات للتأكد:', error);
+        }
+      }, 1000);
       
       return true;
     } catch (error) {
-      console.error('خطأ في تحديث البيانات:', error);
+      console.error('❌ خطأ في تحديث البيانات:', error);
       throw error;
     }
   };
@@ -121,7 +196,8 @@ export const LanguageProvider = ({ children }) => {
     refreshData,
     loading,
     translations,
-    lastUpdate
+    lastUpdate,
+    isListening
   };
 
   if (loading) {
