@@ -7,32 +7,51 @@ const About = () => {
   
   const { t } = useLanguage();
 
-  const cards = [
-    {
-      id: 1,
-      icon: Award,
-      title: t.about.card1Title,
-      text: t.about.card1Text,
-      gradient: "from-[#b18344] via-[#c49454] to-[#d4a566]",
-      accentColor: "#b18344"
-    },
-    {
-      id: 2,
-      icon: Users,
-      title: t.about.card2Title,
-      text: t.about.card2Text,
-      gradient: "from-[#9d7239] via-[#b18344] to-[#c49454]",
-      accentColor: "#9d7239"
-    },
-    {
-      id: 3,
-      icon: Star,
-      title: t.about.card3Title,
-      text: t.about.card3Text,
-      gradient: "from-[#c49454] via-[#d4a566] to-[#e5b677]",
-      accentColor: "#c49454"
+  // دالة لإنشاء مصفوفة البطاقات ديناميكياً
+  const createCardsArray = () => {
+    const cardsArray = [];
+    const icons = [Award, Users, Star];
+    const gradients = [
+      "from-[#b18344] via-[#c49454] to-[#d4a566]",
+      "from-[#9d7239] via-[#b18344] to-[#c49454]",
+      "from-[#c49454] via-[#d4a566] to-[#e5b677]"
+    ];
+    const accentColors = ["#b18344", "#9d7239", "#c49454"];
+    
+    // البحث عن البطاقات المتاحة في البيانات
+    let cardIndex = 1;
+    while (true) {
+      const titleKey = `card${cardIndex}Title`;
+      const textKey = `card${cardIndex}Text`;
+      
+      // التحقق من وجود البطاقة
+      if (t.about[titleKey] && t.about[textKey]) {
+        const card = {
+          id: cardIndex,
+          icon: icons[cardIndex - 1] || Award,
+          title: t.about[titleKey],
+          text: t.about[textKey],
+          gradient: gradients[cardIndex - 1] || gradients[0],
+          accentColor: accentColors[cardIndex - 1] || accentColors[0]
+        };
+        
+        cardsArray.push(card);
+        cardIndex++;
+      } else {
+        // إيقاف عند عدم وجود المزيد من البطاقات
+        break;
+      }
     }
-  ];
+    
+    return cardsArray;
+  };
+
+  const cards = createCardsArray();
+
+  // إذا لم تكن هناك بطاقات، لا تعرض القسم
+  if (cards.length === 0) {
+    return null;
+  }
 
   return (
     <section id="about" className="relative py-20 bg-gradient-to-br from-gray-50 via-white to-gray-100 overflow-hidden">

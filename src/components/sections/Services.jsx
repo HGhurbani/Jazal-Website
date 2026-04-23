@@ -15,66 +15,89 @@ import {
 const Services = () => {
   const { t } = useLanguage();
 
-  const services = [
-    {
-      title: t.services.service1Title,
-      description: t.services.service1Text,
-      image: t.services.service1Image,
-      icon: CalendarCheck,
-    },
-    {
-      title: t.services.service2Title,
-      description: t.services.service2Text,
-      image: t.services.service2Image,
-      icon: Paintbrush,
-    },
-    {
-      title: t.services.service3Title,
-      description: t.services.service3Text,
-      image: t.services.service3Image,
-      icon: UserCheck,
-    },
-    {
-      title: t.services.service4Title,
-      description: t.services.service4Text,
-      image: t.services.service4Image,
-      icon: ClipboardList,
-    },
-    {
-      title: t.services.service5Title,
-      description: t.services.service5Text,
-      image: t.services.service5Image,
-      icon: Camera,
-    },
-    {
-      title: t.services.service6Title,
-      description: t.services.service6Text,
-      image: t.services.service6Image,
-      icon: MapPin,
-    },
-    {
-      title: t.services.service7Title,
-      description: t.services.service7Text,
-      image: t.services.service7Image,
-      icon: Gift,
-      store: true,
-      link: 'https://jzl10.com/',
-    },
-    {
-      title: t.services.service8Title,
-      description: t.services.service8Text,
-      image: t.services.service8Image,
-      icon: Gift,
-      store: true,
-      link: 'https://jzl10.com/',
-    },
-    {
-      title: t.services.service9Title,
-      description: t.services.service9Text,
-      image: t.services.service9Image,
-      icon: PartyPopper,
-    },
-  ];
+  // دالة لإنشاء مصفوفة الخدمات ديناميكياً
+  const createServicesArray = () => {
+    const servicesArray = [];
+    const icons = [CalendarCheck, Paintbrush, UserCheck, ClipboardList, Camera, MapPin, Gift, Gift, PartyPopper];
+    
+    // البحث عن الخدمات المتاحة في البيانات
+    let serviceIndex = 1;
+    while (true) {
+      const titleKey = `service${serviceIndex}Title`;
+      const textKey = `service${serviceIndex}Text`;
+      const imageKey = `service${serviceIndex}Image`;
+      const hasButtonKey = `service${serviceIndex}HasButton`;
+      const buttonTextKey = `service${serviceIndex}ButtonText`;
+      const buttonLinkKey = `service${serviceIndex}ButtonLink`;
+      const buttonTypeKey = `service${serviceIndex}ButtonType`;
+      
+      // التحقق من وجود الخدمة
+      if (t.services[titleKey] && t.services[textKey]) {
+        const service = {
+          title: t.services[titleKey],
+          description: t.services[textKey],
+          image: t.services[imageKey] || '',
+          icon: icons[serviceIndex - 1] || CalendarCheck,
+          hasButton: t.services[hasButtonKey] || false,
+          buttonText: t.services[buttonTextKey] || '',
+          buttonLink: t.services[buttonLinkKey] || '',
+          buttonType: t.services[buttonTypeKey] || 'none',
+        };
+        
+        servicesArray.push(service);
+        serviceIndex++;
+      } else {
+        // إيقاف عند عدم وجود المزيد من الخدمات
+        break;
+      }
+    }
+    
+    return servicesArray;
+  };
+
+  const services = createServicesArray();
+
+  // إذا لم تكن هناك خدمات، لا تعرض القسم
+  if (services.length === 0) {
+    return null;
+  }
+
+  // دالة لإنشاء الزر المناسب
+  const renderButton = (service) => {
+    if (!service.hasButton || service.buttonType === 'none') {
+      return null;
+    }
+
+    if (service.buttonType === 'store') {
+      return (
+        <a
+          href="https://jzl10.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-[#b18344] text-white rounded-lg hover:bg-[#d4a574] transition-colors"
+        >
+          <span>تسوق الآن</span>
+          <ExternalLink className="w-4 h-4" />
+        </a>
+      );
+    }
+
+    if (service.buttonType === 'custom' && service.buttonText && service.buttonLink) {
+      return (
+        <a
+          href={service.buttonLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-[#b18344] text-white rounded-lg hover:bg-[#d4a574] transition-colors"
+        >
+          <span>{service.buttonText}</span>
+          <ExternalLink className="w-4 h-4" />
+        </a>
+      );
+    }
+
+    return null;
+  };
 
   return (
     <section id="services" className="py-20 bg-gray-50">
@@ -113,17 +136,9 @@ const Services = () => {
                   <p className="text-gray-600 text-sm leading-relaxed mb-4">
                     {service.description}
                   </p>
-                  {service.store && (
-                    <a
-                      href={service.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-[#b18344] font-medium"
-                    >
-                      {t.services.storeBrowse}
-                      <ExternalLink className="w-4 h-4" />
-                    </a>
-                  )}
+                  
+                  {/* عرض الزر المناسب */}
+                  {renderButton(service)}
                 </div>
               </div>
             );

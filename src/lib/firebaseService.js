@@ -9,7 +9,8 @@ import {
   where,
   orderBy,
   addDoc,
-  deleteDoc
+  deleteDoc,
+  deleteField
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from './firebase';
@@ -104,18 +105,43 @@ class FirebaseService {
     
     // دمج البيانات العربية
     if (newData.ar) {
-      merged.ar = this.mergeNestedObject(merged.ar || {}, newData.ar);
+      merged.ar = this.mergeDataWithReplacement(merged.ar || {}, newData.ar);
     }
     
     // دمج البيانات الإنجليزية
     if (newData.en) {
-      merged.en = this.mergeNestedObject(merged.en || {}, newData.en);
+      merged.en = this.mergeDataWithReplacement(merged.en || {}, newData.en);
     }
     
     return merged;
   }
 
-  // دمج الكائنات المتداخلة
+  // دمج البيانات مع استبدال الأقسام المحددة بالكامل
+  mergeDataWithReplacement(existing, newObj) {
+    const merged = { ...existing };
+    
+    // الأقسام التي يجب استبدالها بالكامل بدلاً من دمجها
+    const replaceWholeSections = ['services', 'projects', 'about', 'clients', 'faq', 'hero', 'contact', 'header', 'footer'];
+    
+    for (const key in newObj) {
+      if (newObj.hasOwnProperty(key)) {
+        if (replaceWholeSections.includes(key)) {
+          // استبدال القسم بالكامل
+          merged[key] = newObj[key];
+        } else if (typeof newObj[key] === 'object' && newObj[key] !== null && !Array.isArray(newObj[key])) {
+          // دمج الكائنات الأخرى بشكل متكرر
+          merged[key] = this.mergeDataWithReplacement(merged[key] || {}, newObj[key]);
+        } else {
+          // استبدال القيم العادية
+          merged[key] = newObj[key];
+        }
+      }
+    }
+    
+    return merged;
+  }
+
+  // دمج الكائنات المتداخلة (للأقسام التي تحتاج دمج)
   mergeNestedObject(existing, newObj) {
     const merged = { ...existing };
     
@@ -208,6 +234,80 @@ class FirebaseService {
     } catch (error) {
       console.error('خطأ في حذف الصورة:', error);
       // لا نريد إيقاف العملية إذا فشل حذف الصورة
+    }
+  }
+
+  // حذف عدة حقول باستخدام deleteField
+  async deleteFields(lang, fields) {
+    try {
+      console.log('🔄 بدء حذف الحقول:', fields);
+      const docRef = doc(db, 'website', 'data');
+      const payload = {};
+      
+      fields.forEach((path) => {
+        payload[`${lang}.${path}`] = deleteField();
+      });
+      
+      console.log('📝 بيانات الحذف:', payload);
+      
+      if (Object.keys(payload).length > 0) {
+        await updateDoc(docRef, payload);
+        console.log('✅ تم حذف الحقول بنجاح');
+      }
+      
+      return true;
+    } catch (error) {
+      console.error('❌ خطأ في حذف الحقول:', error);
+      throw error;
+    }
+  }
+
+  // دالة جديدة لحذف قسم كامل واستبداله
+  async replaceSection(lang, section, newData) {
+    try {
+      console.log(`🔄 استبدال قسم ${section} بالكامل`);
+      const docRef = doc(db, 'website', 'data');
+      
+      // الحصول على البيانات الموجودة
+      const existingDoc = await getDoc(docRef);
+      let existingData = {};
+      
+      if (existingDoc.exists()) {
+        existingData = existingDoc.data();
+      }
+      
+      // إنشاء كائن التحديث
+      const updateData = {};
+      
+      // حذف جميع مفاتيح القسم القديمة
+      if (existingData[lang] && existingData[lang][section]) {
+        const oldSection = existingData[lang][section];
+        Object.keys(oldSection).forEach(key => {
+          updateData[`${lang}.${section}.${key}`] = deleteField();
+        });
+      }
+      
+      // إضافة البيانات الجديدة
+      if (newData) {
+        Object.keys(newData).forEach(key => {
+          updateData[`${lang}.${section}.${key}`] = newData[key];
+        });
+      }
+      
+      // إضافة timestamp
+      updateData[`${lang}.lastUpdated`] = new Date().toISOString();
+      updateData[`${lang}.lastUpdatedBy`] = 'admin';
+      
+      console.log('📝 بيانات التحديث:', updateData);
+      
+      // تنفيذ التحديث
+      await updateDoc(docRef, updateData);
+      console.log(`✅ تم استبدال قسم ${section} بنجاح`);
+      
+      return true;
+    } catch (error) {
+      console.error(`❌ خطأ في استبدال قسم ${section}:`, error);
+      throw error;
     }
   }
 

@@ -7,44 +7,47 @@ import { ExternalLink, ShoppingBag, Mic, Award, PartyPopper } from 'lucide-react
 const Projects = () => {
     const { t } = useLanguage();
 
-    const projectData = [
-        {
-            id: 1,
-            titleKey: 'project1Title',
-            textKey: 'project1Text',
-            image: t.projects.project1Image,
-            alt: "معرض تجاري كبير بتصميم حديث",
-            icon: ShoppingBag,
-            categoryKey: 'categoryTrade'
-        },
-        {
-            id: 2,
-            titleKey: 'project2Title',
-            textKey: 'project2Text',
-            image: t.projects.project2Image,
-            alt: "مؤتمر علمي في قاعة كبيرة",
-            icon: Mic,
-            categoryKey: 'categoryConference'
-        },
-        {
-            id: 3,
-            titleKey: 'project3Title',
-            textKey: 'project3Text',
-            image: t.projects.project3Image,
-            alt: "حفل تكريم أنيق بإضاءة ذهبية",
-            icon: Award,
-            categoryKey: 'categoryCeremony'
-        },
-        {
-            id: 4,
-            titleKey: 'project4Title',
-            textKey: 'project4Text',
-            image: t.projects.project4Image,
-            alt: "مهرجان البُر",
-            icon: PartyPopper,
-            categoryKey: 'categoryCeremony'
+    // دالة لإنشاء مصفوفة المشاريع ديناميكياً
+    const createProjectsArray = () => {
+        const projectsArray = [];
+        const icons = [ShoppingBag, Mic, Award, PartyPopper];
+        
+        // البحث عن المشاريع المتاحة في البيانات
+        let projectIndex = 1;
+        while (true) {
+            const titleKey = `project${projectIndex}Title`;
+            const textKey = `project${projectIndex}Text`;
+            const imageKey = `project${projectIndex}Image`;
+            
+            // التحقق من وجود المشروع
+            if (t.projects[titleKey] && t.projects[textKey]) {
+                const project = {
+                    id: projectIndex,
+                    titleKey,
+                    textKey,
+                    image: t.projects[imageKey] || '',
+                    alt: t.projects[titleKey],
+                    icon: icons[projectIndex - 1] || ShoppingBag,
+                    categoryKey: `category${projectIndex}`
+                };
+                
+                projectsArray.push(project);
+                projectIndex++;
+            } else {
+                // إيقاف عند عدم وجود المزيد من المشاريع
+                break;
+            }
         }
-    ];
+        
+        return projectsArray;
+    };
+
+    const projectData = createProjectsArray();
+
+    // إذا لم تكن هناك مشاريع، لا تعرض القسم
+    if (projectData.length === 0) {
+        return null;
+    }
 
     return (
         <section id="projects" className="section-padding bg-gradient-to-b from-gray-50 to-white">

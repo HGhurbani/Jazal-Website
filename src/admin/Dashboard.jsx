@@ -45,24 +45,10 @@ const Dashboard = ({ onLogout }) => {
   const [contactAddress, setContactAddress] = useState(t.footer.contactAddress);
 
   // Services State
-  const [services, setServices] = useState(
-    Array.from({ length: 9 }, (_, i) => ({
-      id: i + 1,
-      title: t.services[`service${i + 1}Title`] || '',
-      text: t.services[`service${i + 1}Text`] || '',
-      image: t.services[`service${i + 1}Image`] || '',
-    }))
-  );
+  const [services, setServices] = useState([]);
 
   // Projects State
-  const [projects, setProjects] = useState(
-    Array.from({ length: 4 }, (_, i) => ({
-      id: i + 1,
-      title: t.projects[`project${i + 1}Title`] || '',
-      text: t.projects[`project${i + 1}Text`] || '',
-      image: t.projects[`project${i + 1}Image`] || '',
-    }))
-  );
+  const [projects, setProjects] = useState([]);
 
   // Credentials State
   const [userName, setUserName] = useState(credentials.username);
@@ -123,46 +109,6 @@ const Dashboard = ({ onLogout }) => {
         { id: 6, name: t.clients?.client6 || '', logo: t.clients?.client6Logo || '' }
       ]
     },
-    // testimonials: {
-    //   title: t.testimonials?.title || '',
-    //   subtitle: t.testimonials?.subtitle || '',
-    //   description: t.testimonials?.description || '',
-    //   backgroundImage: t.testimonials?.backgroundImage || '',
-    //   items: [
-    //     {
-    //       id: 1,
-    //       quote: t.testimonials?.testimonial1Quote || '',
-    //       name: t.testimonials?.testimonial1Name || '',
-    //       title: t.testimonials?.testimonial1Title || '',
-    //       avatar: t.testimonials?.testimonial1Avatar || '',
-    //       rating: t.testimonials?.testimonial1Rating || 5
-    //       },
-    //     {
-    //       id: 2,
-    //       quote: t.testimonials?.testimonial2Quote || '',
-    //       name: t.testimonials?.testimonial2Name || '',
-    //       title: t.testimonials?.testimonial2Title || '',
-    //       avatar: t.testimonials?.testimonial2Avatar || '',
-    //       rating: t.testimonials?.testimonial2Rating || 5
-    //       },
-    //     {
-    //       id: 3,
-    //       quote: t.testimonials?.testimonial3Quote || '',
-    //       name: t.testimonials?.testimonial3Name || '',
-    //       title: t.testimonials?.testimonial3Title || '',
-    //       avatar: t.testimonials?.testimonial3Avatar || '',
-    //       rating: t.testimonials?.testimonial3Rating || 5
-    //       },
-    //     {
-    //       id: 4,
-    //       quote: t.testimonials?.testimonial4Quote || '',
-    //       name: t.testimonials?.testimonial4Name || '',
-    //       title: t.testimonials?.testimonial4Title || '',
-    //       avatar: t.testimonials?.testimonial4Avatar || '',
-    //       rating: t.testimonials?.testimonial4Rating || 5
-    //       }
-    //   ]
-    // },
     faq: {
       title: t.faq?.title || '',
       subtitle: t.faq?.subtitle || '',
@@ -239,25 +185,79 @@ const Dashboard = ({ onLogout }) => {
 
   const addService = () => {
     const newService = {
-      id: services.length + 1,
+      id: Date.now(), // استخدام timestamp كـ ID فريد
       title: '',
       text: '',
-      image: ''
+      image: '',
+      hasButton: false,
+      buttonText: '',
+      buttonLink: '',
+      buttonType: 'none'
     };
     setServices([...services, newService]);
     markAsChanged();
   };
 
-  const removeService = (index) => {
+  // دالة حذف الخدمة مع تأكيد
+  const removeService = async (index) => {
     if (services.length > 1) {
-      setServices(services.filter((_, i) => i !== index));
-      markAsChanged();
+      // رسالة تأكيد
+      if (!window.confirm('هل أنت متأكد من حذف هذه الخدمة؟ لا يمكن التراجع عن هذا الإجراء.')) {
+        return;
+      }
+
+      try {
+        // حذف من الحالة المحلية أولاً
+        const newServices = services.filter((_, i) => i !== index);
+        
+        // إعادة ترقيم الخدمات
+        const renumberedServices = newServices.map((service, idx) => ({
+          ...service,
+          id: idx + 1
+        }));
+        
+        // تحديث الحالة المحلية
+        setServices(renumberedServices);
+        
+        // إنشاء كائن الخدمات المحدث مع الترقيم الجديد
+        const updatedServicesData = {};
+        renumberedServices.forEach((service, idx) => {
+          const serviceNumber = idx + 1;
+          updatedServicesData[`service${serviceNumber}Title`] = service.title;
+          updatedServicesData[`service${serviceNumber}Text`] = service.text;
+          updatedServicesData[`service${serviceNumber}Image`] = service.image;
+          updatedServicesData[`service${serviceNumber}HasButton`] = service.hasButton;
+          updatedServicesData[`service${serviceNumber}ButtonText`] = service.buttonText;
+          updatedServicesData[`service${serviceNumber}ButtonLink`] = service.buttonLink;
+          updatedServicesData[`service${serviceNumber}ButtonType`] = service.buttonType;
+        });
+
+        // استبدال قسم الخدمات بالكامل
+        await firebaseService.replaceSection(language, 'services', updatedServicesData);
+        
+        toast({
+          title: 'تم الحذف بنجاح',
+          description: 'تم حذف الخدمة وتحديث الترقيم',
+        });
+        
+        markAsChanged();
+      } catch (error) {
+        console.error('خطأ في حذف الخدمة:', error);
+        toast({
+          title: 'خطأ في الحذف',
+          description: 'فشل في حذف الخدمة، يرجى المحاولة مرة أخرى',
+          variant: 'destructive'
+        });
+        
+        // إعادة تحميل البيانات في حالة الخطأ
+        await refreshData();
+      }
     }
   };
 
   const addProject = () => {
     const newProject = {
-      id: projects.length + 1,
+      id: Date.now(), // استخدام timestamp كـ ID فريد
       title: '',
       text: '',
       image: ''
@@ -266,10 +266,56 @@ const Dashboard = ({ onLogout }) => {
     markAsChanged();
   };
 
-  const removeProject = (index) => {
+  // دالة حذف المشروع مع تأكيد
+  const removeProject = async (index) => {
     if (projects.length > 1) {
-      setProjects(projects.filter((_, i) => i !== index));
-      markAsChanged();
+      // رسالة تأكيد
+      if (!window.confirm('هل أنت متأكد من حذف هذا المشروع؟ لا يمكن التراجع عن هذا الإجراء.')) {
+        return;
+      }
+
+      try {
+        // حذف من الحالة المحلية أولاً
+        const newProjects = projects.filter((_, i) => i !== index);
+        
+        // إعادة ترقيم المشاريع
+        const renumberedProjects = newProjects.map((project, idx) => ({
+          ...project,
+          id: idx + 1
+        }));
+        
+        // تحديث الحالة المحلية
+        setProjects(renumberedProjects);
+        
+        // إنشاء كائن المشاريع المحدث مع الترقيم الجديد
+        const updatedProjectsData = {};
+        renumberedProjects.forEach((project, idx) => {
+          const projectNumber = idx + 1;
+          updatedProjectsData[`project${projectNumber}Title`] = project.title;
+          updatedProjectsData[`project${projectNumber}Text`] = project.text;
+          updatedProjectsData[`project${projectNumber}Image`] = project.image;
+        });
+
+        // استبدال قسم المشاريع بالكامل
+        await firebaseService.replaceSection(language, 'projects', updatedProjectsData);
+        
+        toast({
+          title: 'تم الحذف بنجاح',
+          description: 'تم حذف المشروع وتحديث الترقيم',
+        });
+        
+        markAsChanged();
+      } catch (error) {
+        console.error('خطأ في حذف المشروع:', error);
+        toast({
+          title: 'خطأ في الحذف',
+          description: 'فشل في حذف المشروع، يرجى المحاولة مرة أخرى',
+          variant: 'destructive'
+        });
+        
+        // إعادة تحميل البيانات في حالة الخطأ
+        await refreshData();
+      }
     }
   };
 
@@ -308,15 +354,81 @@ const Dashboard = ({ onLogout }) => {
     markAsChanged();
   };
 
-  const removeArrayItem = (section, arrayField, index) => {
-    setSectionsContent((prev) => ({
-      ...prev,
-      [section]: {
-        ...prev[section],
-        [arrayField]: prev[section][arrayField].filter((_, i) => i !== index)
+  // دالة حذف البطاقة مع تأكيد
+  const removeArrayItem = async (section, arrayField, index) => {
+    const sectionData = sectionsContent[section];
+    if (!sectionData || !sectionData[arrayField] || sectionData[arrayField].length <= 1) {
+      return;
+    }
+
+    // رسالة تأكيد
+    if (!window.confirm(`هل أنت متأكد من حذف هذا العنصر من قسم ${section}؟ لا يمكن التراجع عن هذا الإجراء.`)) {
+      return;
+    }
+
+    try {
+      // حذف من الحالة المحلية أولاً
+      const newItems = sectionData[arrayField].filter((_, i) => i !== index);
+      
+      // إعادة ترقيم العناصر
+      const renumberedItems = newItems.map((item, idx) => ({
+        ...item,
+        id: idx + 1
+      }));
+      
+      // تحديث الحالة المحلية
+      setSectionsContent(prev => ({
+        ...prev,
+        [section]: {
+          ...prev[section],
+          [arrayField]: renumberedItems
+        }
+      }));
+      
+      // إنشاء كائن القسم المحدث مع الترقيم الجديد
+      let updatedSectionData = {};
+      if (section === 'about') {
+        renumberedItems.forEach((item, idx) => {
+          const itemNumber = idx + 1;
+          updatedSectionData[`card${itemNumber}Title`] = item.title;
+          updatedSectionData[`card${itemNumber}Text`] = item.text;
+          updatedSectionData[`card${itemNumber}Icon`] = item.icon;
+          updatedSectionData[`card${itemNumber}Image`] = item.image;
+        });
+      } else if (section === 'clients') {
+        renumberedItems.forEach((item, idx) => {
+          const itemNumber = idx + 1;
+          updatedSectionData[`client${itemNumber}`] = item.name;
+          updatedSectionData[`client${itemNumber}Logo`] = item.logo;
+        });
+      } else if (section === 'faq') {
+        renumberedItems.forEach((item, idx) => {
+          const itemNumber = idx + 1;
+          updatedSectionData[`q${itemNumber}`] = item.question;
+          updatedSectionData[`a${itemNumber}`] = item.answer;
+        });
       }
-    }));
-    markAsChanged();
+
+      // استبدال القسم بالكامل
+      await firebaseService.replaceSection(language, section, updatedSectionData);
+      
+      toast({
+        title: 'تم الحذف بنجاح',
+        description: `تم حذف العنصر من قسم ${section} وتحديث الترقيم`,
+      });
+      
+      markAsChanged();
+    } catch (error) {
+      console.error(`خطأ في حذف العنصر من قسم ${section}:`, error);
+      toast({
+        title: 'خطأ في الحذف',
+        description: 'فشل في حذف العنصر، يرجى المحاولة مرة أخرى',
+        variant: 'destructive'
+      });
+      
+      // إعادة تحميل البيانات في حالة الخطأ
+      await refreshData();
+    }
   };
 
   const handleImageUpload = (callback) => async (file) => {
@@ -400,18 +512,24 @@ const Dashboard = ({ onLogout }) => {
         }
       };
 
-      // إضافة بيانات الخدمات
+      // إضافة بيانات الخدمات مع خصائص الزر
       services.forEach((s, idx) => {
-        updatedData[language].services[`service${idx + 1}Title`] = s.title;
-        updatedData[language].services[`service${idx + 1}Text`] = s.text;
-        updatedData[language].services[`service${idx + 1}Image`] = s.image;
+        const serviceNumber = idx + 1;
+        updatedData[language].services[`service${serviceNumber}Title`] = s.title;
+        updatedData[language].services[`service${serviceNumber}Text`] = s.text;
+        updatedData[language].services[`service${serviceNumber}Image`] = s.image;
+        updatedData[language].services[`service${serviceNumber}HasButton`] = s.hasButton;
+        updatedData[language].services[`service${serviceNumber}ButtonText`] = s.buttonText;
+        updatedData[language].services[`service${serviceNumber}ButtonLink`] = s.buttonLink;
+        updatedData[language].services[`service${serviceNumber}ButtonType`] = s.buttonType;
       });
 
       // إضافة بيانات المشاريع
       projects.forEach((p, idx) => {
-        updatedData[language].projects[`project${idx + 1}Title`] = p.title;
-        updatedData[language].projects[`project${idx + 1}Text`] = p.text;
-        updatedData[language].projects[`project${idx + 1}Image`] = p.image;
+        const projectNumber = idx + 1;
+        updatedData[language].projects[`project${projectNumber}Title`] = p.title;
+        updatedData[language].projects[`project${projectNumber}Text`] = p.text;
+        updatedData[language].projects[`project${projectNumber}Image`] = p.image;
       });
 
       // إضافة بيانات الأقسام الأخرى
@@ -450,24 +568,6 @@ const Dashboard = ({ onLogout }) => {
           }, {})
         };
       }
-
-      // if (sectionsContent.testimonials) {
-      //   updatedData[language].testimonials = {
-      //     title: sectionsContent.testimonials.title,
-      //     subtitle: sectionsContent.testimonials.subtitle,
-      //     description: sectionsContent.testimonials.description,
-      //     backgroundImage: sectionsContent.testimonials.backgroundImage,
-      //     // تحويل مصفوفة التوصيات إلى خصائص فردية
-      //     ...sectionsContent.testimonials.items.reduce((acc, item, index) => {
-      //       acc[`testimonial${index + 1}Quote`] = item.quote;
-      //       acc[`testimonial${index + 1}Name`] = item.quote;
-      //       acc[`testimonial${index + 1}Title`] = item.title;
-      //       acc[`testimonial${index + 1}Avatar`] = item.avatar;
-      //       acc[`testimonial${index + 1}Rating`] = item.rating;
-      //       return acc;
-      //     }, {})
-      //   };
-      // }
 
       if (sectionsContent.faq) {
         updatedData[language].faq = {
@@ -642,8 +742,7 @@ const Dashboard = ({ onLogout }) => {
             { question: t.faq?.q1 || '', answer: t.faq?.a1 || '' },
             { question: t.faq?.q2 || '', answer: t.faq?.a2 || '' },
             { question: t.faq?.q3 || '', answer: t.faq?.a3 || '' },
-            { question: t.faq?.q4 || '', answer: t.faq?.a4 || '' },
-            { question: t.faq?.q5 || '', answer: t.faq?.a5 || '' }
+            { question: t.faq?.q4 || '', answer: t.faq?.a4 || '' }
           ]
         },
         contact: {
@@ -675,6 +774,214 @@ const Dashboard = ({ onLogout }) => {
       });
     }
   };
+
+  // دالة لإنشاء مصفوفة الخدمات من البيانات
+  const createServicesFromData = (data) => {
+    const servicesArray = [];
+    let serviceIndex = 1;
+    
+    while (true) {
+      const titleKey = `service${serviceIndex}Title`;
+      const textKey = `service${serviceIndex}Text`;
+      const imageKey = `service${serviceIndex}Image`;
+      const hasButtonKey = `service${serviceIndex}HasButton`;
+      const buttonTextKey = `service${serviceIndex}ButtonText`;
+      const buttonLinkKey = `service${serviceIndex}ButtonLink`;
+      const buttonTypeKey = `service${serviceIndex}ButtonType`;
+      
+      // التحقق من وجود الخدمة
+      if (data[titleKey] && data[textKey]) {
+        servicesArray.push({
+          id: serviceIndex,
+          title: data[titleKey] || '',
+          text: data[textKey] || '',
+          image: data[imageKey] || '',
+          hasButton: data[hasButtonKey] || false,
+          buttonText: data[buttonTextKey] || '',
+          buttonLink: data[buttonLinkKey] || '',
+          buttonType: data[buttonTypeKey] || 'none',
+        });
+        serviceIndex++;
+      } else {
+        break;
+      }
+    }
+    
+    return servicesArray;
+  };
+
+  // دالة لإنشاء مصفوفة المشاريع من البيانات
+  const createProjectsFromData = (data) => {
+    const projectsArray = [];
+    let projectIndex = 1;
+    
+    while (true) {
+      const titleKey = `project${projectIndex}Title`;
+      const textKey = `project${projectIndex}Text`;
+      const imageKey = `project${projectIndex}Image`;
+      
+      // التحقق من وجود المشروع
+      if (data[titleKey] && data[textKey]) {
+        projectsArray.push({
+          id: projectIndex,
+          title: data[titleKey] || '',
+          text: data[textKey] || '',
+          image: data[imageKey] || '',
+        });
+        projectIndex++;
+      } else {
+        break;
+      }
+    }
+    
+    return projectsArray;
+  };
+
+  // تحديث الحالة المحلية عندما تتغير البيانات من Firebase
+  useEffect(() => {
+    if (translations && translations[language]) {
+      const langData = translations[language];
+      
+      // تحديث معلومات الاتصال
+      if (langData.footer) {
+        setContactPhone(langData.footer.contactPhone || '');
+        setContactEmail(langData.footer.contactEmail || '');
+        setContactAddress(langData.footer.contactAddress || '');
+      }
+      
+      // تحديث الخدمات
+      if (langData.services) {
+        const servicesData = createServicesFromData(langData.services);
+        setServices(servicesData);
+      }
+      
+      // تحديث المشاريع
+      if (langData.projects) {
+        const projectsData = createProjectsFromData(langData.projects);
+        setProjects(projectsData);
+      }
+      
+      // تحديث محتوى الأقسام
+      if (langData.hero) {
+        setSectionsContent(prev => ({
+          ...prev,
+          hero: {
+            ...prev.hero,
+            title: langData.hero.title || '',
+            subtitle: langData.hero.subtitle || '',
+            description: langData.hero.description || '',
+            button: langData.hero.button || '',
+            demo: langData.hero.demo || '',
+            backgroundImage: langData.hero.backgroundImage || '',
+            overlayOpacity: langData.hero.overlayOpacity || 0.5
+          }
+        }));
+      }
+      
+      if (langData.about) {
+        const aboutCards = [];
+        let cardIndex = 1;
+        
+        while (true) {
+          const titleKey = `card${cardIndex}Title`;
+          const textKey = `card${cardIndex}Text`;
+          const iconKey = `card${cardIndex}Icon`;
+          const imageKey = `card${cardIndex}Image`;
+          
+          if (langData.about[titleKey] && langData.about[textKey]) {
+            aboutCards.push({
+              id: cardIndex,
+              title: langData.about[titleKey] || '',
+              text: langData.about[textKey] || '',
+              icon: langData.about[iconKey] || '',
+              image: langData.about[imageKey] || ''
+            });
+            cardIndex++;
+          } else {
+            break;
+          }
+        }
+        
+        setSectionsContent(prev => ({
+          ...prev,
+          about: {
+            ...prev.about,
+            title: langData.about.title || '',
+            subtitle: langData.about.subtitle || '',
+            description: langData.about.description || '',
+            backgroundImage: langData.about.backgroundImage || '',
+            cards: aboutCards
+          }
+        }));
+      }
+      
+      if (langData.clients) {
+        const clientLogos = [];
+        let clientIndex = 1;
+        
+        while (true) {
+          const nameKey = `client${clientIndex}`;
+          const logoKey = `client${clientIndex}Logo`;
+          
+          if (langData.clients[nameKey]) {
+            clientLogos.push({
+              id: clientIndex,
+              name: langData.clients[nameKey] || '',
+              logo: langData.clients[logoKey] || ''
+            });
+            clientIndex++;
+          } else {
+            break;
+          }
+        }
+        
+        setSectionsContent(prev => ({
+          ...prev,
+          clients: {
+            ...prev.clients,
+            title: langData.clients.title || '',
+            subtitle: langData.clients.subtitle || '',
+            description: langData.clients.description || '',
+            backgroundImage: langData.clients.backgroundImage || '',
+            logos: clientLogos
+          }
+        }));
+      }
+      
+      if (langData.faq) {
+        const faqItems = [];
+        let faqIndex = 1;
+        
+        while (true) {
+          const questionKey = `q${faqIndex}`;
+          const answerKey = `a${faqIndex}`;
+          
+          if (langData.faq[questionKey] && langData.faq[answerKey]) {
+            faqItems.push({
+              id: faqIndex,
+              question: langData.faq[questionKey] || '',
+              answer: langData.faq[answerKey] || ''
+            });
+            faqIndex++;
+          } else {
+            break;
+          }
+        }
+        
+        setSectionsContent(prev => ({
+          ...prev,
+          faq: {
+            ...prev.faq,
+            title: langData.faq.title || '',
+            subtitle: langData.faq.subtitle || '',
+            description: langData.faq.description || '',
+            backgroundImage: langData.faq.backgroundImage || '',
+            items: faqItems
+          }
+        }));
+      }
+    }
+  }, [translations, language]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
@@ -992,6 +1299,59 @@ const Dashboard = ({ onLogout }) => {
                               />
                             </div>
                           )}
+
+                          {/* إعدادات الزر */}
+                          <div className="border-t border-slate-200 pt-4 space-y-3">
+                            <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                              <input
+                                type="checkbox"
+                                id={`hasButton-${idx}`}
+                                checked={service.hasButton}
+                                onChange={(e) => handleServiceChange(idx, 'hasButton', e.target.checked)}
+                                className="rounded border-slate-300 text-[#b18344] focus:ring-[#b18344]"
+                              />
+                              <label htmlFor={`hasButton-${idx}`} className="text-sm font-medium text-slate-700">
+                                إضافة زر للخدمة
+                              </label>
+                            </div>
+
+                            {service.hasButton && (
+                              <>
+                                <select
+                                  value={service.buttonType}
+                                  onChange={(e) => handleServiceChange(idx, 'buttonType', e.target.value)}
+                                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#b18344] text-sm"
+                                >
+                                  <option value="custom">زر مخصص</option>
+                                  <option value="store">زر متجر</option>
+                                  <option value="none">بدون زر</option>
+                                </select>
+
+                                {service.buttonType === 'custom' && (
+                                  <>
+                                    <input
+                                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#b18344] text-sm"
+                                      value={service.buttonText}
+                                      onChange={(e) => handleServiceChange(idx, 'buttonText', e.target.value)}
+                                      placeholder="نص الزر"
+                                    />
+                                    <input
+                                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#b18344] text-sm"
+                                      value={service.buttonLink}
+                                      onChange={(e) => handleServiceChange(idx, 'buttonLink', e.target.value)}
+                                      placeholder="رابط الزر"
+                                    />
+                                  </>
+                                )}
+
+                                {service.buttonType === 'store' && (
+                                  <div className="text-sm text-slate-600 bg-slate-50 p-3 rounded-lg">
+                                    سيتم استخدام زر "تسوق الآن" مع الرابط: https://jzl10.com/
+                                  </div>
+                                )}
+                              </>
+                            )}
+                          </div>
                         </motion.div>
                       ))}
                     </div>

@@ -146,35 +146,47 @@ export const LanguageProvider = ({ children }) => {
       await updateTranslationsFirebase(lang, updates);
       console.log('✅ تم حفظ البيانات في Firebase بنجاح');
       
-      // تحديث البيانات المحلية فوراً
+      // تحديث البيانات المحلية فوراً - مع استبدال الأقسام كاملةً بدل الدمج
       setTranslations(prev => {
+        const replaceWhole = ['services','projects','about','clients','faq','hero','contact','header','footer'];
+        const prevLang = prev[lang] || {};
+        const nextLang = { ...prevLang };
+
+        Object.keys(updates || {}).forEach((key) => {
+          const value = updates[key];
+          if (replaceWhole.includes(key)) {
+            nextLang[key] = value; // استبدال كامل للقسم
+          } else if (value && typeof value === 'object' && !Array.isArray(value)) {
+            // دمج ناعم فقط لما ليس من الأقسام أعلاه
+            nextLang[key] = mergeDeep(nextLang[key] || {}, value);
+          } else {
+            nextLang[key] = value;
+          }
+        });
+
         const updated = {
           ...prev,
-          [lang]: mergeDeep(prev[lang] || {}, updates)
+          [lang]: nextLang
         };
-        console.log('📊 البيانات المحلية المحدثة:', updated);
+        console.log('📊 البيانات المحلية المحدثة (استبدال للأقسام):', updated);
         return updated;
       });
+
+      // إعادة تحميل البيانات فوراً لضمان إزالة المفاتيح المحذوفة
+      try {
+        const freshData = await getDoc(doc(db, 'website', 'data'));
+        if (freshData.exists()) {
+          const data = freshData.data();
+          setTranslations(data);
+          setLastUpdate(Date.now());
+        }
+      } catch (e) {
+        console.error('❌ خطأ أثناء إعادة التحميل الفوري:', e);
+      }
       
       // تحديث وقت آخر تحديث
       setLastUpdate(Date.now());
       console.log('✅ تم تحديث البيانات المحلية بنجاح');
-      
-      // إعادة تحميل البيانات من Firebase للتأكد من التحديث
-      setTimeout(async () => {
-        try {
-          console.log('🔄 إعادة تحميل البيانات للتأكد من التحديث...');
-          const freshData = await getDoc(doc(db, 'website', 'data'));
-          if (freshData.exists()) {
-            const data = freshData.data();
-            console.log('📡 البيانات المحدثة من Firebase:', data);
-            setTranslations(data);
-            setLastUpdate(Date.now());
-          }
-        } catch (error) {
-          console.error('❌ خطأ في إعادة تحميل البيانات للتأكد:', error);
-        }
-      }, 1000);
       
       return true;
     } catch (error) {

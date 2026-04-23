@@ -5,13 +5,6 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { staggerContainer, fadeInUp } from '@/lib/animations';
 import { cn } from '@/lib/utils';
 
-const faqData = [
-  { qKey: 'q1', aKey: 'a1' },
-  { qKey: 'q2', aKey: 'a2' },
-  { qKey: 'q3', aKey: 'a3' },
-  { qKey: 'q4', aKey: 'a4' },
-];
-
 const FaqItem = ({ question, answer, isOpen, onClick }) => {
   return (
     <motion.div
@@ -57,6 +50,39 @@ const FaqItem = ({ question, answer, isOpen, onClick }) => {
 const Faq = () => {
   const { t } = useLanguage();
   const [openIndex, setOpenIndex] = useState(null);
+
+  // دالة لإنشاء مصفوفة الأسئلة ديناميكياً
+  const createFaqArray = () => {
+    const faqArray = [];
+    
+    // البحث عن الأسئلة المتاحة في البيانات
+    let questionIndex = 1;
+    while (true) {
+      const questionKey = `q${questionIndex}`;
+      const answerKey = `a${questionIndex}`;
+      
+      // التحقق من وجود السؤال
+      if (t.faq[questionKey] && t.faq[answerKey]) {
+        faqArray.push({
+          qKey: questionKey,
+          aKey: answerKey
+        });
+        questionIndex++;
+      } else {
+        // إيقاف عند عدم وجود المزيد من الأسئلة
+        break;
+      }
+    }
+    
+    return faqArray;
+  };
+
+  const faqData = createFaqArray();
+
+  // إذا لم تكن هناك أسئلة، لا تعرض القسم
+  if (faqData.length === 0) {
+    return null;
+  }
 
   const handleClick = (index) => {
     setOpenIndex(openIndex === index ? null : index);
